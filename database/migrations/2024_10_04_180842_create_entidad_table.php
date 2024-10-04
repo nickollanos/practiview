@@ -18,7 +18,7 @@ return new class extends Migration
             $table->integer('tipo_documento');
             $table->string('numero_documento');
             $table->string('telefono');
-            $table->string('correo');
+            $table->string('email');
             $table->string('sexo');
             $table->string('direccion');
             $table->string('firma');
