@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Perfil extends Model
+class Perfiles extends Model
 {
     use HasFactory;
     /**
@@ -24,4 +24,10 @@ class Perfil extends Model
         'jefe_inmediato',
         'gestor'
     ];
+
+    //Relationship: muchos perfil tiene muchos usuario
+    public function usuarios()
+    {
+        return $this->belongsToMany(Usuarios::class);
+    }
 }

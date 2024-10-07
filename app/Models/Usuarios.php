@@ -7,7 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class User extends Authenticatable
+
+class Usuarios extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -19,7 +20,7 @@ class User extends Authenticatable
     protected $fillable = [
         'nombre',
         'apellido',
-        'id_tipo_documento',
+        'tipo_documento_id',
         'numero_documento',
         'telefono',
         'email',
@@ -51,5 +52,17 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    //Relationship: un usuario tiene muchos tipo documento
+    public function tipo_documento()
+    {
+        return $this->hasMany(Tipodocumentos::class);
+    }
+
+    //Relationship: muchos usuario tiene muchos perfil
+    public function perfiles()
+    {
+        return $this->belongsToMany(Perfiles::class);
     }
 }
