@@ -17,4 +17,16 @@ class Centro_formacion extends Model
         'nombre',
         'siglas'
     ];
+
+    //Relationship: un centro_formacion tiene muchos programa_formacion
+    public function programa_formacion()
+    {
+        return $this->hasMany(Programa_formacion::class);
+    }
+
+    //Relationship: muchos centro_formacion tienen una regional
+    public function regional()
+    {
+        return $this->belongsTo(Regional::class);
+    }
 }

@@ -17,4 +17,10 @@ class Ficha extends Model
         'numero_ficha',
         'id_gestor'
     ];
+
+    //Relationship: muchos programa_formacion tienen una centro_formacion
+    public function programa_formacion()
+    {
+        return $this->belongsToMany(Programa_formacion::class);
+    }
 }

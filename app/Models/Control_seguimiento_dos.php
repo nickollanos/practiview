@@ -21,4 +21,10 @@ class Control_seguimiento_dos extends Model
         'evaluacion',
         'juicio_evaluacion'
     ];
+
+    //Relationship: muchas control_seguimiento tiene muchas factores
+    public function factores()
+    {
+        return $this->belongsToMany(Factores::class);
+    }
 }

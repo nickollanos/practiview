@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detalles_perfil', function (Blueprint $table) {
-            $table->foreignId('usuario_id')
-                  ->constrained('usuario')
+        Schema::create('detalles_actividad', function (Blueprint $table) {
+            $table->foreignId('actividad_bitacora_id')
+                  ->constrained('actividad_bitacora')
                   ->onDelete('cascade');
-            $table->foreignId('perfil_id')
-                  ->constrained('perfil')
+            $table->foreignId('bitacora_id')
+                  ->constrained('bitacora')
                   ->onDelete('cascade');
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detalles_perfiles');
+        Schema::dropIfExists('detalles_actividad');
     }
 };

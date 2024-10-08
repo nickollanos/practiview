@@ -13,8 +13,12 @@ return new class extends Migration
     {
         Schema::create('detalles_control_seguimiento_dos', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_control_seguimiento_dos');
-            $table->integer('id_factores');
+            $table->foreignId('cntrl_seg_dos_id')
+                  ->constrained('control_seguimiento_dos')
+                  ->onDelete('cascade');
+            $table->foreignId('factores_id')
+                  ->constrained('factores')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

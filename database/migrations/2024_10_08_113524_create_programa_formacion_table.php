@@ -21,7 +21,9 @@ return new class extends Migration
             $table->string('total_horas');
             $table->string('tipo_programa');
             $table->string('titulo_certificado');
-            $table->integer('id_centro_formacion');
+            $table->foreignId('centro_formacion_id')
+                  ->constrained('centro_formacion')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

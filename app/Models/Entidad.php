@@ -25,4 +25,10 @@ class Entidad extends Model
         'firma',
         'foto_perfil'
     ];
+
+    //Relationship: muchas entidad tiene una bitacora
+    public function bitacora()
+    {
+        return $this->belongsToMany(Bitacora::class);
+    }
 }

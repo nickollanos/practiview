@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
 
-class Usuarios extends Authenticatable
+class Usuario extends Authenticatable
 {
     use HasFactory, Notifiable;
 
@@ -57,7 +57,7 @@ class Usuarios extends Authenticatable
     //Relationship: un usuario tiene muchos tipo documento
     public function tipo_documento()
     {
-        return $this->hasMany(Tipodocumentos::class);
+        return $this->hasMany(Tipo_documento::class);
     }
 
     //Relationship: muchos usuario tiene muchos perfil

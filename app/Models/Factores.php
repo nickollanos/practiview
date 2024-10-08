@@ -19,4 +19,10 @@ class Factores extends Model
         'valoracion',
         'observacion'
     ];
+
+    //Relationship: muchas factores tiene muchas control_seguimiento
+    public function control_seguimiento()
+    {
+        return $this->belongsToMany(Control_seguimiento::class);
+    }
 }

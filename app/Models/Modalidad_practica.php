@@ -17,4 +17,10 @@ class Modalidad_practica extends Model
         'modalidad',
         'detalles'
     ];
+
+    //Relationship: muchos modalidad_practica tiene una bitacora
+    public function bitacora()
+    {
+        return $this->belongsToMany(Bitacora::class);
+    }
 }

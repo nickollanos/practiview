@@ -24,4 +24,28 @@ class Bitacora extends Model
         'id_detalles_practica',
         'id_detalles_ficha'
     ];
+
+    //Relationship: una bitacora tiene muchas entidades
+    public function entidad()
+    {
+        return $this->belongsTo(Entidad::class);
+    }
+
+    //Relationship: una bitacora tiene muchas modalidad_practica
+    public function modalidad_practica()
+    {
+        return $this->belongsTo(Modalidad_practica::class);
+    }
+
+    //Relationship: muchas bitacora tiene muchas actividad_bitacora
+    public function actividad_bitacora()
+    {
+        return $this->belongsToMany(Actividad_bitacora::class);
+    }
+
+    //Relationship: muchas bitacora tiene muchas control_seguimiento
+    public function control_seguimiento()
+    {
+        return $this->belongsToMany(Control_seguimiento::class);
+    }
 }

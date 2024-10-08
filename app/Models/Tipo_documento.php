@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Detalles_actividad extends Model
+class Tipo_documento extends Model
 {
     use HasFactory;
     /**
@@ -14,6 +14,17 @@ class Detalles_actividad extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'id_actividad_bitacora'
+        'tipo',
+        'siglas',
+        'detalle'
     ];
+
+    //Relationship: muchos tipo documento tienen un usuario
+    public function usuario()
+    {
+        return $this->belongsTo(Usuario::class);
+    }
+
+
+
 }

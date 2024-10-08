@@ -11,9 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detalles_ficha', function (Blueprint $table) {
+        Schema::create('departamentos', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_ficha');
+            $table->string('nombre');
+            $table->foreignId('municipio_id')
+                  ->constrained('municipios')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detalles_ficha');
+        Schema::dropIfExists('departamentos');
     }
 };

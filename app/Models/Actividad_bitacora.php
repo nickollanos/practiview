@@ -20,4 +20,10 @@ class Actividad_bitacora extends Model
         'evidencia',
         'observacion'
     ];
+
+    //Relationship: actividad_bitacora bitacora tiene muchas bitacora
+    public function bitacora()
+    {
+        return $this->belongsToMany(Bitacora::class);
+    }
 }

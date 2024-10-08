@@ -15,12 +15,18 @@ return new class extends Migration
             $table->id();
             $table->string('numero');
             $table->string('numero_ficha');
-            $table->integer('id_regional');
-            $table->integer('id_centro_formacion');
-            $table->integer('id_entidad');
-            $table->integer('id_detalles_actividad');
-            $table->integer('id_modalidad_practica');
-            $table->integer('id_detalles_ficha');
+            $table->foreignId('detalles_control_seguimiento_id')
+                  ->constrained('detalles_control_seguimiento')
+                  ->onDelete('cascade');
+            $table->foreignId('centro_formacion_id')
+                  ->constrained('centro_formacion')
+                  ->onDelete('cascade');
+            $table->foreignId('entidad_id')
+                  ->constrained('entidad')
+                  ->onDelete('cascade');
+            $table->foreignId('modalidad_practica_id')
+                  ->constrained('modalidad_practica')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

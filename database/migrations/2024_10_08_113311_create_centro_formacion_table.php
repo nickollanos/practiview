@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('nombre');
             $table->string('siglas');
+            $table->foreignId('regional_id')
+                  ->constrained('regional')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }

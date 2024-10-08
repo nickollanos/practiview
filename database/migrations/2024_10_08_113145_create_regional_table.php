@@ -11,9 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('detalles_actividad', function (Blueprint $table) {
+        Schema::create('regional', function (Blueprint $table) {
             $table->id();
-            $table->integer('id_actividad_bitacora');
+            $table->string('nombre');
+            $table->string('direccion');
+            $table->foreignId('departamento_id')
+                  ->constrained('departamentos')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -23,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('detalles_actividad');
+        Schema::dropIfExists('regional');
     }
 };

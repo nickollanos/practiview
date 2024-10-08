@@ -16,4 +16,11 @@ class Municipio extends Model
     protected $fillable = [
         'nombre'
     ];
+
+
+    //Relationship: muchos municipio tienen un departamento
+    public function departamento()
+    {
+        return $this->belongsTo(Departamento::class);
+    }
 }

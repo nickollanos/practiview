@@ -19,4 +19,10 @@ class Control_seguimiento extends Model
         'fecha',
         'lugar'
     ];
+
+    //Relationship: muchos control_seguimiento tiene muchas bitacora
+    public function bitacora()
+    {
+        return $this->belongsToMany(Bitacora::class);
+    }
 }
