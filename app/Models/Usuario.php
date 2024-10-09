@@ -22,6 +22,7 @@ class Usuario extends Authenticatable
         'apellido',
         'tipo_documento_id',
         'numero_documento',
+        'fecha_nacimiento',
         'telefono',
         'email',
         'sexo',

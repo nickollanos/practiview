@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Departamento;
 use App\Models\Tipo_documento;
 use App\Models\Usuario;
+use Database\Factories\UsuariosFactory;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -29,5 +30,7 @@ class DatabaseSeeder extends Seeder
             Tipo_documentoSeeder::class,
             UsuarioSeeder::class,
         ]);
+
+        Usuario::factory(20)->create();
     }
 }
