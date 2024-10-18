@@ -10,14 +10,14 @@ use App\Exports\UsuarioExport;
 
 class UsuarioController extends Controller
 {
-        /**
+    /**
      * Display a listing of the resource.
      */
     public function index()
     {
         //$users = User::all();
         $usuarios = Usuario::paginate(5);
-        return view('usuarios.index')->with('usuarios',$usuarios);
+        return view('usuarios.index')->with('usuarios', $usuarios);
     }
 
     /**
@@ -36,27 +36,31 @@ class UsuarioController extends Controller
     {
         //
         // dd($request->all());
-        if($request->hasFile('photo')){
+        if ($request->hasFile('photo')) {
             $photo = time() . '.' . $request->photo->extension();
             dd($photo);
             $request->photo->move(public_path('images'), $photo);
         }
 
 
-    $usuario = new Usuario;
-    $usuario->document = $request->document;
-    $usuario->fullname = $request->fullname;
-    $usuario->gender = $request->gender;
-    $usuario->birthdate = $request->birthdate;
-    $usuario->photo = $request->photo;
-    $usuario->phone = $request->phone;
-    $usuario->email = $request->email;
-    $usuario->password = bcrypt($request->password);
+        $usuario = new Usuario;
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
+        $usuario->tipo_documento_id = $request->tipo_documento_id;
+        $usuario->numero_documento = $request->numero_documento;
+        $usuario->fecha_nacimiento = $request->fecha_nacimiento;
+        $usuario->telefono = $request->telefono;
+        $usuario->email = $request->email;
+        $usuario->sexo = $request->sexo;
+        $usuario->direccion = $request->direccion;
+        $usuario->password = bcrypt($request->password);
+        $usuario->firma = $request->firma;
+        $usuario->foto_perfil = $request->foto_perfil;
 
-    if($usuario->save()){
-        return redirect('usuarios')
+        if ($usuario->save()) {
+            return redirect('usuarios')
                 ->with('message' . 'The usuario: ' . $usuario->fullname . ' was successfully added!');
-    }
+        }
     }
 
     /**
@@ -66,7 +70,7 @@ class UsuarioController extends Controller
     {
         //dd($usuario->toArray());
         return view('usuarios.show')
-                ->with('usuario',$usuario);
+            ->with('usuario', $usuario);
     }
 
     /**
@@ -76,7 +80,7 @@ class UsuarioController extends Controller
     {
         //dd($usuario->toArray());
         return view('usuarios.edit')
-                ->with('usuario',$usuario);
+            ->with('usuario', $usuario);
     }
 
     /**
@@ -85,26 +89,31 @@ class UsuarioController extends Controller
     public function update(UsuarioRequest $request, Usuario $usuario)
     {
 
-        if($request->hasFile('photo')){
-                // $file = $request->file('photo');
-                // $photo = $file->getClientOriginalName();
-                $photo = time() . '.' . $request->photo->extension();//getClientOriginalName();
-                $request->photo->move(public_path('images'), $photo);
-        }else{
+        if ($request->hasFile('photo')) {
+            // $file = $request->file('photo');
+            // $photo = $file->getClientOriginalName();
+            $photo = time() . '.' . $request->photo->extension(); //getClientOriginalName();
+            $request->photo->move(public_path('images'), $photo);
+        } else {
             $photo = $request->originphoto;
         }
 
-        $usuario->document = $request->document;
-        $usuario->fullname = $request->fullname;
-        $usuario->gender = $request->gender;
-        $usuario->birthdate = $request->birthdate;
-        $usuario->photo = $photo;
-        $usuario->phone = $request->phone;
-        $usuario->email = $request->email;
 
-        if($usuario->save()){
+        $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
+        $usuario->tipo_documento_id = $request->tipo_documento_id;
+        $usuario->numero_documento = $request->numero_documento;
+        $usuario->fecha_nacimiento = $request->fecha_nacimiento;
+        $usuario->telefono = $request->telefono;
+        $usuario->email = $request->email;
+        $usuario->sexo = $request->sexo;
+        $usuario->direccion = $request->direccion;
+        $usuario->firma = $request->firma;
+        $usuario->foto_perfil = $request->foto_perfil;
+
+        if ($usuario->save()) {
             return redirect('usuarios')
-                    ->with('message' . 'The usuario: ' . $usuario->fullname . ' was successfully updated!');
+                ->with('message' . 'The usuario: ' . $usuario->nombre . ' was successfully updated!');
         }
     }
 
@@ -121,13 +130,14 @@ class UsuarioController extends Controller
 
     public function destroy($id)
     {
-    $usuario = Usuario::findOrFail($id);
-    $usuario->delete();
+        $usuario = Usuario::findOrFail($id);
+        $usuario->delete();
 
-    return redirect()->route('usuarios.index')->with('message', 'Usuario eliminado exitosamente');
+        return redirect()->route('usuarios.index')->with('message', 'Usuario eliminado exitosamente');
     }
 
-    public function search(Request $request){
+    public function search(Request $request)
+    {
         $usuarios = Usuario::names($request->q)->paginate(5);
         return view('usuarios.search')->with('usuarios', $usuarios);
     }
