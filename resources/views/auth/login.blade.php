@@ -68,7 +68,7 @@
         <div class="flex flex-col items-center">
             <div class="flex space-x-4 mb-4">
                 <button type="submit"
-                    class="bg-[#5c972c] hover:bg-[#5c972c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+                    class="bg-[#5eb319] hover:bg-[#5c972c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Iniciar Sesión
                 </button>
                 <button type="button"

@@ -45,6 +45,16 @@ class RegisteredUserController extends Controller
             'foto_perfil'       => ['required', 'image'],
         ]);
 
+        if ($request->hasFile('foto_perfil')) {
+            $foto_perfil = time() . '.' . $request->foto_perfil->extension();
+            $request->foto_perfil->storeAs('images', $foto_perfil);
+        }
+
+        if ($request->hasFile('firma')) {
+            $firma = time() . '.' . $request->firma->extension();
+            $request->firma->storeAs('images', $firma);
+        }
+
         $user = Usuario::create([
             'nombre'            => $request->nombre,
             'apellido'          => $request->apellido,
@@ -56,15 +66,15 @@ class RegisteredUserController extends Controller
             'sexo'              => $request->sexo,
             'direccion'         => $request->direccion,
             'password'          => $request->password,
-            'firma'             => $request->firma,
-            'foto_perfil'       => $request->foto_perfil,
+            'firma'             => $firma,
+            'foto_perfil'       => $foto_perfil,
             'password' => Hash::make($request->password),
         ]);
 
         event(new Registered($user));
 
-        Auth::login($user);
+        // Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('login', absolute: false));
     }
 }

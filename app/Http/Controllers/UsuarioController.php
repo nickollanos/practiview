@@ -39,9 +39,8 @@ class UsuarioController extends Controller
         if ($request->hasFile('photo')) {
             $photo = time() . '.' . $request->photo->extension();
             dd($photo);
-            $request->photo->move(public_path('images'), $photo);
+            $request->photo->storeAs('images', $photo);
         }
-
 
         $usuario = new Usuario;
         $usuario->nombre = $request->nombre;

@@ -14,7 +14,7 @@
 <!-- Contenido -->
 <main class="flex-grow container mx-auto my-4 flex items-center justify-center">
     <form class="bg-white shadow-lg rounded-lg px-8 pt-6 pb-8 mb-4 w-full max-w-sm" action="{{ route('register') }}"
-        method="POST">
+        method="POST" enctype="multipart/form-data">
         @csrf
         @if (count($errors->all()) > 0)
         <ul class="text-red-500">
@@ -102,7 +102,7 @@
 
         <div class="mb-4">
             <label class="block text-gray-700 text-sm font-bold mb-2" for="direccion">Direccion:</label>
-            <input type="text" name="direccion" id="direccion" placeholder="Tu correo electronico" required
+            <input type="text" name="direccion" id="direccion" placeholder="Tu direccion" required
                 class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
         </div>
 
