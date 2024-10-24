@@ -61,9 +61,21 @@ class Usuario extends Authenticatable
         return $this->hasMany(Tipo_documento::class);
     }
 
+    //Relationship: un usuario tiene muchos sexo
+    public function sexo()
+    {
+        return $this->belongsTo(Sexo::class, 'sexo_id');
+    }
+
+    //Relationship: un usuario tiene muchos sexo
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
+    }
+
     //Relationship: muchos usuario tiene muchos perfil
     public function perfiles()
     {
-        return $this->belongsToMany(Perfiles::class);
+        return $this->belongsToMany(Perfil::class);
     }
 }

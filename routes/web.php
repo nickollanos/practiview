@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -8,7 +10,7 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('instructor.dashboard');
+    return view('admin.dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -18,6 +20,7 @@ Route::middleware('auth')->group(function () {
 
     Route::resources([
         'usuarios' => UsuarioController::class,
+        'aprendiz' => AprendizController::class,
 ]);
 });
 

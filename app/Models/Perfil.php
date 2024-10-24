@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Perfiles extends Model
+class Perfil extends Model
 {
     use HasFactory;
     /**
@@ -14,20 +14,12 @@ class Perfiles extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'perfil',
-        'lectura',
-        'escritura',
-        'administracion',
-        'aprendiz',
-        'instructor',
-        'empresa',
-        'jefe_inmediato',
-        'gestor'
+        'perfil'
     ];
 
     //Relationship: muchos perfil tiene muchos usuario
-    public function usuarios()
+    public function Perfiles()
     {
-        return $this->belongsToMany(Usuarios::class);
+        return $this->belongsToMany(Perfil::class);
     }
 }

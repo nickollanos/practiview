@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'DASHBOARD-INSTRUCTOR')
-@section('class', 'DASHBOARD-INSTRUCTOR')
+@section('title', 'DASHBOARD-CREAR-APRENDIZ')
+@section('class', 'DASHBOARD-CREAR-APRENDIZ')
 
 @section('content')
 
@@ -13,21 +13,38 @@
 </nav>
 
 <!-- Segundo Navbar -->
-<nav class="bg-[#5eb319] p-4 flex items-center justify-end">
-    <div class="flex items-center">
-        <i class="fa-solid fa-bell text-2xl text-white hover:text-gray-300 mr-4"></i>
+<nav class="bg-[#5eb319] p-4 flex items-center">
+    <div class="flex-none">
+        <button class="bg-white border border-gray-300 text-gray-700 rounded-md px-6 py-2 font-sans">
+            Menu
+        </button>
+        <div class="absolute left-0 mt-2 w-48 bg-white shadow-lg rounded-md hidden">
+            <ul>
+                <li class="px-4 py-2 hover:bg-gray-100">Opción 1</li>
+                <li class="px-4 py-2 hover:bg-gray-100">Opción 2</li>
+                <li class="px-4 py-2 hover:bg-gray-100">Opción 3</li>
+                <li class="px-4 py-2 hover:bg-gray-100">Opción 4</li>
+                <li class="px-4 py-2 hover:bg-gray-100">Opción 5</li>
+            </ul>
+        </div>
     </div>
 
-    <div class="flex items-center relative">
+    <div class="flex-1 flex justify-center">
+        <div class="relative w-full max-w-md">
+            <input type="text" placeholder="Buscar..." class="border border-gray-300 rounded-md px-4 py-2 pr-10 w-full">
+            <i class="fa-solid fa-magnifying-glass absolute right-3 top-1/2 transform -translate-y-1/2 h-5 w-5"></i>
+        </div>
+    </div>
+
+    <div class="flex-none flex items-center relative">
+        <i class="fa-solid fa-bell text-2xl text-white hover:text-gray-300 mr-4"></i>
         <img src="{{ asset('images/user.png') }}" alt="Perfil" class="h-8 w-8 rounded-full cursor-pointer"
             id="user-menu-button">
+
         <div class="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md hidden" id="user-menu">
             <div class="px-4 py-2">
                 <h2 class="font-bold">Nombre de Usuario</h2>
-                <div class="flex items-center">
-                    <span class="h-2 w-2 rounded-full bg-red-500 mr-2"></span>
-                    <h2 class="text-gray-600">Rol: Instructor</h2>
-                </div>
+                <h2 class="text-gray-600">Rol: Administrador</h2>
             </div>
             <ul>
                 <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li>
@@ -41,6 +58,9 @@
             </ul>
         </div>
     </div>
+
+
+
 </nav>
 <!-- Contenido -->
 <main class="flex-grow container mx-auto my-4 items-center flex justify-center">

@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Models\Perfil;
+use App\Models\Usuario;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -43,13 +45,24 @@ class UsuarioFactory extends Factory
             'telefono'            => fake()->phoneNumber(),
             'email'               => fake()->unique()->safeEmail(),
             'email_verified_at'   => now(),
-            'sexo'                => $sexo,
+            'sexo_id'             => fake()->randomElement([1, 2]),
+            'estado_id'           => fake()->randomElement([1, 2]),
             'direccion'           => fake()->address(),
             'password'            => static::$password ??= Hash::make('12345'),
             'firma'               => substr($firma, 7),
             'foto_perfil'         => substr($foto_perfil, 7),
             'remember_token'      => Str::random(10),
         ];
+    }
+
+    public function configure(): self{
+        return $this->afterCreating(function (Usuario $usuario){
+            $perfil = Perfil::firstOrNew(['perfil' => fake()->randomElement(['administrador', 'instructor', 'aprendiz', 'empresa', 'jefe inmediato'])]);
+            if(!$perfil->exists){
+                $perfil->save();
+            }
+        $usuario->perfiles()->attach($perfil->id);
+        });
     }
 
     /**

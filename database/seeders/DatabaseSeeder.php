@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             // DepartamentoSeeder::class,
             // RegionalSeeder::class,
             Tipo_documentoSeeder::class,
+            SexoSeeder::class,
+            PerfilSeeder::class,
+            EstadoSeeder::class,
             UsuarioSeeder::class,
         ]);
 

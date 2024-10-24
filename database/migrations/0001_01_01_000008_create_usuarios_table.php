@@ -23,7 +23,12 @@ return new class extends Migration
             $table->string('telefono');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('sexo');
+            $table->foreignId('sexo_id')
+                  ->constrained('sexos')
+                  ->onDelete('cascade');
+            $table->foreignId('estado_id')
+                  ->constrained('estados')
+                  ->onDelete('cascade');
             $table->string('direccion');
             $table->string('password');
             $table->string('firma')->default('no-photo.png');

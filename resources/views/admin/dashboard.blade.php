@@ -64,7 +64,8 @@
                         <button
                             class="flex-1 justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-[#5eb319] text-sm font-medium text-white hover:bg-[#4d6d33] focus:outline-none mr-4"
                             title="CLICK PARA AÑADIR">
-                            <i class="fa-solid fa-user-plus"></i>
+                            <a href="{{ url('aprendiz/create') }}">
+                            <i class="fa-solid fa-user-plus"></i></a>
                         </button>
                         <button onclick="toggleDropdown('dropdown1')"
                             class="flex-1 justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-[#5eb319] text-sm font-medium text-white hover:bg-[#4d6d33] focus:outline-none"
