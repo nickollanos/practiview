@@ -36,10 +36,20 @@ class UsuarioController extends Controller
     {
         //
         // dd($request->all());
-        if ($request->hasFile('photo')) {
-            $photo = time() . '.' . $request->photo->extension();
-            dd($photo);
-            $request->photo->storeAs('images', $photo);
+        if ($request->hasFile('foto_perfil')) {
+            $foto_perfil = time() . '.' . $request->foto_perfil->extension();
+            $request->foto_perfil->storeAs('public/images', $foto_perfil);
+            $foto_perfil1 = 'storage/images/' . $foto_perfil;
+        }else{
+            $foto_perfil1 = 'storage/images/no-foto.jpg';
+        }
+
+        if ($request->hasFile('firma')) {
+            $firma = time() . '.' . $request->firma->extension();
+            $request->firma->storeAs('public/images', $firma);
+            $firma1 = 'storage/images/' . $firma;
+        }else{
+             $firma1 ='storage/images/no-firma.jpg';
         }
 
         $usuario = new Usuario;
@@ -53,8 +63,9 @@ class UsuarioController extends Controller
         $usuario->sexo = $request->sexo;
         $usuario->direccion = $request->direccion;
         $usuario->password = bcrypt($request->password);
-        $usuario->firma = $request->firma;
-        $usuario->foto_perfil = $request->foto_perfil;
+        $usuario->firma = $firma1;
+        $usuario->foto_perfil = $foto_perfil1;
+
 
         if ($usuario->save()) {
             return redirect('usuarios')
@@ -88,13 +99,20 @@ class UsuarioController extends Controller
     public function update(UsuarioRequest $request, Usuario $usuario)
     {
 
-        if ($request->hasFile('photo')) {
-            // $file = $request->file('photo');
-            // $photo = $file->getClientOriginalName();
-            $photo = time() . '.' . $request->photo->extension(); //getClientOriginalName();
-            $request->photo->move(public_path('images'), $photo);
-        } else {
-            $photo = $request->originphoto;
+        if ($request->hasFile('foto_perfil')) {
+            $foto_perfil = time() . '.' . $request->foto_perfil->extension();
+            $request->foto_perfil->storeAs('public/images', $foto_perfil);
+            $foto_perfil1 = 'storage/images/' . $foto_perfil;
+        }else{
+            $foto_perfil1 = 'storage/images/no-foto.jpg';
+        }
+
+        if ($request->hasFile('firma')) {
+            $firma = time() . '.' . $request->firma->extension();
+            $request->firma->storeAs('public/images', $firma);
+            $firma1 = 'storage/images/' . $firma;
+        }else{
+             $firma1 ='storage/images/no-firma.jpg';
         }
 
 
@@ -107,8 +125,8 @@ class UsuarioController extends Controller
         $usuario->email = $request->email;
         $usuario->sexo = $request->sexo;
         $usuario->direccion = $request->direccion;
-        $usuario->firma = $request->firma;
-        $usuario->foto_perfil = $request->foto_perfil;
+        $usuario->firma = $firma1;
+        $usuario->foto_perfil = $foto_perfil1;
 
         if ($usuario->save()) {
             return redirect('usuarios')
