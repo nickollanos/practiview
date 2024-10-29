@@ -15,6 +15,20 @@ class AprendizController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function index()
+    {
+        //$users = User::all();
+        $aprendices = Usuario::whereHas('perfils', function($query) {
+            $query->where('perfil', 'aprendiz'); // Cambia 'nombre' por la columna que identifica el perfil
+        })->paginate(5);
+
+        return view('aprendiz.index')->with('aprendices', $aprendices);
+
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function create()
     {
         //
@@ -28,16 +42,21 @@ class AprendizController extends Controller
      */
     public function store(Request $request)
     {
-        //
         // dd($request->all());
         if ($request->hasFile('foto_perfil')) {
             $foto_perfil = time() . '.' . $request->foto_perfil->extension();
-            $request->foto_perfil->storeAs('images', $foto_perfil);
+            $request->foto_perfil->storeAs('public/images', $foto_perfil);
+            $foto_perfil1 = 'storage/images/' . $foto_perfil;
+        }else{
+            $foto_perfil1 = 'storage/images/no-foto.jpg';
         }
 
         if ($request->hasFile('firma')) {
             $firma = time() . '.' . $request->firma->extension();
-            $request->firma->storeAs('images', $firma);
+            $request->firma->storeAs('public/images', $firma);
+            $firma1 = 'storage/images/' . $firma;
+        }else{
+             $firma1 ='storage/images/no-firma.jpg';
         }
 
         $usuario = new Usuario();
@@ -52,8 +71,8 @@ class AprendizController extends Controller
         $usuario->estado_id = 1;
         $usuario->direccion = $request->direccion;
         $usuario->password = bcrypt($request->password);
-        $usuario->firma = $request->firma;
-        $usuario->foto_perfil = $request->foto_perfil;
+        $usuario->firma = $firma1;
+        $usuario->foto_perfil = $foto_perfil1;
 
         if ($usuario->save()) {
             $perfil = Perfil::where('perfil', 'aprendiz')->first();

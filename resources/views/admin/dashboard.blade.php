@@ -164,8 +164,6 @@
                             <div class="py-1" role="none">
                                 <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-300">Todas los
                                     empresas</a>
-                                <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-300">Por programa
-                                    de formación</a>
                                 <a href="#" class="text-gray-700 block px-4 py-2 text-sm hover:bg-gray-300">Por
                                     estado</a>
                             </div>

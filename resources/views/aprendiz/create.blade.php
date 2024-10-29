@@ -156,6 +156,7 @@
                     alt="Border1">
                 <input id="photo1" type="file" name="firma" accept="image/*"
                     class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-20">
+                <input type="hidden" name="originphoto">
             </div>
             <div class="mt-2">
                 <label id="label" class="form-label" for="firma">Firma:</label>
@@ -165,12 +166,8 @@
         <div class="flex flex-col items-center">
             <button type="submit"
                 class="bg-[#5c972c] hover:bg-[#5c972c] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mb-4">
-                Registrarse
+                CREAR
             </button>
-            <a href="{{url('login')}}"
-                class="inline-block align-baseline font-bold text-sm text-gray-700 hover:text-gray-400">
-                ¿Ya tienes una cuenta? Inicia sesión
-            </a>
         </div>
 
     </form>
@@ -216,11 +213,11 @@
     }
 
     //------------script para subir foto de perfil-------//
-    document.getElementById('photo').addEventListener('change', function (event) {
+    document.getElementById('photo').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById('upload').src = e.target.result;
             };
             reader.readAsDataURL(file);
@@ -228,11 +225,11 @@
     });
 
     //------------script para subir foto de firma-------//
-    document.getElementById('photo1').addEventListener('change', function (event) {
+    document.getElementById('photo1').addEventListener('change', function(event) {
         const file = event.target.files[0];
         if (file) {
             const reader = new FileReader();
-            reader.onload = function (e) {
+            reader.onload = function(e) {
                 document.getElementById('upload1').src = e.target.result;
             };
             reader.readAsDataURL(file);
