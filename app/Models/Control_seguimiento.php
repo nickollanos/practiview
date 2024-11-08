@@ -20,9 +20,9 @@ class Control_seguimiento extends Model
         'lugar'
     ];
 
-    //Relationship: muchos control_seguimiento tiene muchas bitacora
+    //Relationship: un control y seguimiento tiene muchas bitacoras
     public function bitacora()
     {
-        return $this->belongsToMany(Bitacora::class);
+        return $this->hasMany(Bitacora::class);
     }
 }

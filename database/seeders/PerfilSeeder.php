@@ -17,8 +17,8 @@ class PerfilSeeder extends Seeder
             ['perfil'   => 'administrador'],
             ['perfil'   => 'instructor'],
             ['perfil'   => 'aprendiz'],
-            ['perfil'   => 'empresa'],
             ['perfil'   => 'jefe inmediato'],
+            ['perfil'   => 'sin rol'],
          ];
 
          foreach ($perfiles as $perfil){

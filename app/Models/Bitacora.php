@@ -16,36 +16,20 @@ class Bitacora extends Model
     protected $fillable = [
         'numero',
         'numero_ficha',
-        'id_regional',
-        'id_centro_formacion',
-        'id_entidad',
-        'id_detalles_actividad',
-        'id_modalidad_practica',
-        'id_detalles_practica',
-        'id_detalles_ficha'
+        'control_seguimiento_id',
+        'practica_id'
     ];
 
-    //Relationship: una bitacora tiene muchas entidades
-    public function entidad()
+    //Relationship: muchas bitacoras tienen una practica
+    public function practica()
     {
-        return $this->belongsTo(Entidad::class);
+        return $this->belongsTo(Practica::class);
     }
 
-    //Relationship: una bitacora tiene muchas modalidad_practica
-    public function modalidad_practica()
-    {
-        return $this->belongsTo(Modalidad_practica::class);
-    }
 
-    //Relationship: muchas bitacora tiene muchas actividad_bitacora
-    public function actividad_bitacora()
-    {
-        return $this->belongsToMany(Actividad_bitacora::class);
-    }
-
-    //Relationship: muchas bitacora tiene muchas control_seguimiento
+    //Relationship: muchas bitacoras componen un control y seguimiento
     public function control_seguimiento()
     {
-        return $this->belongsToMany(Control_seguimiento::class);
+        return $this->belongsTo(Control_seguimiento::class);
     }
 }

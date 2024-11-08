@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Perfil;
+use App\Models\Sexo;
+use App\Models\Tipo_documento;
 use App\Models\User;
 use App\Models\Usuario;
 use Illuminate\Auth\Events\Registered;
@@ -20,7 +23,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): View
     {
-        return view('auth.register');
+        $tipo_documentos = Tipo_documento::all();
+        $sexos           = Sexo::all();
+        return view('auth.register')->with('tipo_documentos', $tipo_documentos)->with('sexos', $sexos);
     }
 
     /**
@@ -47,12 +52,18 @@ class RegisteredUserController extends Controller
 
         if ($request->hasFile('foto_perfil')) {
             $foto_perfil = time() . '.' . $request->foto_perfil->extension();
-            $request->foto_perfil->storeAs('images', $foto_perfil);
+            $request->foto_perfil->storeAs('public/images', $foto_perfil);
+            $foto_perfil1 = 'storage/images/' . $foto_perfil;
+        }else{
+            $foto_perfil1 = 'storage/images/no-foto.jpg';
         }
 
         if ($request->hasFile('firma')) {
             $firma = time() . '.' . $request->firma->extension();
-            $request->firma->storeAs('images', $firma);
+            $request->firma->storeAs('public/images', $firma);
+            $firma1 = 'storage/images/' . $firma;
+        }else{
+             $firma1 ='storage/images/no-firma.jpg';
         }
 
         $user = Usuario::create([
@@ -66,10 +77,15 @@ class RegisteredUserController extends Controller
             'sexo'              => $request->sexo,
             'direccion'         => $request->direccion,
             'password'          => $request->password,
-            'firma'             => $firma,
-            'foto_perfil'       => $foto_perfil,
+            'firma'             => $firma1,
+            'foto_perfil'       => $foto_perfil1,
             'password' => Hash::make($request->password),
         ]);
+
+        $perfil = Perfil::where('perfil', 'sin rol')->first();
+        $user->perfiles()->attach($perfil->id);
+        return redirect('dashboard')
+        ->with('message' . 'The usuario: ' . $user->fullname . ' was successfully added!');
 
         event(new Registered($user));
 

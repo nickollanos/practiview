@@ -15,16 +15,17 @@ class Centro_formacion extends Model
      */
     protected $fillable = [
         'nombre',
-        'siglas'
+        'siglas',
+        'regional_id'
     ];
 
-    //Relationship: un centro_formacion tiene muchos programa_formacion
+    //Relationship: un centro de formacion tiene muchos programas de formacion
     public function programa_formacion()
     {
         return $this->hasMany(Programa_formacion::class);
     }
 
-    //Relationship: muchos centro_formacion tienen una regional
+    //Relationship: muchos centros de formacion tienen una regional
     public function regional()
     {
         return $this->belongsTo(Regional::class);

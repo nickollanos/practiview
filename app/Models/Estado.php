@@ -19,9 +19,15 @@ class Estado extends Model
         'observaciones'
     ];
 
-    //Relationship: muchos sexo tienen un usuario
+    //Relationship: un estado tiene muchos usuarios
     public function usuario()
     {
         return $this->hasMany(Usuario::class);
+    }
+
+    //Relationship: un estado tiene muchas empresas
+    public function empresa()
+    {
+        return $this->hasMany(Empresa::class);
     }
 }

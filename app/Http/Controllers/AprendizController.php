@@ -32,9 +32,9 @@ class AprendizController extends Controller
     public function create()
     {
         //
-        $tipo_documento = Tipo_documento::all();
-        $sexo           = Sexo::all();
-        return view('aprendiz.create')->with('tipo_documento', $tipo_documento)->with('sexo', $sexo);
+        $tipo_documentos = Tipo_documento::all();
+        $sexos           = Sexo::all();
+        return view('aprendiz.create')->with('tipo_documentos', $tipo_documentos)->with('sexos', $sexos);
     }
 
     /**

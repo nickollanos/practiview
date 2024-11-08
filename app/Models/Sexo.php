@@ -22,6 +22,6 @@ class Sexo extends Model
     //Relationship: muchos sexo tienen un usuario
     public function usuario()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->belongsTo(Usuario::class);
     }
 }

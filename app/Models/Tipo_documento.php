@@ -14,8 +14,8 @@ class Tipo_documento extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'tipo',
         'siglas',
+        'tipo',
         'detalle'
     ];
 

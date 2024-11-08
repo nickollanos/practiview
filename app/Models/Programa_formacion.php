@@ -14,26 +14,34 @@ class Programa_formacion extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'denominacion',
         'codigo_programa',
+        'denominacion',
         'version',
         'etapa_lectiva',
         'etapa_productiva',
         'total_horas',
         'tipo_programa',
         'titulo_certificado',
-        'id_centro_formacion'
+        'centro_formacion_id',
+        'instructor_id',
+        'aprendiz_id',
     ];
 
-     //Relationship: muchos programa_formacion tiene muchas fichas
-     public function ficha()
-     {
-         return $this->belongsToMany(Ficha::class);
-     }
+    //Relationship: un programa de formacion tiene un aprendiz
+    public function aprendiz()
+    {
+        return $this->hasOne(Aprendiz::class);
+    }
 
-     //Relationship: muchos programa_formacion tienen una centro_formacion
-     public function centro_formacion()
-     {
-         return $this->belongsTo(Centro_formacion::class);
-     }
+    //Relationship: muchos programas de formacion tienen un centro de formacion
+    public function centro_formacion()
+    {
+        return $this->belongsTo(Centro_formacion::class);
+    }
+
+    //Relationship: un instructor tiene muchos programas de formacion
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class);
+    }
 }

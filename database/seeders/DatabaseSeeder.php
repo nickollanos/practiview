@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Departamento;
+use App\Models\Modalidad_practica;
 use App\Models\Tipo_documento;
 use App\Models\Usuario;
 use Database\Factories\UsuariosFactory;
@@ -24,16 +25,20 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            MunicipioSeeder::class,
-            // DepartamentoSeeder::class,
-            // RegionalSeeder::class,
             Tipo_documentoSeeder::class,
             SexoSeeder::class,
             PerfilSeeder::class,
             EstadoSeeder::class,
+            EmpresaSeeder::class,
             UsuarioSeeder::class,
+            RegionalSeeder::class,
+            Centro_FormacionSeeder::class,
+            Programa_FormacionSeeder::class,
+            RolSeeder::class,
+            Modalidad_practicaSeeder::class,
+            PracticaSeeder::class,
         ]);
 
-        Usuario::factory(20)->create();
+        Usuario::factory(50)->create();
     }
 }

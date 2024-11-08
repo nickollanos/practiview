@@ -29,9 +29,6 @@ class Tipo_documentoSeeder extends Seeder
             ['tipo'     => 'registro',
               'siglas'  => 'RC',
               'detalle' => 'registro civil'],
-            ['tipo'     => 'nit',
-              'siglas'  => 'NIT',
-              'detalle' => 'nit'],
          ];
 
          foreach ($tipo_documentos as $tipo_documento){

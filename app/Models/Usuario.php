@@ -25,7 +25,8 @@ class Usuario extends Authenticatable
         'fecha_nacimiento',
         'telefono',
         'email',
-        'sexo',
+        'sexo_id',
+        'estado_id',
         'direccion',
         'password',
         'firma',
@@ -55,27 +56,51 @@ class Usuario extends Authenticatable
         ];
     }
 
-    //Relationship: un usuario tiene muchos tipo documento
+    //Relationship: un usuario tiene muchos tipo documentos
     public function tipo_documento()
     {
         return $this->hasMany(Tipo_documento::class);
     }
 
-    //Relationship: un usuario tiene muchos sexo
+    //Relationship: un usuario tiene muchos sexos
     public function sexo()
     {
-        return $this->belongsTo(Sexo::class, 'sexo_id');
+        return $this->hasMany(Sexo::class, 'sexo_id');
     }
 
-    //Relationship: un usuario tiene muchos sexo
+    //Relationship: muchos usuarios tienen un estado
     public function estado()
     {
-        return $this->belongsTo(Estado::class, 'estado_id');
+        return $this->belongsTo(Estado::class);
     }
 
-    //Relationship: muchos usuario tiene muchos perfil
+    //Relationship:muchos usuarios tienen muchos perfiles
     public function perfiles()
     {
         return $this->belongsToMany(Perfil::class, 'perfil_usuario');
+    }
+
+    //Relationship: muchos usuario son un admin
+    public function admin()
+    {
+        return $this->belongsTo(Admin::class);
+    }
+
+    //Relationship: muchos usuario son un aprendiz
+    public function aprendiz()
+    {
+        return $this->belongsTo(Aprendiz::class);
+    }
+
+    //Relationship: muchos usuario son un instructor
+    public function instructor()
+    {
+        return $this->belongsTo(Instructor::class);
+    }
+
+    //Relationship: muchos usuario son un jefe inmediato
+    public function jefe_inmediato()
+    {
+        return $this->belongsTo(Jefe_Inmediato::class);
     }
 }
