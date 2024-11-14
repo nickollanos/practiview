@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('instructor_rol', function (Blueprint $table) {
-            $table->foreignId('instructor_id')
-                  ->constrained('instructors')
-                  ->onDelete('cascade');
-            $table->foreignId('rol_id')
-                  ->constrained('rols')
+        Schema::create('control_seguimientos', function (Blueprint $table) {
+            $table->id();
+            $table->string('actividad');
+            $table->string('evidencia_aprendizaje');
+            $table->date('fecha');
+            $table->string('lugar');
+            $table->foreignId('bitacora_id')
+                  ->constrained('bitacoras')
                   ->onDelete('cascade');
             $table->timestamps();
         });
@@ -27,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('instructor_rol');
+        Schema::dropIfExists('control_seguimientos');
     }
 };

@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('bitacora', function (Blueprint $table) {
-            $table->id();
-            $table->string('numero');
-            $table->foreignId('practica_id')
-                  ->constrained('practicas')
+        Schema::create('instructor_rols', function (Blueprint $table) {
+            $table->foreignId('instructor_id')
+                  ->constrained('instructors')
+                  ->onDelete('cascade');
+            $table->foreignId('rol_id')
+                  ->constrained('rols')
                   ->onDelete('cascade');
             $table->timestamps();
         });
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('bitacora');
+        Schema::dropIfExists('instructor_rols');
     }
 };

@@ -14,7 +14,7 @@ class Programa_formacion extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'codigo_programa',
+        'siglas',
         'denominacion',
         'version',
         'etapa_lectiva',
@@ -23,15 +23,7 @@ class Programa_formacion extends Model
         'tipo_programa',
         'titulo_certificado',
         'centro_formacion_id',
-        'instructor_id',
-        'aprendiz_id',
     ];
-
-    //Relationship: un programa de formacion tiene un aprendiz
-    public function aprendiz()
-    {
-        return $this->hasOne(Aprendiz::class);
-    }
 
     //Relationship: muchos programas de formacion tienen un centro de formacion
     public function centro_formacion()
@@ -39,9 +31,10 @@ class Programa_formacion extends Model
         return $this->belongsTo(Centro_formacion::class);
     }
 
-    //Relationship: un instructor tiene muchos programas de formacion
-    public function instructor()
+    //Relationship: muchos programas de formacion tienen una ficha
+    public function ficha()
     {
-        return $this->belongsTo(Instructor::class);
+        return $this->belongsTo(Ficha::class);
     }
+
 }

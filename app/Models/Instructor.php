@@ -30,9 +30,10 @@ class Instructor extends Model
         return $this->belongsToMany(Rol::class, 'instructor_rol');
     }
 
-    //Relationship: un instructor tiene muchos programas de formacion
-    public function programa_formacion()
+    //Relationship: muchos instrctores tienen una ficha
+    public function ficha()
     {
-        return $this->hasMany(Programa_formacion::class);
+        return $this->belongsTo(Ficha::class);
     }
+
 }

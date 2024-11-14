@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Admin;
 use App\Models\Aprendiz;
 use App\Models\Instructor;
+use App\Models\Jefe_Inmediato;
 use App\Models\Perfil;
 use App\Models\Sexo;
 use App\Models\Usuario;
@@ -98,7 +99,7 @@ class UsuarioSeeder extends Seeder
         // $instructor->usuario_id = $usuario->id;
         // $instructor->save();
 
-     
+
     // ...
     $usuario = new Usuario();
     $usuario->nombre = 'Erika';
@@ -159,7 +160,6 @@ class UsuarioSeeder extends Seeder
     if (!$instructor->exists) {
         $instructor->save();
     }
-
 
     }
 

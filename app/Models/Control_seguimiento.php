@@ -17,7 +17,8 @@ class Control_seguimiento extends Model
         'actividad',
         'evidencia_aprendizaje',
         'fecha',
-        'lugar'
+        'lugar',
+        'bitacora_id'
     ];
 
     //Relationship: un control y seguimiento tiene muchas bitacoras

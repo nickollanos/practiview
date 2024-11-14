@@ -11,12 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('control_seguimiento', function (Blueprint $table) {
+        Schema::create('aprendizs', function (Blueprint $table) {
             $table->id();
-            $table->string('actividad');
-            $table->string('evidencia_aprendizaje');
-            $table->date('fecha');
-            $table->string('lugar');
+            $table->foreignId('usuario_id')
+                  ->constrained('usuarios')
+                  ->onDelete('cascade');
+            $table->foreignId('ficha_id')
+                  ->constrained('fichas')
+                  ->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -26,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('control_seguimiento');
+        Schema::dropIfExists('aprendizs');
     }
 };

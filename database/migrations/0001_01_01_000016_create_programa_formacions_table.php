@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('programa_formacions', function (Blueprint $table) {
-            $table->id('codigo_programa')->primary();
+            $table->id();
+            $table->string('siglas');
             $table->string('denominacion');
             $table->string('version');
             $table->string('etapa_lectiva');
@@ -22,12 +23,6 @@ return new class extends Migration
             $table->string('titulo_certificado');
             $table->foreignId('centro_formacion_id')
                   ->constrained('centro_formacions')
-                  ->onDelete('cascade');
-            $table->foreignId('instructor_id')
-                  ->constrained('instructors')
-                  ->onDelete('cascade');
-            $table->foreignId('aprendiz_id')
-                  ->constrained('aprendizs')
                   ->onDelete('cascade');
             $table->timestamps();
         });

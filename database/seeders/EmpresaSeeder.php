@@ -3,6 +3,9 @@
 namespace Database\Seeders;
 
 use App\Models\Empresa;
+use App\Models\Jefe_Inmediato;
+use App\Models\Perfil;
+use App\Models\Usuario;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -59,5 +62,33 @@ class EmpresaSeeder extends Seeder
                 $empresaModel->save();
             }
         }
+
+        $usuario = new Usuario();
+        $usuario->nombre = 'Erika';
+        $usuario->apellido = 'Tangarife';
+        $usuario->tipo_documento_id = '1';
+        $usuario->numero_documento = '1053100100';
+        $usuario->fecha_nacimiento = '21-03-1980';
+        $usuario->telefono = '3103747648';
+        $usuario->email = 'etanga@gmail.com';
+        $usuario->sexo_id = 2;
+        $usuario->estado_id = 1;
+        $usuario->direccion = 'manizales';
+        $usuario->password = bcrypt('jefeinmediato');
+        $usuario->save();
+        $perfil = Perfil::where('perfil', 'jefe inmediato')->first();
+        $usuario->perfiles()->attach($perfil->id);
+
+        Jefe_Inmediato::create(['usuario_id' => $usuario->id, 'empresa_id' => $empresaModel->id]);
+
+        // $jefe_inmediato = Jefe_Inmediato::firstOrNew(['empresa_id' => $empresaModel->id]);
+        // if (!$jefe_inmediato->exists) {
+        // $jefe_inmediato->save();
+        // }
+
+        // $jefe_inmediato = Jefe_Inmediato::firstOrNew(['usuario_id' => $usuario->id]);
+        // if (!$jefe_inmediato->exists) {
+        //     $jefe_inmediato->save();
+        // }
     }
 }

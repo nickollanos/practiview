@@ -15,8 +15,6 @@ class Bitacora extends Model
      */
     protected $fillable = [
         'numero',
-        'numero_ficha',
-        'control_seguimiento_id',
         'practica_id'
     ];
 
@@ -25,7 +23,6 @@ class Bitacora extends Model
     {
         return $this->belongsTo(Practica::class);
     }
-
 
     //Relationship: muchas bitacoras componen un control y seguimiento
     public function control_seguimiento()
