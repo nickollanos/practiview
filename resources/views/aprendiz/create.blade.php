@@ -13,32 +13,40 @@
 </nav>
 
 <!-- Segundo Navbar -->
-<nav class="bg-[#5eb319] p-4 flex items-center justify-end">
+<nav class="bg-[#5eb319] p-4 flex items-center justify-between">
     <div class="flex items-center">
-        <i class="fa-solid fa-bell text-2xl text-white hover:text-gray-300 mr-4"></i>
+        <a href="{{ url('dashboard') }}">
+            <i class="fa-solid fa-circle-arrow-left text-2xl text-white hover:text-gray-300 mr-4" title="atras"></i>
+        </a>
     </div>
+    <div class="flex items-center">
+        <div class="flex items-center">
+            <i class="fa-solid fa-bell text-2xl text-white hover:text-gray-300 mr-4"></i>
+        </div>
 
-    <div class="flex items-center relative">
-        <img src="{{ asset('images/user.png') }}" alt="Perfil" class="h-8 w-8 rounded-full cursor-pointer"
-            id="user-menu-button">
-        <div class="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md hidden" id="user-menu">
-            <div class="px-4 py-2">
-                <h2 class="font-bold">Nombre de Usuario</h2>
-                <h2 class="text-gray-600">Rol: Administrador</h2>
+        <div class="flex items-center relative">
+            <img src="{{ asset('images/user.png') }}" alt="Perfil" class="h-8 w-8 rounded-full cursor-pointer"
+                id="user-menu-button">
+            <div class="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md hidden" id="user-menu">
+                <div class="px-4 py-2">
+                    <h2 class="font-bold">Nombre de Usuario</h2>
+                    <h2 class="text-gray-600">Rol: Administrador</h2>
+                </div>
+                <ul>
+                    <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li>
+                    <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="{{ route('dashboard') }}">Menú principal</a></li>
+                    <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
+                        <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
+                            @csrf
+                            <button type="submit" class="w-full text-left">Cerrar sesión</button>
+                        </form>
+                    </li>
+                </ul>
             </div>
-            <ul>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="{{ route('dashboard') }}">Menú principal</a></li>
-                <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                    <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
-                        @csrf
-                        <button type="submit" class="w-full text-left">Cerrar sesión</button>
-                    </form>
-                </li>
-            </ul>
         </div>
     </div>
 </nav>
+
 <!-- Contenido -->
 
 <!-- Contenido -->
@@ -86,7 +94,7 @@
             <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring focus:ring-blue-200 text-left"
                 name="tipo_documento_id" id="tipo_documento_id">
                 <option value="0">Select...</option>
-                @foreach ($tipo_documento as $tipo_documento )
+                @foreach ($tipo_documentos as $tipo_documento )
                 <option value="{{ $tipo_documento->id }}">{{ $tipo_documento->tipo }}</option>
                 @endforeach
 
@@ -122,7 +130,7 @@
             <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring focus:ring-blue-200 text-left"
                 name="sexo" id="sexo">
                 <option value=""> Select... </option>
-                @foreach($sexo as $sexo)
+                @foreach($sexos as $sexo)
                 <option value="{{ $sexo->id }}"> {{ $sexo->nombre }} </option>
                 @endforeach
             </select>

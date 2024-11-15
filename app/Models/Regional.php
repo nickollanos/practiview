@@ -14,19 +14,14 @@ class Regional extends Model
      * @var array<int, string>
      */
     protected $fillable = [
+        'nombre',
         'direccion',
-        'id_departamento'
     ];
 
-    //Relationship: un regional tiene muchos centro_formacion
+    //Relationship: una regional tiene muchos centros de formacion
     public function centro_formacion()
     {
         return $this->hasMany(Centro_formacion::class);
     }
 
-    //Relationship: muchos regional tienen un departamento
-    public function departamento()
-    {
-        return $this->belongsTo(Departamento::class);
-    }
 }

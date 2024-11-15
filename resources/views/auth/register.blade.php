@@ -54,14 +54,12 @@
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700" for="tipo_documento_id">Tipo de documento:</label>
             <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring focus:ring-blue-200 text-left"
-            name="tipo_documento_id" id="tipo_documento_id">
+                name="tipo_documento_id" id="tipo_documento_id">
                 <option value="0">Select...</option>
-                <option value="1">Cedula de Ciudadania</option>
-                <option value="2">Cedula de Extranjeria</option>
-                <option value="3">Tarjeta de Identidad</option>
-                <option value="4">Pasaporte</option>
-                <option value="5">Registro Civil</option>
-                <option value="6">Nit</option>
+                @foreach ($tipo_documentos as $tipo_documento )
+                <option value="{{ $tipo_documento->id }}">{{ $tipo_documento->tipo }}</option>
+                @endforeach
+
             </select>
         </div>
 
@@ -92,11 +90,11 @@
         <div class="mb-4">
             <label class="block text-sm font-medium text-gray-700" for="sexo">SEXO:</label>
             <select class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-gray-300 focus:ring focus:ring-blue-200 text-left"
-            name="sexo" id="sexo">
-                <option value="">Select...</option>
-                <option value="M">Masculino</option>
-                <option value="F">Femenino</option>
-                <option value="O">Otros</option>
+                name="sexo" id="sexo">
+                <option value=""> Select... </option>
+                @foreach($sexos as $sexo)
+                <option value="{{ $sexo->id }}"> {{ $sexo->nombre }} </option>
+                @endforeach
             </select>
         </div>
 
@@ -122,7 +120,7 @@
 
         <div class="flex flex-col items-center mb-4">
             <div class="relative">
-                <img id="upload1"class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[55px] w-[178px] z-10 rounded-lg"
+                <img id="upload1"class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 h-[55px] w-[178px] rounded-lg"
                     src="{{ asset('images/signature.svg') }}" alt="Photo">
                 <img class="h-[70px] w-[190px] z-0" id="border1" src="{{ asset('images/borde-signature.svg') }}"
                     alt="Border1">

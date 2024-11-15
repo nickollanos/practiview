@@ -14,13 +14,12 @@ class Modalidad_practica extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'modalidad',
-        'detalles'
+        'nombre'
     ];
 
-    //Relationship: muchos modalidad_practica tiene una bitacora
-    public function bitacora()
+    //Relationship: muchas modalidades de practica tiene una practica
+    public function practica()
     {
-        return $this->belongsToMany(Bitacora::class);
+        return $this->belongsTo(Practica::class);
     }
 }

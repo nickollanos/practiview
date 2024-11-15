@@ -8,19 +8,32 @@ use Illuminate\Database\Eloquent\Model;
 class Ficha extends Model
 {
     use HasFactory;
-    /**
+     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
     protected $fillable = [
         'numero_ficha',
-        'id_gestor'
+        'programa_formacion_id',
+        'instructor_id'
     ];
 
-    //Relationship: muchos programa_formacion tienen una centro_formacion
+    //Relationship: una ficha tiene muchos programa de formacion
     public function programa_formacion()
     {
-        return $this->belongsToMany(Programa_formacion::class);
+        return $this->hasMany(Programa_formacion::class);
+    }
+
+    //Relationship: una ficha tiene muchos instructores
+    public function instructor()
+    {
+        return $this->hasMany(Instructor::class);
+    }
+
+    //Relationship: una ficha tiene un aprendiz
+    public function aprendiz()
+    {
+        return $this->hasOne(Aprendiz::class);
     }
 }
