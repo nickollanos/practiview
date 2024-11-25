@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
 </head>
 
-<body class="bg-gray-100 flex flex-col min-h-screen">
+<body class="min-h-screen bg-cover bg-center flex items-center justify-center" style="background-image: url('{{ asset('images/background.svg') }}');">
 
     @yield('content')
 
