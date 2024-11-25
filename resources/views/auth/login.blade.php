@@ -6,7 +6,7 @@
 
 <main class="container flex items-center justify-center">
     <form class="bg-white shadow-lg rounded-lg px-6 pt-4 pb-8 w-[90%] max-w-md sm:w-[25rem] border border-[#059212] mx-auto mt-8 mb-8" action="{{ route('login') }}"
-    method="POST">
+        method="POST">
         @csrf
         @if ( count( $errors->all()) > 0 )
         @foreach ( $errors->all() as $message )
@@ -41,20 +41,20 @@
             </div>
         </div>
 
+        <!-- reCAPTCHA -->
+        <div class="mb-4 flex justify-center">
+            <div id="recaptcha" class="w-full">
+                <div class="bg-[#EBE9D6] p-4 rounded text-center text-gray-500">
+                    <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}"></div>
+                </div>
+            </div>
+        </div>
+
         <!-- Enlace de recuperación -->
         <div class="mb-4 text-center">
             <a href="#" class="inline-block align-baseline font-bold text-sm text-gray-700 hover:text-gray-400">
                 ¿Olvidaste tu contraseña?
             </a>
-        </div>
-
-        <!-- reCAPTCHA -->
-        <div class="mb-4 flex justify-center">
-            <div id="recaptcha" class="w-full">
-                <div class="bg-gray-200 p-4 rounded text-center text-gray-500">
-                    [reCAPTCHA aquí]
-                </div>
-            </div>
         </div>
 
         <!-- Botón Ingresar -->
@@ -90,5 +90,7 @@
             eyeIcon.setAttribute('src', '{{ asset("images/open-eye.svg") }}');
         }
     }
+
+    //--------------------------------------
 </script>
 @endsection
