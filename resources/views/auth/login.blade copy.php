@@ -11,6 +11,15 @@
     </div>
 </nav>
 
+<!-- reCAPTCHA -->
+<div class="mb-4 flex justify-center w-full">
+            <div id="recaptcha" class="w-full max-w-xs sm:max-w-full px-4 flex justify-center">
+                <div class="bg-[#EBE9D6] p-4 rounded text-center text-gray-500">
+                    <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}" style="transform: scale(0.8);"></div>
+                </div>
+            </div>
+        </div>
+
 <!-- Segundo Navbar -->
 <!-- <nav class="bg-[#5eb319] p-4 flex items-center">
         <div class="flex-none">

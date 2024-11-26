@@ -4,7 +4,7 @@
 
 @section('content')
 
-<main class="container flex items-center justify-center">
+<main class="container flex items-start justify-center mb-8 h-screen">
     <form class="bg-white shadow-lg rounded-lg px-6 pt-4 pb-8 w-[90%] max-w-md sm:w-[25rem] border border-[#059212] mx-auto mt-8 mb-8" action="{{ route('login') }}"
         method="POST">
         @csrf
@@ -26,7 +26,7 @@
                 <img src="{{ asset('images/ico-email.svg') }}" alt="Email Icon" class="w-6 h-6">
             </div>
             <input type="email" name="email" id="email" placeholder="Correo" required
-                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none">
+                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none border-none">
         </div>
 
         <!-- Campo Contraseña con ícono de ojo -->
@@ -43,12 +43,13 @@
 
         <!-- reCAPTCHA -->
         <div class="mb-4 flex justify-center">
-            <div id="recaptcha" class="w-full">
+            <div id="recaptcha" class="w-full max-w-xs sm:max-w-full px-4 flex justify-center" style="transform: scale(0.8);">
                 <div class="bg-[#EBE9D6] p-4 rounded text-center text-gray-500">
-                    <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}" style="transform: scale(1);"></div>
                 </div>
             </div>
         </div>
+
 
         <!-- Enlace de recuperación -->
         <div class="mb-4 text-center">
@@ -65,12 +66,10 @@
             </button>
         </div>
     </form>
-
-
 </main>
 
-@endsection
 
+@endsection
 
 @section('js')
 <script>

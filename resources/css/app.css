@@ -1,3 +1,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'pompiere';
+    src: url('../../public/fonts/Pompiere-Regular.ttf')
+    format('truetype');
+    font-weight: 100;
+}
