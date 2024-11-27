@@ -7,9 +7,9 @@
 <!-- Contenido -->
 <main class="flex-grow container mx-auto flex flex-col items-center justify-center space-y-4 min-h-screen px-4">
     <!-- Tarjeta centrada -->
-    <div class="bg-white bg-opacity-60 shadow-lg rounded-lg p-6 w-full max-w-md min-h-[25rem] flex flex-col items-center justify-center space-y-4 border border-[#059212] relative">
+    <div class="bg-white bg-opacity-60 shadow-lg rounded-lg p-6 w-full max-w-md min-h-[25rem] flex flex-col items-center justify-center space-y-4 border border-solid border-[#059212] relative">
         <!-- Contenedor de círculos -->
-        <div class="absolute top-0 left-0 w-full flex items-center justify-start space-x-2 border-4 border-red-500 p-2 rounded-t-lg bg-white">
+        <div class="absolute top-0 left-0 w-full flex items-center justify-start space-x-2 p-2 border-b border-solid border-[#059212] rounded-t-lg bg-white bg-opacity-60">
             <div class="w-6 h-6 bg-[#059212] rounded-full"></div>
             <div class="w-6 h-6 bg-[#06D001] rounded-full"></div>
             <div class="w-6 h-6 bg-[#9BEC00] rounded-full"></div>

@@ -5,16 +5,19 @@
 @section('content')
 
 <main class="container flex items-start justify-center mb-8 h-screen">
-    <form class="bg-white shadow-lg rounded-lg px-6 pt-4 pb-8 w-[90%] max-w-md sm:w-[25rem] border border-[#059212] mx-auto mt-8 mb-8" action="{{ route('login') }}"
-        method="POST">
+<div class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 border border-solid border-[#059212]">
+    <form action="{{ route('login') }}" method="POST">
         @csrf
         @if ( count( $errors->all()) > 0 )
-        @foreach ( $errors->all() as $message )
-        <li> {{ $message }} </li>
-        @endforeach
+        <ul class="text-red-500 text-sm mb-4">
+            @foreach ( $errors->all() as $message )
+                <li>{{ $message }}</li>
+            @endforeach
+        </ul>
         @endif
+
         <!-- Imagen en círculo -->
-        <div class="flex justify-center">
+        <div class="flex justify-center mb-4">
             <div class="w-[8rem] h-[8rem] sm:w-[12rem] sm:h-[12rem] overflow-hidden">
                 <img src="{{ asset('images/logo.svg') }}" alt="Perfil" class="w-full h-full object-cover">
             </div>
@@ -50,7 +53,6 @@
             </div>
         </div>
 
-
         <!-- Enlace de recuperación -->
         <div class="mb-4 text-center">
             <a href="#" class="inline-block align-baseline font-bold text-sm text-gray-700 font-poppins hover:text-gray-400">
@@ -66,6 +68,8 @@
             </button>
         </div>
     </form>
+</div>
+
 </main>
 
 

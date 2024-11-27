@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'INDEX-APRENDIZ')
-@section('class', 'INDEX-APRENDIZ')
+@section('title', 'INDEX-ADMIN')
+@section('class', 'INDEX-ADMIN')
 
 @section('content')
 
@@ -12,16 +12,6 @@
         <!-- Logo a la izquierda -->
         <div class="flex items-center space-x-2">
             <img src="{{ asset('images/sena.png') }}" alt="LogoSena" class="w-12 h-12">
-        </div>
-
-        <!-- Barra de búsqueda centrada -->
-        <div class="flex items-center justify-center flex-1 mx-4">
-            <div class="flex items-center bg-white rounded-lg max-w-md w-full border border-solid border-[#059212]">
-                <!-- Logo dentro de la barra de búsqueda -->
-                <img src="{{ asset('images/ico-search.svg') }}" alt="Buscar" class="w-6 h-6 mr-3">
-                <!-- Input de búsqueda -->
-                <input type="text" placeholder="Buscar..." class="w-full py-2 px-3 text-gray-700 font-poppins rounded-lg border-none">
-            </div>
         </div>
 
         <!-- Contenedor para los logos a la derecha -->
@@ -54,10 +44,7 @@
                 </div>
             </div>
         </div>
-
-    </div>
 </nav>
-
 
 <!-- Main Content (con margen superior suficiente para el navbar fijo) -->
 <main class="container mx-auto px-4 py-8 mt-20">

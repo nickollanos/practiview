@@ -77,7 +77,7 @@ class Usuario extends Authenticatable
     //Relationship:muchos usuarios tienen muchos perfiles
     public function perfiles()
     {
-        return $this->belongsToMany(Perfil::class, 'perfil_usuario');
+        return $this->belongsToMany(Perfil::class, 'perfil_usuarios');
     }
 
     //Relationship: muchos usuario son un admin
