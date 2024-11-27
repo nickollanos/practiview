@@ -13,6 +13,8 @@ export default {
         extend: {
             fontFamily: {
                 sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                pompiere: ['pompiere', 'sans-serif'],
+                poppins: ['poppins', 'sans-serif'],
             },
             fonts: {
                 pompiere: {100: '../fonts/Pompiere-Regular.ttf'},

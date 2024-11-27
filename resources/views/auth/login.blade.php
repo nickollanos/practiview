@@ -26,7 +26,7 @@
                 <img src="{{ asset('images/ico-email.svg') }}" alt="Email Icon" class="w-6 h-6">
             </div>
             <input type="email" name="email" id="email" placeholder="Correo" required
-                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none border-none">
+                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
         </div>
 
         <!-- Campo Contraseña con ícono de ojo -->
@@ -35,7 +35,7 @@
                 <img src="{{ asset('images/ico-lock.svg') }}" alt="Password Icon" class="w-6 h-6">
             </div>
             <input type="password" name="password" id="password" placeholder="Contraseña" required
-                class="bg-[#EBE9D6] flex-1 py-2 px-3 text-gray-700 leading-tight focus:outline-none border-none">
+                class="bg-[#EBE9D6] flex-1 py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
             <div class="p-2 cursor-pointer">
                 <img src="{{ asset('images/open-eye.svg') }}" alt="Toggle Password" id="eyeIcon" class="absolute right-2 top-2 w-6 h-6 cursor-pointer" onclick="togglePassword()">
             </div>
@@ -53,7 +53,7 @@
 
         <!-- Enlace de recuperación -->
         <div class="mb-4 text-center">
-            <a href="#" class="inline-block align-baseline font-bold text-sm text-gray-700 hover:text-gray-400">
+            <a href="#" class="inline-block align-baseline font-bold text-sm text-gray-700 font-poppins hover:text-gray-400">
                 ¿Olvidaste tu contraseña?
             </a>
         </div>
@@ -61,7 +61,7 @@
         <!-- Botón Ingresar -->
         <div class="flex justify-center">
             <button type="submit"
-                class="bg-[#059212] hover:bg-green-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[15rem]">
+                class="bg-[#059212] hover:bg-green-700 text-white font-bold font-poppins py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[15rem]">
                 Ingresar
             </button>
         </div>
