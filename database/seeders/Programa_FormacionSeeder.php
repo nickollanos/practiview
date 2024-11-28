@@ -15,7 +15,7 @@ class Programa_FormacionSeeder extends Seeder
     {
         $programas_formacion = [
             [
-                'codigo_programa'        => '123456',
+                'siglas'                 => 'ADSO',
                 'denominacion'           => 'Técnico en Comercio y Servicios',
                 'version'                => '1.0',
                 'etapa_lectiva'          => '12',
@@ -24,8 +24,6 @@ class Programa_FormacionSeeder extends Seeder
                 'tipo_programa'          => 'Técnico',
                 'titulo_certificado'     => 'Técnico en Comercio y Servicios',
                 'centro_formacion_id'    => '1',
-                'instructor_id'          => '1',
-                'aprendiz_id'            => '1',
             ],
             // [
             //     'codigo_programa'        => '123457',

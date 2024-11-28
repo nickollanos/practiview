@@ -95,6 +95,7 @@ class UsuarioFactory extends Factory
                 // $driver->save();
                 $aprendiz = Aprendiz::firstOrNew(['usuario_id' => $usuario->id]);
                 if (!$aprendiz->exists) {
+                    $aprendiz->ficha_id = fake()->randomElement([1, 2]);
                     $aprendiz->save();
                 }
             } elseif ($perfil->perfil === 'jefe inmediato') {

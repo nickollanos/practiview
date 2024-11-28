@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'SHOW-APRENDIZ')
-@section('class', 'SHOW-APRENDIZ')
+@section('title', 'SHOW-ADMIN')
+@section('class', 'SHOW-ADMIN')
 
 @section('content')
 
@@ -93,13 +93,6 @@
                             <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">a veces
                             </h1>
                         </div>
-                        <!-- Tarjeta Ficha -->
-                        <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
-                            <strong
-                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">FICHA:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">2613934
-                            </h1>
-                        </div>
                     </div>
 
                     <!-- Columna 2 -->
@@ -133,13 +126,6 @@
                                 class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">DIRECCION:</strong>
                             <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">CL 48E1
                                 23-23</h1>
-                        </div>
-                        <!-- Tarjeta Programa de formacion -->
-                        <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
-                            <strong
-                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">PROGRAMA DE FORMACION:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">ADSO
-                            </h1>
                         </div>
                     </div>
                 </div>
