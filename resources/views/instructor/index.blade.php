@@ -69,12 +69,12 @@
             <!-- Tarjeta -->
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-2 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices</h1>
+                <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Fichas Asignadas</h1>
                 <strong class="text-3xl font-extraboldfont-poppins text-[#0C0C0C] text-opacity-50">105</strong>
             </div>
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-2 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices en Practica</h1>
+                <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices Asignados</h1>
                 <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">105</strong>
             </div>
             <div
@@ -95,7 +95,7 @@
             <a href="#"
                 class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
                 <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
-                <h1 class="text-xl font-bold">Agregar Aprendiz</h1>
+                <h1 class="text-xl font-bold">Agregar Instructor</h1>
             </a>
         </div>
         
@@ -114,12 +114,12 @@
                 <div class="flex flex-col space-y-2">
                     <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">Juanito Pérez</h1>
+                        <h1 class="text-lg font-bold text-gray-800">2613934</h1>
                     </div>
 
                     <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: Activo</h1>
+                        <h1 class="text-sm font-medium text-gray-600">45 Aprendices</h1>
                     </div>
 
                     <!-- Tarjeta 3 -->
@@ -146,12 +146,12 @@
                 <div class="flex flex-col space-y-2">
                     <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">Juanito Pérez</h1>
+                        <h1 class="text-lg font-bold text-gray-800">2613934</h1>
                     </div>
 
                     <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: Activo</h1>
+                        <h1 class="text-sm font-medium text-gray-600">45 Aprendices</h1>
                     </div>
 
                     <!-- Tarjeta 3 -->
@@ -179,12 +179,12 @@
                 <div class="flex flex-col space-y-2">
                     <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">Juanito Pérez</h1>
+                        <h1 class="text-lg font-bold text-gray-800">2613934</h1>
                     </div>
 
                     <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: Activo</h1>
+                        <h1 class="text-sm font-medium text-gray-600">45 Aprendices</h1>
                     </div>
 
                     <!-- Tarjeta 3 -->
@@ -212,12 +212,12 @@
                 <div class="flex flex-col space-y-2">
                     <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">Juanito Pérez</h1>
+                        <h1 class="text-lg font-bold text-gray-800">2613934</h1>
                     </div>
 
                     <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: Activo</h1>
+                        <h1 class="text-sm font-medium text-gray-600">45 Aprendices</h1>
                     </div>
 
                     <!-- Tarjeta 3 -->
@@ -245,12 +245,12 @@
                 <div class="flex flex-col space-y-2">
                     <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">Juanito Pérez</h1>
+                        <h1 class="text-lg font-bold text-gray-800">2613934</h1>
                     </div>
 
                     <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: Activo</h1>
+                        <h1 class="text-sm font-medium text-gray-600">45 Aprendices</h1>
                     </div>
 
                     <!-- Tarjeta 3 -->
@@ -279,12 +279,12 @@
                 <div class="flex flex-col space-y-2">
                     <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">Juanito Pérez</h1>
+                        <h1 class="text-lg font-bold text-gray-800">2613934</h1>
                     </div>
 
                     <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: Activo</h1>
+                        <h1 class="text-sm font-medium text-gray-600">45 Aprendices</h1>
                     </div>
 
                     <!-- Tarjeta 3 -->

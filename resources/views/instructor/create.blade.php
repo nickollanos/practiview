@@ -106,6 +106,44 @@
                     </select>
                 </div>
 
+                <div class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                    <div class="p-2">
+                        <img src="{{ asset('images/ico-direccion.svg') }}" alt="direccion" class="w-8 h-8">
+                    </div>
+                    <input type="text" name="direccion" id="direccion" placeholder="Dirección" required
+                        class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                </div>
+
+                    <!-- Campo Contraseña -->
+                    <div
+                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                        <div class="p-2">
+                            <img src="{{ asset('images/ico-password.svg') }}" alt="password" class="w-8 h-8">
+                        </div>
+                        <input type="password" name="password" id="password" placeholder="Contraseña" required
+                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div class="p-2 cursor-pointer">
+                            <img src="{{ asset('images/open-eye.svg') }}" alt="Toggle Password" id="password-eye"
+                                class="w-6 h-6 cursor-pointer" onclick="togglePassword('password', 'password-eye')">
+                        </div>
+                    </div>
+
+                    <!-- Campo Confirmar Contraseña -->
+                    <div
+                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                        <div class="p-2">
+                            <img src="{{ asset('images/ico-password.svg') }}" alt="password" class="w-8 h-8">
+                        </div>
+                        <input type="password" name="confirm_password" id="confirm_password"
+                            placeholder="Confirmar Contraseña" required
+                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div class="p-2 cursor-pointer">
+                            <img src="{{ asset('images/open-eye.svg') }}" alt="Toggle Password"
+                                id="confirm-password-eye" class="w-6 h-6 cursor-pointer"
+                                onclick="togglePassword('confirm_password', 'confirm-password-eye')">
+                        </div>
+                    </div>
+
                 <!-- Botón Ingresar -->
                 <div class="flex justify-center">
                     <button type="submit"
@@ -128,6 +166,21 @@
 <script>
     const photoInput = document.getElementById('photo');
     const uploadImage = document.getElementById('upload');
+
+    function togglePassword(inputId, eyeIconId) {
+            const passwordInput = document.getElementById(inputId);
+            const eyeIcon = document.getElementById(eyeIconId);
+
+            if (passwordInput.type === "password") {
+                passwordInput.type = "text";
+                eyeIcon.setAttribute('src', '{{ asset('images/close-eye.svg') }}');
+            } else {
+                passwordInput.type = "password";
+                eyeIcon.setAttribute('src', '{{ asset('images/open-eye.svg') }}');
+            }
+        }
+
+    //--------------------------------------
 
     // Escuchar el evento cuando el usuario selecciona una foto
     photoInput.addEventListener('change', function(event) {
