@@ -22,6 +22,7 @@ class EmpresaSeeder extends Seeder
                 'numero_nit' => '970454546',
                 'telefono'   => '89000000',
                 'direccion'  => 'CR 23 52-34',
+                'zona_id'       => '1',
                 'email'      => 'cable@gmail.com',
                 'estado_id'  => '1'
             ],
@@ -30,6 +31,7 @@ class EmpresaSeeder extends Seeder
                 'numero_nit' => '123456789',
                 'telefono'   => '89012345',
                 'direccion'  => 'AV 15 30-10',
+                'zona_id'       => '1',
                 'email'      => 'gerente@gmail.com',
                 'estado_id'  => '1'
             ],
@@ -39,6 +41,7 @@ class EmpresaSeeder extends Seeder
                 'numero_nit' => '987654321',
                 'telefono'   => '89098765',
                 'direccion'  => 'CL 10 20-15',
+                'zona_id'       => '2',
                 'email'      => 'supervisor@gmail.com',
                 'estado_id'  => '1'
             ],
@@ -48,6 +51,7 @@ class EmpresaSeeder extends Seeder
                 'numero_nit' => '456789123',
                 'telefono'   => '89054321',
                 'direccion'  => 'DI 5 15-25',
+                'zona_id'       => '3',
                 'email'      => 'coordinador@gmail.com',
                 'estado_id'  => '1'
             ]

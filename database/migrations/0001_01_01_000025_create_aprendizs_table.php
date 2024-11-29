@@ -11,14 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('control_seguimientos', function (Blueprint $table) {
+        Schema::create('aprendizs', function (Blueprint $table) {
             $table->id();
-            $table->string('actividad');
-            $table->string('evidencia_aprendizaje');
-            $table->date('fecha');
-            $table->string('lugar');
-            $table->foreignId('bitacora_id')
-                  ->constrained('bitacoras')
+            $table->foreignId('usuario_id')
+                  ->constrained('usuarios')
+                  ->onDelete('cascade');
+            $table->foreignId('ficha_id')
+                  ->constrained('fichas')
+                  ->onDelete('cascade');
+            $table->foreignId('estado_aprendiz_id')
+                  ->constrained('estado_aprendizs')
                   ->onDelete('cascade');
             $table->timestamps();
         });
@@ -29,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('control_seguimientos');
+        Schema::dropIfExists('aprendizs');
     }
 };

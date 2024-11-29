@@ -139,6 +139,7 @@ class UsuarioSeeder extends Seeder
     $aprendiz = Aprendiz::firstOrNew(['usuario_id' => $usuario->id]);
     if (!$aprendiz->exists) {
         $aprendiz->ficha_id = '1';
+        $aprendiz->estado_aprendiz_id = '1';
         $aprendiz->save();
     }
     // ...

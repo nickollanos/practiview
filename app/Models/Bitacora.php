@@ -14,8 +14,7 @@ class Bitacora extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'numero',
-        'practica_id'
+        'nombre'
     ];
 
     //Relationship: muchas bitacoras tienen una practica
@@ -25,8 +24,8 @@ class Bitacora extends Model
     }
 
     //Relationship: muchas bitacoras componen un control y seguimiento
-    public function control_seguimiento()
+    public function seguimiento()
     {
-        return $this->belongsTo(Control_seguimiento::class);
+        return $this->belongsTo(Seguimiento::class);
     }
 }

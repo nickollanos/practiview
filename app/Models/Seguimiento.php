@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Control_seguimiento extends Model
+class Seguimiento extends Model
 {
     use HasFactory;
     /**
@@ -14,10 +14,13 @@ class Control_seguimiento extends Model
      * @var array<int, string>
      */
     protected $fillable = [
-        'actividad',
-        'evidencia_aprendizaje',
-        'fecha',
-        'lugar',
+        'practica_id',
+        'fecha_concertacion',
+        'evidencia_concertacion',
+        'fecha_evaluacion_parcial',
+        'evidencia_evaluacion_parcial',
+        'fecha_evaluacion_final',
+        'evidencia_evaluacion_final',
         'bitacora_id'
     ];
 

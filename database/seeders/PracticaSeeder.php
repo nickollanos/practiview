@@ -15,7 +15,7 @@ class PracticaSeeder extends Seeder
     {
         $practicas = [
             [
-                'programa_formacion_id'     => '123456',
+                'aprendiz_id'               => '1',
                 'modalidad_practica_id'     => '1',
                 'jefe_inmediato_id'         => '1',
                 'fecha_inicio'              => '2024-11-02',

@@ -11,12 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('fichas', function (Blueprint $table) {
+        Schema::create('certificacions', function (Blueprint $table) {
             $table->id();
-            $table->string('numero_ficha');
-            $table->foreignId('programa_formacion_id')
-                  ->constrained('programa_formacions')
+            $table->foreignId('aprendiz_id')
+                  ->constrained('aprendizs')
                   ->onDelete('cascade');
+            $table->string('certificacion_ape');
+            $table->string('devolucion_carnet');
+            $table->string('certificado_tyt');
+            $table->string('solicitud_certificacion');
+            $table->string('observaciones');
             $table->timestamps();
         });
     }
@@ -26,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('fichas');
+        Schema::dropIfExists('certificacions');
     }
 };

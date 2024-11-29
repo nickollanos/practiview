@@ -96,6 +96,7 @@ class UsuarioFactory extends Factory
                 $aprendiz = Aprendiz::firstOrNew(['usuario_id' => $usuario->id]);
                 if (!$aprendiz->exists) {
                     $aprendiz->ficha_id = fake()->randomElement([1, 2]);
+                    $aprendiz->estado_aprendiz_id = fake()->randomElement([1, 2, 3, 4]);
                     $aprendiz->save();
                 }
             } elseif ($perfil->perfil === 'jefe inmediato') {

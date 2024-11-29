@@ -17,6 +17,9 @@ return new class extends Migration
             $table->string('numero_nit');
             $table->string('telefono');
             $table->string('direccion');
+            $table->foreignId('zona_id')
+                  ->constrained('zonas')
+                  ->onDelete('cascade');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->foreignId('estado_id')
