@@ -19,7 +19,7 @@ class AprendizController extends Controller
     public function index()
     {
             $aprendices = Usuario::with(['estado', 'perfiles'])
-        
+
             ->whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz'); // Cambia 'perfil' por la columna correcta en tu tabla `perfils`
             })
@@ -38,7 +38,7 @@ class AprendizController extends Controller
                 return [$item->estadoAprendiz->nombre => $item->cantidad];
             });
             //dd($aprendicesPorEstado);
-    
+
             return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
     }
 
@@ -97,4 +97,12 @@ class AprendizController extends Controller
                 ->with('message' . 'The usuario: ' . $usuario->fullname . ' was successfully added!');
         }
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->q;
+        $aprendices = Usuario::query()->aprendiz()->names($query, $query)->paginate(8);
+        return view('aprendiz.search', compact('aprendices'))->render();
+    }
+
 }

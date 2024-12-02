@@ -47,4 +47,5 @@ class Aprendiz extends Model
     {
         return $this->hasOne(Certificacion::class);
     }
+
 }

@@ -43,7 +43,6 @@ class UsuarioFactory extends Factory
 
         return [
             'nombre'              => $nombre,
-            'apellido'            => fake()->lastName(),
             'tipo_documento_id'   => fake()->randomElement([1, 2, 3, 4, 5]),
             'numero_documento'    => fake()->isbn13(),
             'fecha_nacimiento'    => fake()->dateTimeBetween('1974-01-01', '2024-12-31'),
@@ -54,7 +53,6 @@ class UsuarioFactory extends Factory
             'estado_id'           => fake()->randomElement([1, 2]),
             'direccion'           => fake()->address(),
             'password'            => static::$password ??= Hash::make('12345'),
-            'firma'               => 'no-photo.png',
             'foto_perfil'         => 'no-photo.png',
             'remember_token'      => Str::random(10),
         ];

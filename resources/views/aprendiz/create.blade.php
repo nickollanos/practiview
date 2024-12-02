@@ -4,11 +4,11 @@
 
 @section('content')
 
-    <main class="container flex items-start justify-center mb-8">
-        <div class="flex flex-col items-center justify-center w-full py-8">
+    <main class="container flex items-start justify-center mb-16 mt-1">
+        <div class="flex flex-col items-center justify-center w-full">
             <div
                 class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 sm:mb-0 border border-solid border-[#059212]">
-                <form action="{{ route('login') }}" method="POST">
+                <form action="{{ route('aprendiz.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @if (count($errors->all()) > 0)
                         <ul class="text-red-500 text-sm mb-4">
@@ -36,96 +36,139 @@
                     </div>
 
                     <!-- Campo Nombre -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-nombre.svg') }}" alt="Nombre" class="w-10 h-10">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">NombreCompleto:</label>
                         </div>
-                        <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-nombre.svg') }}" alt="Nombre" class="w-10 h-10">
+                            </div>
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
                     </div>
 
+
                     <!-- Tipo de documento -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-documento.svg') }}" alt="Document" class="c">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Tipo de Documento:</label>
                         </div>
-                        <select name="tipo_documento_id" id="tipo_documento_id" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
-                            <option value="">Tipo de Documento</option>
-                            <option value="CC">Cedula de Ciudadania</option>
-                            <option value="CE">Cedula de Extranjeria</option>
-                            <option value="PP">Pasaporte</option>
-                            <option value="TI">Tarjeta de Identidad</option>
-                            <option value="RC">Registro Civil</option>
-                        </select>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-documento.svg') }}" alt="Document" class="c">
+                            </div>
+                            <select name="tipo_documento_id" id="tipo_documento_id" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                <option value="">Tipo de Documento</option>
+                                @foreach ($tipo_documentos as $tipo_documento)
+                                <option value="{{ $tipo_documento['id'] }}">
+                                    {{ $tipo_documento['detalle'] }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
                     <!-- numero documento -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-doc.svg') }}" alt="doc" class="w-8 h-10">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Número de Documento:</label>
                         </div>
-                        <input type="text" name="numero_documento" id="numero_documento"
-                            placeholder="Número de Documento" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-doc.svg') }}" alt="doc" class="w-8 h-10">
+                            </div>
+                            <input type="text" name="numero_documento" id="numero_documento"
+                                placeholder="Número de Documento" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
                     </div>
 
                     <!-- Campo Fecha nacimiento -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-fecha.svg') }}" alt="fecha" class="w-10 h-10">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Fecha de Nacimiento:</label>
                         </div>
-                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"
-                            placeholder="Fecha de Nacimiento" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-fecha.svg') }}" alt="fecha" class="w-10 h-10">
+                            </div>
+                            <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"
+                                placeholder="Fecha de Nacimiento" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
                     </div>
 
                     <!-- Campo Numero de telefono -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-telefono.svg') }}" alt="telefono" class="w-8 h-8">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Número de Telefono:</label>
                         </div>
-                        <input type="text" name="telefono" id="telefono" placeholder="Número de Teléfono" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-telefono.svg') }}" alt="telefono" class="w-8 h-8">
+                            </div>
+                            <input type="text" name="telefono" id="telefono" placeholder="Número de Teléfono" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
                     </div>
 
                     <!-- Campo Correo -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-emails.svg') }}" alt="email" class="w-8 h-8">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Correo Electrónico:</label>
                         </div>
-                        <input type="email" name="email" id="email" placeholder="Correo Electrónico" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-emails.svg') }}" alt="email" class="w-8 h-8">
+                            </div>
+                            <input type="email" name="email" id="email" placeholder="Correo Electrónico" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
                     </div>
 
                     <!-- Campo Sexo -->
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Genero:</label>
                         </div>
-                        <select name="sexo_id" id="sexo_id" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
-                            <option value="">Sexo</option>
-                            <option value="M">Masculino</option>
-                            <option value="F">Femennino</option>
-                            <option value="O">Otros</option>
-                        </select>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
+                            </div>
+                            <select name="sexo_id" id="sexo_id" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                <option value="">Genero</option>
+                                @foreach ($sexos as $sexo)
+                                <option value="{{ $sexo['id'] }}">
+                                    {{ $sexo['nombre'] }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
                     </div>
 
-                    <div
-                        class="bg-[#EBE9D6] mt-4 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-direccion.svg') }}" alt="direccion" class="w-8 h-8">
+                    <!-- Campo Direccion -->
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Dirección:</label>
                         </div>
-                        <input type="text" name="direccion" id="direccion" placeholder="Dirección" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-direccion.svg') }}" alt="direccion" class="w-8 h-8">
+                            </div>
+                            <input type="text" name="direccion" id="direccion" placeholder="Dirección" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
                     </div>
 
                     <!-- Botón Ingresar -->
@@ -133,6 +176,16 @@
                         <button type="submit"
                             class="bg-[#059212] hover:bg-green-700 text-white font-bold font-poppins py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[15rem]">
                             Agregar Usuario
+                        </button>
+                    </div>
+
+                    <!-- Botón Cancelar -->
+                    <div class="flex justify-center mt-4">
+                        <button type="submit"
+                            class="bg-[#6b6d6b] hover:bg-[#8c8f8c] text-white font-bold font-poppins py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[15rem]">
+                            <a href="{{ url()->previous() }}">
+                                Cancelar
+                            </a>
                         </button>
                     </div>
                 </form>

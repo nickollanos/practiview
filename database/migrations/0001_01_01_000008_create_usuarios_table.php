@@ -14,7 +14,6 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
-            $table->string('apellido');
             $table->foreignId('tipo_documento_id')
                   ->constrained('tipo_documentos')
                   ->onDelete('cascade');
@@ -31,7 +30,6 @@ return new class extends Migration
                   ->onDelete('cascade');
             $table->string('direccion');
             $table->string('password');
-            $table->string('firma')->default('no-photo.png');
             $table->string('foto_perfil')->default('no-photo.png');
             $table->rememberToken();
             $table->timestamps();

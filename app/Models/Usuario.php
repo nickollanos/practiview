@@ -19,7 +19,6 @@ class Usuario extends Authenticatable
      */
     protected $fillable = [
         'nombre',
-        'apellido',
         'tipo_documento_id',
         'numero_documento',
         'fecha_nacimiento',
@@ -29,7 +28,6 @@ class Usuario extends Authenticatable
         'estado_id',
         'direccion',
         'password',
-        'firma',
         'foto_perfil'
     ];
 
@@ -103,4 +101,39 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(Jefe_Inmediato::class);
     }
+
+    public function scopeNames($query, $q)
+    {
+        if (trim($q)) {
+            $query->where('nombre', 'LIKE', "%$q%");
+        }
+    }
+    /**
+     * Scope para filtrar usuarios administradores.
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'administrador');
+        });
+    }
+    /**
+     * Scope para filtrar usuarios aprendices.
+     */
+    public function scopeAprendiz($query)
+    {
+        return $query->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'aprendiz');
+        });
+    }
+    /**
+     * Scope para filtrar usuarios intructores.
+     */
+    public function scopeInstructor($query)
+    {
+        return $query->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'instructor');
+        });
+    }
+
 }

@@ -4,8 +4,8 @@
 
 @section('content')
 
-<main class="container flex items-start justify-center mb-8 h-screen">
-<div class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 border border-solid border-[#059212]">
+<main class="container flex items-start justify-center h-screen">
+    <div class="bg-white shadow-lg rounded-lg p-4 max-w-md mx-auto mt-4 border border-solid border-[#059212]">
     <form action="{{ route('login') }}" method="POST">
         @csrf
         @if ( count( $errors->all()) > 0 )
@@ -68,7 +68,7 @@
             </button>
         </div>
     </form>
-</div>
+    </div>
 
 </main>
 
