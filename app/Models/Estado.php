@@ -22,7 +22,7 @@ class Estado extends Model
     //Relationship: un estado tiene muchos usuarios
     public function usuario()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->hasMany(Usuario::class, 'estado_id', 'id');
     }
 
     //Relationship: un estado tiene muchas empresas

@@ -16,6 +16,7 @@ class EstadoAprendizSeeder extends Seeder
         $estados = [
             ['nombre'    => 'Lectiva'],
             ['nombre'    => 'Productiva'],
+            ['nombre'    => 'Certificado'],
             ['nombre'    => 'Cancelado'],
             ['nombre'    => 'Retirado'],
          ];

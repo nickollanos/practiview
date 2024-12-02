@@ -135,7 +135,7 @@
             <div class="mt-8 flex justify-center">
                 <button
                     class="px-12 py-2 bg-[#059212] text-white font-semibold rounded-lg shadow-md hover:bg-[#047a0c] transition duration-300">
-                    <a href="{{ url('aprendiz.edit') }}">
+                    <a href="{{ url('/') }}">
                         Regresar
                     </a>
                 </button>

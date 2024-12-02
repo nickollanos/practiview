@@ -8,6 +8,7 @@ use App\Models\Perfil;
 use App\Models\Sexo;
 use App\Models\Tipo_documento;
 use App\Models\Usuario;
+use App\Models\Aprendiz;
 use Illuminate\Http\Request;
 
 class AprendizController extends Controller
@@ -17,13 +18,28 @@ class AprendizController extends Controller
      */
     public function index()
     {
-        //$users = User::all();
-        $aprendices = Usuario::whereHas('perfils', function($query) {
-            $query->where('perfil', 'aprendiz'); // Cambia 'nombre' por la columna que identifica el perfil
-        })->paginate(5);
+            $aprendices = Usuario::with(['estado', 'perfiles'])
+        
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz'); // Cambia 'perfil' por la columna correcta en tu tabla `perfils`
+            })
+            ->paginate(8);
+            // dd($aprendices->toArray());
 
-        return view('aprendiz.index')->with('aprendices', $aprendices);
+            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })->count();
 
+            $aprendicesPorEstado = Aprendiz::selectRaw('estado_aprendiz_id, COUNT(*) as cantidad')
+            ->groupBy('estado_aprendiz_id') // Agrupar por estado_aprendiz_id
+            ->with('estadoAprendiz') // Cargar los datos del estado
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->estadoAprendiz->nombre => $item->cantidad];
+            });
+            //dd($aprendicesPorEstado);
+    
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
     }
 
     /**

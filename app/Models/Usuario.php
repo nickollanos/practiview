@@ -71,13 +71,13 @@ class Usuario extends Authenticatable
     //Relationship: muchos usuarios tienen un estado
     public function estado()
     {
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, 'estado_id', 'id');
     }
 
     //Relationship:muchos usuarios tienen muchos perfiles
     public function perfiles()
     {
-        return $this->belongsToMany(Perfil::class, 'perfil_usuarios');
+        return $this->belongsToMany(Perfil::class, 'perfil_usuarios', 'usuario_id', 'perfil_id');
     }
 
     //Relationship: muchos usuario son un admin

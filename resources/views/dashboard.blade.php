@@ -67,7 +67,7 @@
                 <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Aprendices: 15</h1>
                 <!-- Botón -->
                 <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg">
-                <a href="{{url('aprendiz.index')}}">
+                <a href="{{ url('aprendiz') }}">
                     Ver Detalle
                 </a>
                 </button>
@@ -91,7 +91,7 @@
                 <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Instructores: 15</h1>
                 <!-- Botón -->
                 <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg">
-                <a href="{{url('aprendiz.index')}}">
+                <a href="{{ url('instructor') }}">
                     Ver Detalle
                 </a>
                 </button>
@@ -115,7 +115,7 @@
                 <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Empresas: 15</h1>
                 <!-- Botón -->
                 <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg">
-                <a href="{{url('aprendiz.index')}}">
+                <a href="{{ url('empresa') }}">
                     Ver Detalle
                 </a>
                 </button>
@@ -137,7 +137,7 @@
             <div class="px-4 pb-6">
                 <!-- Botón -->
                 <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg mt-10">
-                <a href="{{url('aprendiz.index')}}">
+                <a href="{{url('estadistica')}}">
                     Ver Detalle
                 </a>
                 </button>

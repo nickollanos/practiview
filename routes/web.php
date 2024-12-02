@@ -9,11 +9,21 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('aprendiz', function () {
+    return view('aprendiz');
+});
+
 Route::get('/dashboard', function () {
-    return view('aprendiz.show');
+    return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
+Route::get('instructor', [InstructorController::class, 'index'])->name('instructor.index');
+Route::get('aprendiz', [aprendizController::class, 'index'])->name('aprendiz.index');
+
 Route::middleware('auth')->group(function () {
+    Route::get('myprofile', function () {
+        return view('myprofile');
+    });
     // Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     // Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     // Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
