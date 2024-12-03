@@ -101,7 +101,18 @@ class AprendizController extends Controller
     public function search(Request $request)
     {
         $query = $request->q;
-        $aprendices = Usuario::query()->aprendiz()->names($query, $query)->paginate(8);
+
+        // Realiza la búsqueda de aprendices
+        $aprendices = Usuario::query()
+        ->with(['estado', 'perfiles'])
+        ->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'aprendiz');
+        })
+        ->where(function ($q) use ($query) {
+            $q->where('nombre', 'LIKE', "%$query%")
+              ->orWhere('apellido', 'LIKE', "%$query%");
+        })
+        ->paginate(8);
         return view('aprendiz.search', compact('aprendices'))->render();
     }
 

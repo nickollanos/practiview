@@ -239,40 +239,31 @@
         //------------------------------------------
         //------------------------
 
-        $('body').on('keyup', '#qsearch', function(e) {
-            e.preventDefault();
+        $('body').on('keyup', '#qsearch', function (e) {
+    e.preventDefault();
 
-            // Obtener el valor del input de búsqueda
-            var searchQuery = $(this).val();
-            var _token = $('input[name=_token]').val();
-            var model = 'aprendiz';
+    let searchQuery = $(this).val();
+    let _token = $('meta[name="csrf-token"]').attr('content');
 
-            $('.agregar').addClass('hidden');
-            $('.loader').removeClass('hidden'); // Muestra el loader
-            $('#list').hide(); // Oculta la lista de resultados
+    $('.loader').removeClass('hidden'); // Muestra el loader
+    $('#list').hide(); // Oculta la lista de resultados
 
-            // Simular un retraso en la búsqueda (puedes quitar el setTimeout si no es necesario)
-            setTimeout(() => {
-                // Realizar la petición AJAX al controlador
-                $.post(model + '/search', {
-                    q: searchQuery,
-                    _token: _token
-                }, function(data) {
-                    $('#list').html(data); // Coloca los datos en la lista
-                    $('.agregar').removeClass('hidden');
-                    $('.loader').addClass('hidden'); // Oculta el loader
-                    $('#list').fadeIn('slow'); // Muestra la lista con un efecto de desvanecimiento
+    $.ajax({
+        url: '/aprendiz/search',
+        method: 'POST',
+        data: { q: searchQuery, _token: _token },
+        success: function (data) {
+            $('#list').html(data); // Actualiza el contenedor con los datos
+            $('.loader').addClass('hidden'); // Oculta el loader
+            $('#list').fadeIn('slow'); // Muestra la lista con animación
+        },
+        error: function (xhr) {
+            console.error('Error en la búsqueda:', xhr);
+        },
+    });
+});
 
-                    var pagination = $('.pagination');
-                    if (pagination.length) {
-                        pagination.find('a').each(function() {
-                            var url = $(this).attr('href');
-                            $(this).attr('href', url + '?q=' + searchQuery); // Mantener el término de búsqueda en la URL
-                        });
-                    }
-                });
 
-            }, 1000); // Retraso de 1 segundo para simular un retardo
-        });
+
     </script>
 @endsection
