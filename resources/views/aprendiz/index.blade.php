@@ -35,18 +35,18 @@
 
                 <!-- Contenedor para el logo de usuario con menú desplegable -->
                 <div class="flex items-center relative">
-                    <img src="{{ asset('images/logoUser.svg') }}" alt="LogoUser"
+                    <img src="{{ asset('images') . '/' . Auth::user()->foto_perfil }}" alt="LogoUser"
                         class="w-10 h-10 rounded-full cursor-pointer" id="user-menu-button">
 
                     <!-- Menú desplegable del usuario -->
                     <div class="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md hidden" id="user-menu">
                         <div class="px-4 py-2">
-                            <h2 class="font-bold">Nombre de Usuario</h2>
-                            <h2 class="text-gray-600">Rol: Administrador</h2>
+                            <h2 class="font-bold">{{ Auth::user()->nombre }}</h2>
+                            <h2 class="text-gray-600">Rol: {{ Auth::user()->perfiles->first()->perfil }}</h2>
                         </div>
                         <ul>
                             <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li>
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/menu-principal">Menú
+                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="{{ url('dashboard') }}">Menú
                                     principal</a></li>
                             <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
                                 <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
@@ -108,7 +108,7 @@
 
 
         <!-- Botón para agregar aprendiz -->
-        <div class="agregar flex items-center justify-center space-x-4 space-y-2 p-1 max-h-14 mt-1">
+        <div id="agregar" class="agregar flex items-center justify-center space-x-4 space-y-2 p-1 max-h-14 mt-1">
             <a href="{{ url('aprendiz/create') }}"
                 class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
                 <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
@@ -131,7 +131,7 @@
                         class="flex items-start space-x-4 bg-white shadow-lg rounded-lg p-1 max-h-44 border border-solid border-[#059212]">
                         <!-- Imagen circular -->
                         <div class="w-16 h-16 rounded-full overflow-hidden">
-                            <img src="{{ $aprendiz->foto_perfil }}" alt="Usuario" class="w-full h-full object-cover">
+                            <img src="{{ asset('images/' .  $aprendiz->foto_perfil) }}" alt="Usuario" class="w-full h-full object-cover">
                         </div>
 
                         <!-- Información -->
@@ -181,42 +181,45 @@
                 @endforeach
             </div>
 
+            <div id="pagination">
+                <div class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
+                    <div
+                        class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
+                        @if ($aprendices->hasPages())
+                            <nav role="navigation" aria-label="Pagination Navigation"
+                                class="flex items-center justify-center space-x-4">
+                                @if ($aprendices->onFirstPage())
+                                    <span class="cursor-not-allowed">
+                                        <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda"
+                                            class="w-4 h-4">
+                                    </span>
+                                @else
+                                    <a href="{{ $aprendices->previousPageUrl() }}">
+                                        <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda"
+                                            class="w-4 h-4">
+                                    </a>
+                                @endif
 
-            <div id="pagination" class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
-                <div
-                    class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
-                    @if ($aprendices->hasPages())
-                        <nav role="navigation" aria-label="Pagination Navigation"
-                            class="flex items-center justify-center space-x-4">
-                            @if ($aprendices->onFirstPage())
-                                <span class="cursor-not-allowed">
-                                    <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda"
-                                        class="w-4 h-4">
+                                <span class="text-gray-700 font-bold">
+                                    Página {{ $aprendices->currentPage() }} de {{ $aprendices->lastPage() }}
                                 </span>
-                            @else
-                                <a href="{{ $aprendices->previousPageUrl() }}">
-                                    <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda" class="w-4 h-4">
-                                </a>
-                            @endif
 
-                            <span class="text-gray-700 font-bold">
-                                Página {{ $aprendices->currentPage() }} de {{ $aprendices->lastPage() }}
-                            </span>
-
-                            @if ($aprendices->hasMorePages())
-                                <a href="{{ $aprendices->nextPageUrl() }}">
-                                    <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha" class="w-4 h-4">
-                                </a>
-                            @else
-                                <span class="cursor-not-allowed">
-                                    <img src="{{ asset('images/derecha-icong.svg') }}" alt="derecha" class="w-4 h-4">
-                                </span>
-                            @endif
-                        </nav>
-                    @endif
+                                @if ($aprendices->hasMorePages())
+                                    <a href="{{ $aprendices->nextPageUrl() }}">
+                                        <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha"
+                                            class="w-4 h-4">
+                                    </a>
+                                @else
+                                    <span class="cursor-not-allowed">
+                                        <img src="{{ asset('images/derecha-icong.svg') }}" alt="derecha"
+                                            class="w-4 h-4">
+                                    </span>
+                                @endif
+                            </nav>
+                        @endif
+                    </div>
                 </div>
             </div>
-
 
         </section>
 
@@ -257,6 +260,7 @@
 
             $('.loader').removeClass('hidden'); // Muestra el loader
             $('#list').hide(); // Oculta la lista de resultados
+            $('#agregar').hide();
 
             $.ajax({
                 url: '/aprendiz/search',
@@ -266,9 +270,13 @@
                     _token: _token
                 },
                 success: function(data) {
+                    console.log(data);
+
                     $('#list').html(data); // Actualiza el contenedor con los datos
+                    //$('#pagination').html(data);
                     $('.loader').addClass('hidden'); // Oculta el loader
                     $('#list').fadeIn('slow'); // Muestra la lista con animación
+                    $('#agregar').fadeIn('slow');
                 },
                 error: function(xhr) {
                     console.error('Error en la búsqueda:', xhr);
