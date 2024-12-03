@@ -123,8 +123,8 @@
             </div>
         </div>
         <!-- Tarjetas inferiores -->
-        <div id="list">
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
+        <section>
+            <div id="list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
                 @foreach ($aprendices as $aprendiz)
                     <!-- Fila 1 -->
                     <div
@@ -143,7 +143,8 @@
 
                             <!-- Tarjeta 2 -->
                             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->estado->estado }}</h1>
+                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->estado->estado }}
+                                </h1>
                             </div>
 
                             <!-- Tarjeta 3 -->
@@ -163,10 +164,15 @@
                                     </div>
                                     <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                        <a href="{{ url('aprendiz.delete', $aprendiz->id) }}">
+                                        <a href="javascript:;" data-fullname="{{ $aprendiz->nombre }}">
                                             <img src="{{ asset('images/delete-icon.svg') }}" alt="Eliminar"
                                                 class="w-4 h-4">
                                         </a>
+                                        <form action="{{ url('aprendiz.delete', $aprendiz->id) }}" method="POST"
+                                            style="display: none">
+                                            @csrf
+                                            @method('delete')
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -175,7 +181,8 @@
                 @endforeach
             </div>
 
-            <div class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
+
+            <div id="pagination" class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
                 <div
                     class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
                     @if ($aprendices->hasPages())
@@ -183,7 +190,8 @@
                             class="flex items-center justify-center space-x-4">
                             @if ($aprendices->onFirstPage())
                                 <span class="cursor-not-allowed">
-                                    <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
+                                    <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda"
+                                        class="w-4 h-4">
                                 </span>
                             @else
                                 <a href="{{ $aprendices->previousPageUrl() }}">
@@ -208,7 +216,9 @@
                     @endif
                 </div>
             </div>
-        </div>
+
+
+        </section>
 
     </main>
 
@@ -239,31 +249,31 @@
         //------------------------------------------
         //------------------------
 
-        $('body').on('keyup', '#qsearch', function (e) {
-    e.preventDefault();
+        $('body').on('keyup', '#qsearch', function(e) {
+            e.preventDefault();
 
-    let searchQuery = $(this).val();
-    let _token = $('meta[name="csrf-token"]').attr('content');
+            let searchQuery = $(this).val();
+            let _token = $('meta[name="csrf-token"]').attr('content');
 
-    $('.loader').removeClass('hidden'); // Muestra el loader
-    $('#list').hide(); // Oculta la lista de resultados
+            $('.loader').removeClass('hidden'); // Muestra el loader
+            $('#list').hide(); // Oculta la lista de resultados
 
-    $.ajax({
-        url: '/aprendiz/search',
-        method: 'POST',
-        data: { q: searchQuery, _token: _token },
-        success: function (data) {
-            $('#list').html(data); // Actualiza el contenedor con los datos
-            $('.loader').addClass('hidden'); // Oculta el loader
-            $('#list').fadeIn('slow'); // Muestra la lista con animación
-        },
-        error: function (xhr) {
-            console.error('Error en la búsqueda:', xhr);
-        },
-    });
-});
-
-
-
+            $.ajax({
+                url: '/aprendiz/search',
+                method: 'POST',
+                data: {
+                    q: searchQuery,
+                    _token: _token
+                },
+                success: function(data) {
+                    $('#list').html(data); // Actualiza el contenedor con los datos
+                    $('.loader').addClass('hidden'); // Oculta el loader
+                    $('#list').fadeIn('slow'); // Muestra la lista con animación
+                },
+                error: function(xhr) {
+                    console.error('Error en la búsqueda:', xhr);
+                },
+            });
+        });
     </script>
 @endsection

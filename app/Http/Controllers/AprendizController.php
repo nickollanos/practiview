@@ -109,8 +109,7 @@ class AprendizController extends Controller
             $q->where('perfil', 'aprendiz');
         })
         ->where(function ($q) use ($query) {
-            $q->where('nombre', 'LIKE', "%$query%")
-              ->orWhere('apellido', 'LIKE', "%$query%");
+            $q->where('nombre', 'LIKE', "%$query%");
         })
         ->paginate(8);
         return view('aprendiz.search', compact('aprendices'))->render();
