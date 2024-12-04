@@ -152,7 +152,7 @@
                                 <div class="flex items-center justify-center space-x-4">
                                     <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                        <a href="{{ url('aprendiz.show', $aprendiz->id) }}">
+                                        <a href="{{ url('aprendiz/' . $aprendiz->id) }}">
                                             <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
                                         </a>
                                     </div>

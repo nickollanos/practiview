@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -15,7 +16,10 @@ Route::get('aprendiz', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'aprendiz');
+    })->count();
+    return view('dashboard', compact('cantidadAprendices'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -26,12 +30,15 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
+    Route::post('aprendiz/search', [AprendizController::class, 'search']);
+
     Route::resources([
         'usuarios' => UsuarioController::class,
         'aprendiz' => AprendizController::class,
 ]);
 });
 
-Route::post('aprendiz/search', [AprendizController::class, 'search']);
+
 
 require __DIR__.'/auth.php';

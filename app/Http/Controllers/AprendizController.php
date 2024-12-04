@@ -19,12 +19,13 @@ class AprendizController extends Controller
      */
     public function index()
     {
-            $aprendices = Usuario::with(['estado', 'perfiles'])
+            $aprendices = Usuario::select('usuarios.*') // Asegura que todos los campos de usuarios sean seleccionados
+            ->with(['estado', 'perfiles']) // Carga las relaciones necesarias
             ->whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz'); // Cambia 'perfil' por la columna correcta en tu tabla `perfils`
+                $query->where('perfil', 'aprendiz'); // Filtra usuarios con el perfil 'aprendiz'
             })
             ->paginate(8);
-            // dd($aprendices->toArray());
+            //dd($aprendices->toArray());
 
             $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
@@ -58,15 +59,12 @@ class AprendizController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
         if ($request->hasFile('foto_perfil')) {
             $image = $request->file('foto_perfil');
             $foto_perfil = time() . '.' . $image->getClientOriginalExtension();
-            Storage::disk('public')->put($foto_perfil, $image);
-            // $foto_perfil = time() . '.' . $request->foto_perfil->extension();
-            // $request->foto_perfil->storeAs('public/images', $foto_perfil);
-        }else{
-            $foto_perfil = 'no-photo.png';
+            $image->move(public_path('images'), $foto_perfil); // Mueve la imagen a public/images
+        } else {
+            $foto_perfil = 'no-photo.png'; // Imagen predeterminada
         }
 
         $usuario = new Usuario();
@@ -106,6 +104,15 @@ class AprendizController extends Controller
         ->paginate(8);
         return view('aprendiz.search', compact('aprendices'))->render();
         return view('aprendiz.index', compact('aprendices'))->render();
+    }
+
+    public function show(Aprendiz $aprendiz)
+    {
+        dd($aprendiz->toArray());
+        $usuario = Usuario::where('id', $aprendiz->usuario_id)->first();
+        dd($usuario->toArray());
+        //return view('aprendiz.show')
+                //->with('aprendiz',$aprendiz);
     }
 
 }
