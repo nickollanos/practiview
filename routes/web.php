@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\Empresa;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 
@@ -18,8 +19,17 @@ Route::get('aprendiz', function () {
 Route::get('/dashboard', function () {
     $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
-    })->count();
-    return view('dashboard', compact('cantidadAprendices'));
+    })
+    ->where('estado_id', 1)
+    ->count();
+    $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'instructor');
+    })
+    ->where('estado_id', 1)
+    ->count();
+    $numeroEmpresas = Empresa::where('estado_id', 1)->count();
+
+    return view('dashboard', compact('cantidadAprendices', 'cantidadInstructores', 'numeroEmpresas'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

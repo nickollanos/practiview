@@ -207,3 +207,76 @@
 @empty
 No found 🤒
 @endforelse
+
+
+src="{{ asset('images/' .  $usuario->foto_perfil) }}"
+
+<div id="pagination">
+    <div class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
+        <div
+            class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
+            @if ($aprendices->hasPages())
+                <nav role="navigation" aria-label="Pagination Navigation"
+                    class="flex items-center justify-center space-x-4">
+                    @if ($aprendices->onFirstPage())
+                        <span class="cursor-not-allowed">
+                            <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda"
+                                class="w-4 h-4">
+                        </span>
+                    @else
+                        <a href="{{ $aprendices->previousPageUrl() }}">
+                            <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda"
+                                class="w-4 h-4">
+                        </a>
+                    @endif
+
+                    <span class="text-gray-700 font-bold">
+                        Página {{ $aprendices->currentPage() }} de {{ $aprendices->lastPage() }}
+                    </span>
+
+                    @if ($aprendices->hasMorePages())
+                        <a href="{{ $aprendices->nextPageUrl() }}">
+                            <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha"
+                                class="w-4 h-4">
+                        </a>
+                    @else
+                        <span class="cursor-not-allowed">
+                            <img src="{{ asset('images/derecha-icong.svg') }}" alt="derecha"
+                                class="w-4 h-4">
+                        </span>
+                    @endif
+                </nav>
+            @endif
+        </div>
+    </div>
+</div>
+
+
+public function index()
+    {
+            $aprendices = Usuario::select('usuarios.*') // Asegura que todos los campos de usuarios sean seleccionados
+            ->with(['estado', 'perfiles']) // Carga las relaciones necesarias
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz'); // Filtra usuarios con el perfil 'aprendiz'
+            })
+            ->where('estado_id', 1)
+            ->paginate(8);
+            //dd($aprendices->toArray());
+
+            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 1)
+            ->count();
+
+            $aprendicesPorEstado = Aprendiz::selectRaw('estado_aprendiz_id, COUNT(*) as cantidad')
+            ->groupBy('estado_aprendiz_id') // Agrupar por estado_aprendiz_id
+            ->with('estadoAprendiz') // Cargar los datos del estado
+            ->get()
+            ->mapWithKeys(function ($item) {
+                return [$item->estadoAprendiz->nombre => $item->cantidad];
+            });
+            //dd($aprendicesPorEstado);
+
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
+    }

@@ -22,7 +22,7 @@ class Ficha extends Model
     //Relationship: una ficha tiene muchos programa de formacion
     public function programa_formacion()
     {
-        return $this->hasMany(Programa_formacion::class);
+        return $this->belongsTo(Programa_formacion::class, 'programa_formacion_id', 'id');
     }
 
     //Relationship: una ficha tiene muchos instructores
@@ -34,6 +34,6 @@ class Ficha extends Model
     //Relationship: una ficha tiene un aprendiz
     public function aprendiz()
     {
-        return $this->hasOne(Aprendiz::class);
+        return $this->hasOne(Aprendiz::class, 'ficha_id', 'id');
     }
 }

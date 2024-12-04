@@ -2,7 +2,7 @@
     <div
         class="flex items-start space-x-4 bg-white shadow-lg rounded-lg p-1 max-h-44 border border-solid border-[#059212]">
         <div class="w-16 h-16 rounded-full overflow-hidden">
-            <img src="{{ $aprendiz->foto_perfil }}" alt="Usuario" class="w-full h-full object-cover">
+            <img src="{{ asset('images/' .  $aprendiz->foto_perfil) }}" alt="Usuario" class="w-full h-full object-cover">
         </div>
         <div class="flex flex-col space-y-2">
             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">

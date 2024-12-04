@@ -5,62 +5,7 @@
 @section('content')
 
     <!-- Navbar -->
-    <nav class="bg-white p-2 fixed top-0 left-0 w-full z-10 shadow-md">
-        <!-- Contenedor de todo el navbar -->
-        <div class="flex items-center justify-between w-full">
-
-            <!-- Logo a la izquierda -->
-            <div class="flex items-center space-x-2">
-                <img src="{{ asset('images/sena.png') }}" alt="LogoSena" class="w-12 h-12">
-            </div>
-
-            <!-- Barra de búsqueda centrada -->
-            <div class="flex items-center justify-center flex-1 mx-4">
-                <div class="flex items-center bg-white rounded-lg max-w-md w-full border border-solid border-[#059212]">
-                    <!-- Logo dentro de la barra de búsqueda -->
-                    <img src="{{ asset('images/ico-search.svg') }}" alt="Buscar" class="w-6 h-6 mr-3">
-                    <!-- Input de búsqueda -->
-                    <input type="text" placeholder="Buscar..."
-                        class="w-full py-2 px-3 text-gray-700 font-poppins rounded-lg border-none" name="qsearch"
-                        id="qsearch">
-                </div>
-            </div>
-
-            <!-- Contenedor para los logos a la derecha -->
-            <div class="flex items-center space-x-6">
-                <!-- Contenedor para el logo de notificaciones -->
-                <div class="flex items-center">
-                    <img src="{{ asset('images/logoNoti.svg') }}" alt="LogoNoti" class="w-10 h-10 rounded-full">
-                </div>
-
-                <!-- Contenedor para el logo de usuario con menú desplegable -->
-                <div class="flex items-center relative">
-                    <img src="{{ asset('images') . '/' . Auth::user()->foto_perfil }}" alt="LogoUser"
-                        class="w-10 h-10 rounded-full cursor-pointer" id="user-menu-button">
-
-                    <!-- Menú desplegable del usuario -->
-                    <div class="absolute right-0 top-full mt-2 w-48 bg-white shadow-lg rounded-md hidden" id="user-menu">
-                        <div class="px-4 py-2">
-                            <h2 class="font-bold">{{ Auth::user()->nombre }}</h2>
-                            <h2 class="text-gray-600">Rol: {{ Auth::user()->perfiles->first()->perfil }}</h2>
-                        </div>
-                        <ul>
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li>
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="{{ url('dashboard') }}">Menú
-                                    principal</a></li>
-                            <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">
-                                <form id="logout" action="{{ route('logout') }}" method="POST" class="inline">
-                                    @csrf
-                                    <button type="submit" class="w-full text-left">Cerrar sesión</button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </nav>
+    @include('layouts.navsearch')
 
 
     <!-- Main Content (con margen superior suficiente para el navbar fijo) -->
@@ -72,7 +17,7 @@
             <!-- Tarjeta -->
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices</h1>
+                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices Activos</h1>
                 <strong
                     class="text-3xl font-extraboldfont-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadAprendices }}</strong>
             </div>
@@ -130,7 +75,7 @@
                     <div
                         class="flex items-start space-x-4 bg-white shadow-lg rounded-lg p-1 max-h-44 border border-solid border-[#059212]">
                         <!-- Imagen circular -->
-                        <div class="w-16 h-16 rounded-full overflow-hidden">
+                        <div class="w-16 h-16 rounded-full border-[3px] border-solid border-[#059212] overflow-hidden">
                             <img src="{{ asset('images/' .  $aprendiz->foto_perfil) }}" alt="Usuario" class="w-full h-full object-cover">
                         </div>
 
@@ -158,17 +103,17 @@
                                     </div>
                                     <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                        <a href="{{ url('aprendiz.edit', $aprendiz->id) }}">
+                                        <a href="{{ url('aprendiz/' . $aprendiz->id . '/edit') }}">
                                             <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
                                         </a>
                                     </div>
                                     <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                        <a href="javascript:;" data-fullname="{{ $aprendiz->nombre }}">
+                                        <a href="javascript:;"  class="btn-delete" data-fullname="{{ $aprendiz->nombre }}">
                                             <img src="{{ asset('images/delete-icon.svg') }}" alt="Eliminar"
                                                 class="w-4 h-4">
                                         </a>
-                                        <form action="{{ url('aprendiz.delete', $aprendiz->id) }}" method="POST"
+                                        <form action="{{ url('aprendiz/' . $aprendiz->id) }}" method="POST"
                                             style="display: none">
                                             @csrf
                                             @method('delete')
@@ -183,43 +128,55 @@
 
             <div id="pagination">
                 <div class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
-                    <div
-                        class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
-                        @if ($aprendices->hasPages())
-                            <nav role="navigation" aria-label="Pagination Navigation"
-                                class="flex items-center justify-center space-x-4">
-                                @if ($aprendices->onFirstPage())
-                                    <span class="cursor-not-allowed">
-                                        <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda"
-                                            class="w-4 h-4">
-                                    </span>
-                                @else
-                                    <a href="{{ $aprendices->previousPageUrl() }}">
-                                        <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda"
-                                            class="w-4 h-4">
-                                    </a>
-                                @endif
+                    <div class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
+                        @if ($aprendices->lastPage() > 1)
+                            @if ($aprendices->hasPages())
+                                <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center space-x-4">
+                                    @if ($aprendices->onFirstPage())
+                                        <span class="cursor-not-allowed">
+                                            <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
+                                        </span>
+                                    @else
+                                        <a href="{{ $aprendices->previousPageUrl() }}">
+                                            <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda" class="w-4 h-4">
+                                        </a>
+                                    @endif
 
-                                <span class="text-gray-700 font-bold">
-                                    Página {{ $aprendices->currentPage() }} de {{ $aprendices->lastPage() }}
+                                    <span class="text-gray-700 font-bold">
+                                        Página {{ $aprendices->currentPage() }} de {{ $aprendices->lastPage() }}
+                                    </span>
+
+                                    @if ($aprendices->hasMorePages())
+                                        <a href="{{ $aprendices->nextPageUrl() }}">
+                                            <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha" class="w-4 h-4">
+                                        </a>
+                                    @else
+                                        <span class="cursor-not-allowed">
+                                            <img src="{{ asset('images/derecha-icong.svg') }}" alt="derecha" class="w-4 h-4">
+                                        </span>
+                                    @endif
+                                </nav>
+                            @endif
+                        @else
+                            <!-- Paginador estático con datos fijos -->
+                            <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center space-x-4">
+                                <span class="cursor-not-allowed">
+                                    <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
                                 </span>
 
-                                @if ($aprendices->hasMorePages())
-                                    <a href="{{ $aprendices->nextPageUrl() }}">
-                                        <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha"
-                                            class="w-4 h-4">
-                                    </a>
-                                @else
-                                    <span class="cursor-not-allowed">
-                                        <img src="{{ asset('images/derecha-icong.svg') }}" alt="derecha"
-                                            class="w-4 h-4">
-                                    </span>
-                                @endif
+                                <span class="text-gray-700 font-bold">
+                                    Página 1 de 1
+                                </span>
+
+                                <span class="cursor-not-allowed">
+                                    <img src="{{ asset('images/derecha-icong.svg') }}" alt="derecha" class="w-4 h-4">
+                                </span>
                             </nav>
                         @endif
                     </div>
                 </div>
             </div>
+
 
         </section>
 
@@ -229,8 +186,7 @@
 
 @endsection
 
-@section('footer')
-@endsection
+@include('layouts.footer')
 
 @section('js')
     <script>
@@ -282,6 +238,40 @@
                     console.error('Error en la búsqueda:', xhr);
                 },
             });
+        });
+        //--------------------------
+        //-------------------------
+        $(document).ready(function() {
+            //----------------------------
+            @if (session('message'))
+                Swal.fire({
+                    position: "top",
+                    title: '{{ session('message') }}',
+                    icon: "success",
+                    toast: true,
+                    timer: 5000
+                })
+            @endif
+            //--------------------------
+
+            $('.btn-delete').on('click', function() {
+                var $this = $(this);
+                var $fullname = $this.attr('data-fullname');
+                Swal.fire({
+                    title: "Estas seguro?",
+                    text: "Deseas desactivar a " + $fullname,
+                    icon: "",
+                    showCancelButton: true,
+                    confirmButtonColor: "#059212",
+                    cancelButtonColor: "#6b6d6b",
+                    confirmButtonText: "Si, desactivar",
+                    cancelButtonText: "Cancelar"
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $this.next('form').submit()
+                    }
+                });
+            })
         });
     </script>
 @endsection

@@ -33,7 +33,7 @@ class Aprendiz extends Model
     //Relationship: un aprendiz tiene una ficha
     public function ficha()
     {
-        return $this->hasOne(Ficha::class);
+        return $this->belongsTo(Ficha::class, 'ficha_id', 'id');
     }
 
     //Relationship: muchos usuarios tienen un estado
