@@ -24,7 +24,7 @@ class AprendizController extends Controller
             ->whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz'); // Filtra usuarios con el perfil 'aprendiz'
             })
-            //->where('estado_id', 1)
+            ->where('estado_id', 1)
             ->paginate(8);
             //dd($aprendices->toArray());
 
