@@ -78,6 +78,8 @@
             slotMinTime: '08:00',           // Hora mínima
             slotMaxTime: '17:00',           // Hora máxima
             events: @json($events),
+            themeSystem: 'bootstrap',
+            eventColor: '#059212', // Color verde para los eventos
             headerToolbar: {                // Barra de herramientas
                 left: 'prev,next today',
                 center: 'title',
