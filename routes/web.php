@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
+use App\Http\Controllers\EventoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
@@ -13,7 +14,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/calendario', [HomeController::class, 'index']);
+
+Route::get('/evento', [EventoController::class, 'index']);
+Route::get('/evento/mostrar', [EventoController::class, 'show']);
+
+Route::post('/evento/agregar', [EventoController::class, 'store']);
+Route::post('/evento/editar/{id}', action: [EventoController::class, 'edit']);
+Route::post('/evento/actualizar/{evento}', action: [EventoController::class, 'update']);
+Route::post('/evento/borrar/{id}', action: [EventoController::class, 'destroy']);
 
 Route::get('aprendiz', function () {
     return view('aprendiz');
