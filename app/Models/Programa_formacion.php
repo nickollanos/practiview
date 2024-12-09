@@ -34,7 +34,7 @@ class Programa_formacion extends Model
     //Relationship: muchos programas de formacion tienen una ficha
     public function ficha()
     {
-        return $this->belongsTo(Ficha::class);
+        return $this->hasOne(Ficha::class, 'programa_formacion_id', 'id');
     }
 
 }

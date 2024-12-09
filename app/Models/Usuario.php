@@ -19,6 +19,7 @@ class Usuario extends Authenticatable
      */
     protected $fillable = [
         'nombre',
+        'apellido',
         'tipo_documento_id',
         'numero_documento',
         'fecha_nacimiento',
@@ -57,13 +58,13 @@ class Usuario extends Authenticatable
     //Relationship: un usuario tiene muchos tipo documentos
     public function tipo_documento()
     {
-        return $this->hasMany(Tipo_documento::class);
+        return $this->hasMany(Tipo_documento::class, 'id', 'tipo_documento_id');
     }
 
     //Relationship: un usuario tiene muchos sexos
     public function sexo()
     {
-        return $this->hasMany(Sexo::class, 'sexo_id');
+        return $this->hasMany(Sexo::class, 'id', 'sexo_id');
     }
 
     //Relationship: muchos usuarios tienen un estado
@@ -87,7 +88,7 @@ class Usuario extends Authenticatable
     //Relationship: muchos usuario son un aprendiz
     public function aprendiz()
     {
-        return $this->belongsTo(Aprendiz::class);
+        return $this->hasOne(Aprendiz::class, 'usuario_id', 'id');
     }
 
     //Relationship: muchos usuario son un instructor

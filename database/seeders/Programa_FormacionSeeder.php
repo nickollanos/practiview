@@ -15,6 +15,17 @@ class Programa_FormacionSeeder extends Seeder
     {
         $programas_formacion = [
             [
+                'siglas'                 => '',
+                'denominacion'           => '',
+                'version'                => '',
+                'etapa_lectiva'          => '',
+                'etapa_productiva'       => '',
+                'total_horas'            => '',
+                'tipo_programa'          => '',
+                'titulo_certificado'     => '',
+                'centro_formacion_id'    => '1',
+            ],
+            [
                 'siglas'                 => 'ADSO',
                 'denominacion'           => 'Analisis y desarrollo de software',
                 'version'                => '1.0',

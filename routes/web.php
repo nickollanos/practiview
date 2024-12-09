@@ -4,18 +4,36 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Models\Empresa;
+use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('aprendiz', function () {
-    return view('aprendiz');
-});
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'aprendiz');
+    })
+    ->where('estado_id', 1)
+    ->count();
+
+    $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'aprendiz');
+    })
+    ->where('estado_id', 2)
+    ->count();
+
+    $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'instructor');
+    })
+    ->where('estado_id', 1)
+    ->count();
+    $numeroEmpresas = Empresa::where('estado_id', 1)->count();
+
+    return view('dashboard', compact('cantidadAprendices', 'cantidadInstructores', 'numeroEmpresas','aprendicesInactivos'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -26,12 +44,16 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+    // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
+    Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
+    Route::post('aprendiz/search', [AprendizController::class, 'search']);
+
     Route::resources([
         'usuarios' => UsuarioController::class,
-        'aprendiz' => AprendizController::class,
+        'aprendiz' => AprendizController::class
 ]);
 });
 
-Route::post('aprendiz/search', [AprendizController::class, 'search']);
+
 
 require __DIR__.'/auth.php';

@@ -14,12 +14,14 @@ class FichasSeeder extends Seeder
     public function run(): void
     {
         $fichas = [
-            ['numero_ficha'          => '2613934',
+            ['numero_ficha'          => 'sinficha',
              'programa_formacion_id' => '1'],
-             ['numero_ficha'         => '2613935',
+            ['numero_ficha'          => '2613934',
              'programa_formacion_id' => '2'],
-             ['numero_ficha'         => '2613936',
+             ['numero_ficha'         => '2613935',
              'programa_formacion_id' => '3'],
+             ['numero_ficha'         => '2613936',
+             'programa_formacion_id' => '4'],
          ];
 
          foreach ($fichas as $ficha){

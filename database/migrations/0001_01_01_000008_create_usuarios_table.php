@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('usuarios', function (Blueprint $table) {
             $table->id();
             $table->string('nombre');
+            $table->string('apellido');
             $table->foreignId('tipo_documento_id')
                   ->constrained('tipo_documentos')
                   ->onDelete('cascade');

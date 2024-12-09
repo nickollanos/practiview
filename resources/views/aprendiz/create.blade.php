@@ -196,8 +196,7 @@
 
 @endsection
 
-@section('footer')
-@endsection
+@include('layouts.footer')
 
 @section('js')
     <script>
