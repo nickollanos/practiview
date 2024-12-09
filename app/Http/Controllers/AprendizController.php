@@ -48,7 +48,7 @@ class AprendizController extends Controller
                 return $usuario->aprendiz->estadoAprendiz->nombre;
             })
             ->countBy();
-            // dd($aprendicesPorEstado);
+            //dd($aprendicesPorEstado);
 
             return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
 
@@ -175,20 +175,81 @@ class AprendizController extends Controller
         return view('aprendiz.edit', compact('usuario', 'sexos', 'tipo_documentos', 'direccion', 'fechaNacimiento'))->render();
     }
 
-    public function updateEstado(Request $request, $id)
+    public function updateEstado(AprendizRequest $request, $id)
     {
         //dd($request->all());
         //dd($request);
         $usuario = Usuario::findOrFail($id);
 
         if ($request->input('action') === 'desactivate') {
-            // $usuario->estado_id = 2;
-            // $usuario->save();
-            // session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido eliminado de manera exitosa');
-            // return redirect('aprendiz');
+            $usuario->estado_id = 2;
+            $usuario->save();
+            $aprendices = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles'])
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 1)
+            ->paginate(8);
+            //dd($aprendices->toArray());
+
+            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 1)
+            ->count();
+            // dd($cantidadAprendices);
+
+            $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 1)
+            ->with(['aprendiz.estadoAprendiz'])
+            ->get()
+            ->map(function ($usuario) {
+                return $usuario->aprendiz->estadoAprendiz->nombre;
+            })
+            ->countBy();
+            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido desactivado de manera exitosa');
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
         } elseif ($request->input('action') === 'activate') {
-            $usuario->estado_id = 1; // Activo
-            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido activado.');
+            $usuario->estado_id = 1;
+            $usuario->save();
+            $aprendices = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles'])
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->paginate(8);
+            //dd($aprendices->toArray());
+
+            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->count();
+            // dd($cantidadAprendices);
+
+            $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->with(['aprendiz.estadoAprendiz'])
+            ->get()
+            ->map(function ($usuario) {
+                return $usuario->aprendiz->estadoAprendiz->nombre;
+            })
+            ->countBy();
+
+            $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->count();
+
+            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido activado de manera exitosa');
+            return view('aprendiz.inactivo', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'aprendicesInactivos'));
         }
     }
 

@@ -74,7 +74,8 @@
                                         <a href="javascript:;" class="btn-delete" data-fullname="{{ $aprendiz->nombre }}" data-action="activate">
                                             <img src="{{ asset('images/updelete-icon.svg') }}" alt="Activar" class="w-4 h-4">
                                         </a>
-                                        <form action="{{ url('aprendiz/' . $aprendiz->id) }}" method="POST" style="display: none">
+                                        <!-- Formulario oculto -->
+                                        <form action="{{ url('aprendiz/' . $aprendiz->id . '/updateEstado') }}" method="POST" style="display: none">
                                             <input type="hidden" name="action" value="activate">
                                             @csrf
                                             @method('PATCH')

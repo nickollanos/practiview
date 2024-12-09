@@ -26,28 +26,28 @@
                 <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices en
                     Practica</h1>
                 <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Productiva'] }}</strong>
+                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Productiva'] ?? 0  }}</strong>
             </div>
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
                 <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices en
                     Lectiva</h1>
                 <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Lectiva'] }}</strong>
+                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Lectiva'] ?? 0  }}</strong>
             </div>
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
                 <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices
                     Certificados</h1>
                 <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Certificado'] }}</strong>
+                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Certificado'] ?? 0  }}</strong>
             </div>
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
                 <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices
                     Cancelados</h1>
                 <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Cancelado'] }}</strong>
+                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Cancelado'] ?? 0  }}</strong>
             </div>
         </div>
 
@@ -118,7 +118,6 @@
                                             @method('PATCH')
                                         </form>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
