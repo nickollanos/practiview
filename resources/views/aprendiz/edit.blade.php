@@ -46,7 +46,7 @@
                     <!-- Campo Nombre -->
                     <div>
                         <div>
-                            <label for="nombre" class="text-self font-poppins font-bold mb-1">NombreCompleto:</label>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Nombre:</label>
                         </div>
                         <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                             <div class="p-2">
@@ -54,10 +54,24 @@
                             </div>
                             <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
-                                value="{{ old('nombre', $usuario->nombre) }}">
+                                value="{{ old('nombre', ucwords($usuario->nombre)) }}">
                         </div>
                     </div>
 
+                    <!-- Campo Apellido -->
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Apellido:</label>
+                        </div>
+                        <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-nombre.svg') }}" alt="Apellido" class="w-10 h-10">
+                            </div>
+                            <input type="text" name="apellido" id="apellido" placeholder="Apellido Completo" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
+                                value="{{ old('apellido', ucwords($usuario->apellido)) }}">
+                        </div>
+                    </div>
 
                     <!-- Tipo de documento -->
                     <div>
@@ -110,7 +124,7 @@
                             <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"
                                 placeholder="Fecha de Nacimiento" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
-                                value="{{ old('fecha_nacimiento', $usuario->fecha_nacimiento) }}">
+                                value="{{ old('fecha_nacimiento', $fechaNacimiento) }}">
                         </div>
                     </div>
 
@@ -179,7 +193,7 @@
                             </div>
                             <input type="text" name="direccion" id="direccion" placeholder="Dirección" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
-                                value="{{ old('direccion', \Illuminate\Support\Str::limit($usuario->direccion, 20)) }}">
+                                value="{{ old('direccion', $direccion) }}">
                         </div>
                     </div>
 

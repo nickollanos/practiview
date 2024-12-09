@@ -26,6 +26,7 @@ class AprendizRequest extends FormRequest
             return [
                 'numero_documento' => 'required|numeric',
                 'nombre' => 'required|string',
+                'apellido' => 'required|string',
                 'tipo_documento_id' => 'required',
                 'fecha_nacimiento' => 'required|date',
                 'telefono' => 'required',
@@ -37,6 +38,7 @@ class AprendizRequest extends FormRequest
         return [
                 'numero_documento' => ['required', 'numeric', 'unique:'.Usuario::class],
                 'nombre' => ['required', 'string'],
+                'apellido' => ['required', 'string'],
                 'tipo_documento_id' => ['required'],
                 'fecha_nacimiento' => ['required', 'date'],
                 'foto_perfil' => ['required', 'image'],

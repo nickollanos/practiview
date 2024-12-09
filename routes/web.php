@@ -12,9 +12,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('aprendiz', function () {
-    return view('aprendiz');
-});
 
 Route::get('/dashboard', function () {
     $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
@@ -22,6 +19,13 @@ Route::get('/dashboard', function () {
     })
     ->where('estado_id', 1)
     ->count();
+
+    $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'aprendiz');
+    })
+    ->where('estado_id', 2)
+    ->count();
+
     $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'instructor');
     })
@@ -29,7 +33,7 @@ Route::get('/dashboard', function () {
     ->count();
     $numeroEmpresas = Empresa::where('estado_id', 1)->count();
 
-    return view('dashboard', compact('cantidadAprendices', 'cantidadInstructores', 'numeroEmpresas'));
+    return view('dashboard', compact('cantidadAprendices', 'cantidadInstructores', 'numeroEmpresas','aprendicesInactivos'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -41,11 +45,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
+    Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
 
     Route::resources([
         'usuarios' => UsuarioController::class,
-        'aprendiz' => AprendizController::class,
+        'aprendiz' => AprendizController::class
 ]);
 });
 

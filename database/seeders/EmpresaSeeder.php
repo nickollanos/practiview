@@ -69,6 +69,7 @@ class EmpresaSeeder extends Seeder
 
         $usuario = new Usuario();
         $usuario->nombre = 'Erika';
+        $usuario->apellido = 'velasquez';
         $usuario->tipo_documento_id = '1';
         $usuario->numero_documento = '1053100100';
         $usuario->fecha_nacimiento = '21-03-1980';

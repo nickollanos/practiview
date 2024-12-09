@@ -38,11 +38,15 @@ class UsuarioFactory extends Factory
         $nombre = ($sexo == 'Female') ? $nombre = fake()->firstNameFemale()
             : $nombre = fake()->firstNameMale();
 
+        // $apellido = ($sexo == 'Female') ? $apellido = fake()->lastNameFemale()
+        //     : $apellido = fake()->lastNameMale();
+
         // $firma = fake()->image(public_path('images/'), 140, 140, null, false);
         // $foto_perfil = fake()->image(public_path('images/'), 140, 140, null, false);
 
         return [
             'nombre'              => $nombre,
+            'apellido'            => fake()->lastName(),
             'tipo_documento_id'   => fake()->randomElement([1, 2, 3, 4, 5]),
             'numero_documento'    => fake()->isbn13(),
             'fecha_nacimiento'    => fake()->dateTimeBetween('1974-01-01', '2024-12-31'),

@@ -27,15 +27,14 @@
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
                                 class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">NOMBRE:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->nombre }}</h1>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ ucwords($usuario->nombre) }}</h1>
                         </div>
-                        <!-- Tarjeta Numero documento -->
+                        <!-- Tarjeta tipo documento -->
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
-                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">NUMERO
-                                DE DOCUMENTO:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->numero_documento }}
-                            </h1>
+                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">TIPO
+                                DOCUMENTO:</strong>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->tipo_documento[0]['detalle'] }}</h1>
                         </div>
                         <!-- Tarjeta Numero telefono-->
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
@@ -48,7 +47,15 @@
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
                                 class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">SEXO:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->sexo[0]['nombre'] }}
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ ucwords($usuario->sexo[0]['nombre']) }}
+                            </h1>
+                        </div>
+                        <!-- Tarjeta Fecha de Nacimiento -->
+                        <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
+                            <strong
+                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">FECHA
+                                DE NACIMIENTO:</strong>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $fechaNacimiento }}
                             </h1>
                         </div>
                         <!-- Tarjeta Ficha -->
@@ -60,21 +67,21 @@
                         </div>
                     </div>
 
+
                     <!-- Columna 2 -->
                     <div class="flex flex-col space-y-4">
-                        <!-- Tarjeta tipo documento -->
+                        <!-- Tarjeta apellido -->
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
-                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">TIPO
-                                DOCUMENTO:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->tipo_documento[0]['detalle'] }}</h1>
+                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">APELLIDO:</strong>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ ucwords($usuario->apellido) }}</h1>
                         </div>
-                        <!-- Tarjeta Fecha de Nacimiento -->
+                        <!-- Tarjeta Numero documento -->
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
-                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">FECHA
-                                DE NACIMIENTO:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->fecha_nacimiento }}
+                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">NUMERO
+                                DE DOCUMENTO:</strong>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $usuario->numero_documento }}
                             </h1>
                         </div>
                         <!-- Tarjeta correo -->
@@ -88,13 +95,20 @@
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
                                 class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">DIRECCION:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ \Illuminate\Support\Str::limit($usuario->direccion, 20) }}</h1>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $direccion }}</h1>
+                        </div>
+                        <!-- Tarjeta Edad -->
+                        <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
+                            <strong
+                                class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">EDAD:</strong>
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $edad }} Años
+                            </h1>
                         </div>
                         <!-- Tarjeta Programa de formacion -->
                         <div class="bg-[#EBE9D6] shadow-md rounded-lg p-4 border border-solid border-[#059212] w-full">
                             <strong
                                 class="block text-sm font-semibold font-poppins text-[#0C0C0C] text-opacity-50 text-center">PROGRAMA DE FORMACION:</strong>
-                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center">{{ $siglas_programa->siglas }}
+                            <h1 class="text-lg font-bold font-poppins text-[#0C0C0C] text-opacity-50 text-center"> {{ $siglas_programa->siglas ?: 'Sin programa' }}
                             </h1>
                         </div>
                     </div>

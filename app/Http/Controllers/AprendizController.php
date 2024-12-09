@@ -19,10 +19,13 @@ class AprendizController extends Controller
      */
     public function index(Request $request)
     {
-            $aprendices = Usuario::select('usuarios.*') // Asegura que todos los campos de usuarios sean seleccionados
-            ->with(['estado', 'perfiles']) // Carga las relaciones necesarias
+        $estadoVista = $request->input('estado');
+
+        if ($estadoVista == 'activos') {
+            $aprendices = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles'])
             ->whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz'); // Filtra usuarios con el perfil 'aprendiz'
+                $query->where('perfil', 'aprendiz');
             })
             ->where('estado_id', 1)
             ->paginate(8);
@@ -33,17 +36,43 @@ class AprendizController extends Controller
             })
             ->where('estado_id', 1)
             ->count();
+            // dd($cantidadAprendices);
 
-            $aprendicesPorEstado = Aprendiz::selectRaw('estado_aprendiz_id, COUNT(*) as cantidad')
-            ->groupBy('estado_aprendiz_id') // Agrupar por estado_aprendiz_id
-            ->with('estadoAprendiz') // Cargar los datos del estado
+            $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 1)
+            ->with(['aprendiz.estadoAprendiz'])
             ->get()
-            ->mapWithKeys(function ($item) {
-                return [$item->estadoAprendiz->nombre => $item->cantidad];
-            });
-            //dd($aprendicesPorEstado);
+            ->map(function ($usuario) {
+                return $usuario->aprendiz->estadoAprendiz->nombre;
+            })
+            ->countBy();
+            // dd($aprendicesPorEstado);
 
             return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
+
+        } elseif ($estadoVista == 'inactivos') {
+            $aprendices = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles'])
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->paginate(8);
+
+            $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->count();
+
+            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices'));
+        } else {
+            // Redirige por defecto si no se selecciona un estado válido
+            return view('dashboard');
+        }
+
     }
 
     /**
@@ -72,6 +101,7 @@ class AprendizController extends Controller
 
         $usuario = new Usuario();
         $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
         $usuario->tipo_documento_id = $request->tipo_documento_id;
         $usuario->numero_documento = $request->numero_documento;
         $usuario->fecha_nacimiento = $request->fecha_nacimiento;
@@ -92,7 +122,7 @@ class AprendizController extends Controller
             $aprendiz->estado_aprendiz_id = '1';
             $aprendiz->save();
             }
-            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido añadido de manera exitosa');
+            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido añadido de manera exitosa');
             return redirect('aprendiz');
         }
 
@@ -114,7 +144,7 @@ class AprendizController extends Controller
         ->where('estado_id', 1)
         ->paginate(8);
         return view('aprendiz.search', compact('aprendices'))->render();
-        return view('aprendiz.index', compact('aprendices'))->render();
+        // return view('aprendiz.index', compact('aprendices'))->render();
     }
 
     public function show($id)
@@ -123,8 +153,11 @@ class AprendizController extends Controller
         $usuario = Usuario::with('aprendiz', 'perfiles', 'estado', 'sexo', 'tipo_documento')->findOrFail($id);
         $numero_ficha = $usuario->aprendiz->ficha;
         $siglas_programa = $usuario->aprendiz->ficha->programa_formacion;
+        $edad = \Carbon\Carbon::parse($usuario->fecha_nacimiento)->age;
+        $direccion = \Illuminate\Support\Str::limit($usuario->direccion, 20);
+        $fechaNacimiento = \Carbon\Carbon::parse($usuario->fecha_nacimiento)->format('Y-m-d');
         //dd($siglas_programa->toArray());
-        return view('aprendiz.show', compact('usuario', 'numero_ficha', 'siglas_programa'))->render();
+        return view('aprendiz.show', compact('usuario', 'numero_ficha', 'siglas_programa', 'edad', 'direccion', 'fechaNacimiento'))->render();
     }
 
      /**
@@ -136,14 +169,32 @@ class AprendizController extends Controller
         $tipo_documentos = Tipo_documento::all();
         $sexos           = Sexo::all();
         $usuario = Usuario::with('aprendiz', 'perfiles', 'estado', 'sexo', 'tipo_documento')->findOrFail($id);
-        return view('aprendiz.edit', compact('usuario', 'sexos', 'tipo_documentos'))->render();
+        $direccion = \Illuminate\Support\Str::limit($usuario->direccion, 20);
+        $fechaNacimiento = \Carbon\Carbon::parse($usuario->fecha_nacimiento)->format('Y-m-d');
+        // dd($fechaNacimiento);
+        return view('aprendiz.edit', compact('usuario', 'sexos', 'tipo_documentos', 'direccion', 'fechaNacimiento'))->render();
+    }
+
+    public function updateEstado(Request $request, $id)
+    {
+        //dd($request->all());
+        //dd($request);
+        $usuario = Usuario::findOrFail($id);
+
+        if ($request->input('action') === 'desactivate') {
+            // $usuario->estado_id = 2;
+            // $usuario->save();
+            // session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido eliminado de manera exitosa');
+            // return redirect('aprendiz');
+        } elseif ($request->input('action') === 'activate') {
+            $usuario->estado_id = 1; // Activo
+            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido activado.');
+        }
     }
 
     public function update(AprendizRequest $request, $id)
     {
         $usuario = Usuario::findOrFail($id);
-        //dd($request->toArray());
-
         if ($request->hasFile('foto_perfil')) {
             $image = $request->file('foto_perfil');
             $foto_perfil = time() . '.' . $image->getClientOriginalExtension();
@@ -153,6 +204,7 @@ class AprendizController extends Controller
         }
 
         $usuario->nombre = $request->nombre;
+        $usuario->apellido = $request->apellido;
         $usuario->tipo_documento_id = $request->tipo_documento_id;
         $usuario->numero_documento = $request->numero_documento;
         $usuario->fecha_nacimiento = $request->fecha_nacimiento;
@@ -165,17 +217,17 @@ class AprendizController extends Controller
         $usuario->foto_perfil = $foto_perfil;
 
         $usuario->save();
-        session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido modificado de manera exitosa');
+        session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido modificado de manera exitosa');
         return redirect('aprendiz');
     }
 
     public function destroy($id)
     {
-        $usuario = Usuario::findOrFail($id);
-        $usuario->estado_id = 2;
-        $usuario->save();
-        session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido eliminado de manera exitosa');
-        return redirect('aprendiz');
+        // $usuario = Usuario::findOrFail($id);
+        // $usuario->estado_id = 2;
+        // $usuario->save();
+        // session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido eliminado de manera exitosa');
+        // return redirect('aprendiz');
     }
 
 }
