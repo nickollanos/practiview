@@ -31,7 +31,19 @@
     <script src="{{ asset('js/sweetalert2.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
     <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/index.global.min.js'></script>
+    <script src='https://cdn.jsdelivr.net/npm/fullcalendar/locales-all.js'></script>
+    <script src="{{asset('js/agenda.js')}}" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+
+    <script type="text/javascript">
+        var baseURL = @json(url('/'));
+    </script>
+
     @yield('js')
+
+    @stack('scripts')
 </body>
 
 </html>

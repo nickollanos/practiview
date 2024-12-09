@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
+use App\Http\Controllers\EmpresaController;
+use App\Http\Controllers\EventoController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
 use App\Models\Empresa;
@@ -12,6 +15,18 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/evento', [EventoController::class, 'index']);
+Route::get('/evento/mostrar', [EventoController::class, 'show']);
+
+Route::post('/evento/agregar', [EventoController::class, 'store']);
+Route::post('/evento/editar/{id}', action: [EventoController::class, 'edit']);
+Route::post('/evento/actualizar/{evento}', action: [EventoController::class, 'update']);
+Route::post('/evento/borrar/{id}', action: [EventoController::class, 'destroy']);
+
+Route::get('aprendiz', function () {
+    return view('aprendiz');
+});
 
 Route::get('/dashboard', function () {
     $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
@@ -47,10 +62,12 @@ Route::middleware('auth')->group(function () {
     // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
     Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
+    Route::post('empresa/search', [EmpresaController::class, 'search']);
 
     Route::resources([
         'usuarios' => UsuarioController::class,
-        'aprendiz' => AprendizController::class
+        'aprendiz' => AprendizController::class,
+        'empresa' => EmpresaController::class,
 ]);
 });
 
