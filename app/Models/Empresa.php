@@ -42,4 +42,11 @@ class Empresa extends Model
         return $this->belongsTo(Zona::class);
     }
 
+    public function scopeNames($query, $q)
+    {
+        if (trim($q)) {
+            $query->where('nombre', 'LIKE', "%$q%");
+        }
+    }
+
 }

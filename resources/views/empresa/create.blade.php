@@ -1,20 +1,21 @@
 @extends('layouts.app')
-@section('title', 'CREAR-INSTRUCTOR')
-@section('class', 'CREAR-INSTRUCTOR')
+@section('title', 'CREAR-APRENDIZ')
+@section('class', 'CREAR-APRENDIZ')
 
 @section('content')
 
-<main class="container flex items-start justify-center mb-8">
-    <div class="flex flex-col items-center justify-center w-full py-8">
-        <div class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 sm:mb-0 border border-solid border-[#059212]">
-            <form action="{{ route('instructor.store') }}" method="POST" enctype="multipart/form-data">
+<main class="container flex items-start justify-center mb-16 mt-1">
+    <div class="flex flex-col items-center justify-center w-full">
+        <div
+            class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 sm:mb-0 border border-solid border-[#059212]">
+            <form action="{{ route('empresa.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @if (count($errors->all()) > 0)
-                    <ul class="text-red-500 text-sm mb-4">
-                        @foreach ($errors->all() as $message)
-                            <li>{{ $message }}</li>
-                        @endforeach
-                    </ul>
+                <ul class="text-red-500 text-sm mb-4">
+                    @foreach ($errors->all() as $message)
+                    <li>{{ $message }}</li>
+                    @endforeach
+                </ul>
                 @endif
 
                 <!-- Campo Foto de perfil-->
@@ -22,83 +23,64 @@
                     <div class="w-[8rem] h-[8rem] sm:w-[12rem] sm:h-[12rem] overflow-hidden relative">
                         <!-- Imagen predeterminada -->
                         <img id="upload" class="w-full h-full object-cover rounded-full"
-                            src="{{ asset('images/logoCamera.svg') }}" alt="Perfil">
+                            src="{{ url('images/empresa.png') }}" alt="Perfil">
 
-                        <!-- Border -->
                         <img class="w-full h-full object-cover rounded-full z-0 absolute top-0 left-0" id="border"
                             src="{{ asset('images/border-camera.svg') }}" alt="Border">
-
-                        <!-- Input de selección de archivo, oculta pero sobrepuesta -->
-                        <input id="photo" type="file" name="foto_perfil" accept="image/*"
-                            class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-20">
-                    </div>
-                </div>
-
-                <!-- Campo Nombre -->
-                <div>
-                    <div>
-                        <label for="nombre" class="text-self font-poppins font-bold mb-1">NombreCompleto:</label>
-                    </div>
-                    <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-nombre.svg') }}" alt="Nombre" class="w-10 h-10">
-                        </div>
-                        <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
                     </div>
                 </div>
 
 
-                <!-- Tipo de documento -->
+                <!-- Zonas -->
+
                 <div>
                     <div>
-                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Tipo de Documento:</label>
+                        <label for="zona" class="text-self font-poppins font-bold mb-1">Zona:</label>
                     </div>
                     <div
                         class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                         <div class="p-2">
-                            <img src="{{ asset('images/ico-documento.svg') }}" alt="Document" class="c">
+                            <img src="{{ asset('images/ico-documento.svg') }}" alt="Zona">
                         </div>
-                        <select name="tipo_documento_id" id="tipo_documento_id" required
+                        <select name="zona_id" id="zona" required
                             class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
-                            <option value="">Tipo de Documento</option>
-                            @foreach ($tipo_documentos as $tipo_documento)
-                            <option value="{{ $tipo_documento['id'] }}">
-                                {{ $tipo_documento['detalle'] }}
+                            <option value="">Zona</option>
+                            @foreach ($zonas as $zona)
+                            <option value="{{ $zona['id'] }}">
+                                {{ $zona['nombre'] }}
                             </option>
                             @endforeach
                         </select>
                     </div>
                 </div>
 
+
+                <!-- Campo Nombre -->
+                <div>
+                    <div>
+                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Nombre Empresa:</label>
+                    </div>
+                    <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                        <div class="p-2">
+                            <img src="{{ asset('images/ico-nombre.svg') }}" alt="Nombre" class="w-10 h-10">
+                        </div>
+                        <input type="text" name="nombre" id="nombre" placeholder="Nombre Empresa" required
+                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                    </div>
+                </div>
+
                 <!-- numero documento -->
                 <div>
                     <div>
-                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Número de Documento:</label>
+                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Número de Nit:</label>
                     </div>
                     <div
                         class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                         <div class="p-2">
                             <img src="{{ asset('images/ico-doc.svg') }}" alt="doc" class="w-8 h-10">
                         </div>
-                        <input type="text" name="numero_documento" id="numero_documento"
-                            placeholder="Número de Documento" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
-                    </div>
-                </div>
-
-                <!-- Campo Fecha nacimiento -->
-                <div>
-                    <div>
-                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Fecha de Nacimiento:</label>
-                    </div>
-                    <div
-                        class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-fecha.svg') }}" alt="fecha" class="w-10 h-10">
-                        </div>
-                        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento"
-                            placeholder="Fecha de Nacimiento" required
+                        <input type="text" name="numero_nit" id="numero_nit"
+                            placeholder="Número de Nit" required
                             class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
                     </div>
                 </div>
@@ -133,28 +115,6 @@
                     </div>
                 </div>
 
-                <!-- Campo Sexo -->
-                <div>
-                    <div>
-                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Genero:</label>
-                    </div>
-                    <div
-                        class="bg-[#EBE9D6] mt-1 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
-                        <div class="p-2">
-                            <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
-                        </div>
-                        <select name="sexo_id" id="sexo_id" required
-                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
-                            <option value="">Genero</option>
-                            @foreach ($sexos as $sexo)
-                            <option value="{{ $sexo['id'] }}">
-                                {{ $sexo['nombre'] }}
-                            </option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
                 <!-- Campo Direccion -->
                 <div>
                     <div>
@@ -174,7 +134,7 @@
                 <div class="flex justify-center">
                     <button type="submit"
                         class="bg-[#059212] hover:bg-green-700 text-white font-bold font-poppins py-2 px-4 rounded focus:outline-none focus:shadow-outline w-[15rem]">
-                        Agregar Usuario
+                        Agregar Empresa
                     </button>
                 </div>
 
@@ -195,26 +155,12 @@
 
 @endsection
 
-@section('footer')
-@endsection
+@include('layouts.footer')
 
 @section('js')
 <script>
     const photoInput = document.getElementById('photo');
     const uploadImage = document.getElementById('upload');
-
-    function togglePassword(inputId, eyeIconId) {
-            const passwordInput = document.getElementById(inputId);
-            const eyeIcon = document.getElementById(eyeIconId);
-
-            if (passwordInput.type === "password") {
-                passwordInput.type = "text";
-                eyeIcon.setAttribute('src', '{{ asset('images/close-eye.svg') }}');
-            } else {
-                passwordInput.type = "password";
-                eyeIcon.setAttribute('src', '{{ asset('images/open-eye.svg') }}');
-            }
-        }
 
     //--------------------------------------
 
