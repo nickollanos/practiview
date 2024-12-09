@@ -9,7 +9,7 @@ class Instructor extends Model
 {
     use HasFactory;
 
-     /**
+    /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
@@ -21,7 +21,7 @@ class Instructor extends Model
     //Relationship: un instructor es muchos usuarios
     public function usuario()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->belongsTo(Usuario::class, 'usuario_id', 'id');
     }
 
     //Relationship: muchos instructores tienen muchos roles
@@ -35,5 +35,4 @@ class Instructor extends Model
     {
         return $this->belongsTo(Ficha::class);
     }
-
 }

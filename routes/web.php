@@ -7,6 +7,7 @@ use App\Http\Controllers\EventoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\InstructorController;
 use App\Models\Empresa;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
@@ -64,9 +65,12 @@ Route::middleware('auth')->group(function () {
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
 
+    Route::post('instructor/search', [InstructorController::class, 'search']);
+
     Route::resources([
         'usuarios' => UsuarioController::class,
         'aprendiz' => AprendizController::class,
+        'instructor' => InstructorController::class,
         'empresa' => EmpresaController::class,
 ]);
 });
