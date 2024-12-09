@@ -22,7 +22,7 @@ class Tipo_documento extends Model
     //Relationship: muchos tipo documento tienen un usuario
     public function usuario()
     {
-        return $this->belongsTo(Usuario::class);
+        return $this->belongsTo(Usuario::class, 'id', 'tipo_documento_id');
     }
 
 

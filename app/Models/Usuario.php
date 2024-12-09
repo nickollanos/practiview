@@ -19,7 +19,6 @@ class Usuario extends Authenticatable
      */
     protected $fillable = [
         'nombre',
-        'apellido',
         'tipo_documento_id',
         'numero_documento',
         'fecha_nacimiento',
@@ -29,7 +28,6 @@ class Usuario extends Authenticatable
         'estado_id',
         'direccion',
         'password',
-        'firma',
         'foto_perfil'
     ];
 
@@ -59,25 +57,25 @@ class Usuario extends Authenticatable
     //Relationship: un usuario tiene muchos tipo documentos
     public function tipo_documento()
     {
-        return $this->hasMany(Tipo_documento::class);
+        return $this->hasMany(Tipo_documento::class, 'id', 'tipo_documento_id');
     }
 
     //Relationship: un usuario tiene muchos sexos
     public function sexo()
     {
-        return $this->hasMany(Sexo::class, 'sexo_id');
+        return $this->hasMany(Sexo::class, 'id', 'sexo_id');
     }
 
     //Relationship: muchos usuarios tienen un estado
     public function estado()
     {
-        return $this->belongsTo(Estado::class);
+        return $this->belongsTo(Estado::class, 'estado_id', 'id');
     }
 
     //Relationship:muchos usuarios tienen muchos perfiles
     public function perfiles()
     {
-        return $this->belongsToMany(Perfil::class, 'perfil_usuario');
+        return $this->belongsToMany(Perfil::class, 'perfil_usuarios', 'usuario_id', 'perfil_id');
     }
 
     //Relationship: muchos usuario son un admin
@@ -89,7 +87,7 @@ class Usuario extends Authenticatable
     //Relationship: muchos usuario son un aprendiz
     public function aprendiz()
     {
-        return $this->belongsTo(Aprendiz::class);
+        return $this->hasOne(Aprendiz::class, 'usuario_id', 'id');
     }
 
     //Relationship: muchos usuario son un instructor
@@ -103,4 +101,39 @@ class Usuario extends Authenticatable
     {
         return $this->belongsTo(Jefe_Inmediato::class);
     }
+
+    public function scopeNames($query, $q)
+    {
+        if (trim($q)) {
+            $query->where('nombre', 'LIKE', "%$q%");
+        }
+    }
+    /**
+     * Scope para filtrar usuarios administradores.
+     */
+    public function scopeAdmin($query)
+    {
+        return $query->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'administrador');
+        });
+    }
+    /**
+     * Scope para filtrar usuarios aprendices.
+     */
+    public function scopeAprendiz($query)
+    {
+        return $query->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'aprendiz');
+        });
+    }
+    /**
+     * Scope para filtrar usuarios intructores.
+     */
+    public function scopeInstructor($query)
+    {
+        return $query->whereHas('perfiles', function ($q) {
+            $q->where('perfil', 'instructor');
+        });
+    }
+
 }

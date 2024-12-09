@@ -66,8 +66,7 @@ class UsuarioController extends Controller
         $usuario->firma = $firma1;
         $usuario->foto_perfil = $foto_perfil1;
 
-
-        if ($usuario->save()) {
+            if ($usuario->save()) {
             return redirect('usuarios')
                 ->with('message' . 'The usuario: ' . $usuario->fullname . ' was successfully added!');
         }

@@ -20,6 +20,6 @@ class Perfil extends Model
     //Relationship: muchos perfiles tienen muchos usuarios
     public function usuarios()
     {
-        return $this->belongsTo(Usuario::class, 'perfil_usuario');
+        return $this->belongsToMany(Usuario::class, 'perfil_usuarios', 'perfil_id', 'usuario_id');
     }
 }

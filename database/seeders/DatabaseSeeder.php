@@ -29,11 +29,14 @@ class DatabaseSeeder extends Seeder
             SexoSeeder::class,
             PerfilSeeder::class,
             EstadoSeeder::class,
-            UsuarioSeeder::class,
-            EmpresaSeeder::class,
             RegionalSeeder::class,
             Centro_FormacionSeeder::class,
             Programa_FormacionSeeder::class,
+            FichasSeeder::class,
+            EstadoAprendizSeeder::class,
+            UsuarioSeeder::class,
+            ZonaSeeder::class,
+            EmpresaSeeder::class,
             RolSeeder::class,
             Modalidad_practicaSeeder::class,
             PracticaSeeder::class,
@@ -41,4 +44,5 @@ class DatabaseSeeder extends Seeder
 
         Usuario::factory(50)->create();
     }
+    
 }

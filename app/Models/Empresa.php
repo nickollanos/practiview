@@ -18,6 +18,7 @@ class Empresa extends Model
         'numero_nit',
         'telefono',
         'direccion',
+        'zona_id',
         'email',
         'estado_id'
     ];
@@ -34,4 +35,18 @@ class Empresa extends Model
     {
         return $this->hasMany(Jefe_Inmediato::class);
     }
+
+    //Relationship: muchas empresas tienen una zona
+    public function zona()
+    {
+        return $this->belongsTo(Zona::class);
+    }
+
+    public function scopeNames($query, $q)
+    {
+        if (trim($q)) {
+            $query->where('nombre', 'LIKE', "%$q%");
+        }
+    }
+
 }

@@ -21,7 +21,7 @@ class Aprendiz extends Model
     //Relationship: un aprendiz es muchos usuarios
     public function usuario()
     {
-        return $this->hasMany(Usuario::class);
+        return $this->belongsTo(Usuario::class, 'usuario_id', 'id');
     }
 
     //Relationship: un aprendiz tiene una practica
@@ -33,6 +33,19 @@ class Aprendiz extends Model
     //Relationship: un aprendiz tiene una ficha
     public function ficha()
     {
-        return $this->hasOne(Ficha::class);
+        return $this->belongsTo(Ficha::class, 'ficha_id', 'id');
     }
+
+    //Relationship: muchos usuarios tienen un estado
+    public function estadoAprendiz()
+    {
+        return $this->belongsTo(EstadoAprendiz::class, 'estado_aprendiz_id', 'id');
+    }
+
+    //Relationship: un aprendiz tiene una certificacion
+    public function certificacion()
+    {
+        return $this->hasOne(Certificacion::class);
+    }
+
 }
