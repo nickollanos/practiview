@@ -1,6 +1,6 @@
 @extends('layouts.app')
-@section('title', 'INDEX-APRENDIZ')
-@section('class', 'INDEX-APRENDIZ')
+@section('title', 'INACTIVO-APRENDIZ')
+@section('class', 'INACTIVO-APRENDIZ')
 
 @section('content')
 
@@ -13,52 +13,14 @@
         class="container mx-auto px-4 py-2 mt-2 space-y-2 pt-16 sm:pt-8 lg:pt-6 pb-12 mb-0 min-h-screen flex flex-col justify-between overflow-hidden">
 
         <!-- Tarjetas superiores -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-4 mt-10">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-4 mt-10 mb-2">
             <!-- Tarjeta -->
             <div
-                class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices Activos</h1>
+                class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212] col-start-3 col-end-4">
+                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices Inactivos</h1>
                 <strong
-                    class="text-3xl font-extraboldfont-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadAprendices }}</strong>
+                    class="text-3xl font-extraboldfont-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesInactivos }}</strong>
             </div>
-            <div
-                class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices en
-                    Practica</h1>
-                <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Productiva'] }}</strong>
-            </div>
-            <div
-                class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices en
-                    Lectiva</h1>
-                <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Lectiva'] }}</strong>
-            </div>
-            <div
-                class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices
-                    Certificados</h1>
-                <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Certificado'] }}</strong>
-            </div>
-            <div
-                class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
-                <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices
-                    Cancelados</h1>
-                <strong
-                    class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Cancelado'] }}</strong>
-            </div>
-        </div>
-
-
-        <!-- Botón para agregar aprendiz -->
-        <div id="agregar" class="agregar flex items-center justify-center space-x-4 space-y-2 p-1 max-h-14 mt-1">
-            <a href="{{ url('aprendiz/create') }}"
-                class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
-                <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
-                <h1 class="text-xl font-bold">Agregar Aprendiz</h1>
-            </a>
         </div>
 
         <!-- Loader de carga -->
@@ -95,30 +57,42 @@
                             <!-- Tarjeta 3 -->
                             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
                                 <div class="flex items-center justify-center space-x-4">
-                                    <div
+                                    {{-- <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
                                         <a href="{{ url('aprendiz/' . $aprendiz->id) }}">
                                             <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
                                         </a>
-                                    </div>
+                                    </div> --}}
                                     <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
                                         <a href="{{ url('aprendiz/' . $aprendiz->id . '/edit') }}">
                                             <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
                                         </a>
                                     </div>
+
                                     <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                        <a href="javascript:;" class="btn-delete" data-fullname="{{ $aprendiz->nombre }}" data-action="desactivate">
-                                            <img src="{{ asset('images/delete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
+                                        <a href="javascript:;" class="btn-delete" data-fullname="{{ $aprendiz->nombre }}" data-action="activate">
+                                            <img src="{{ asset('images/updelete-icon.svg') }}" alt="Activar" class="w-4 h-4">
                                         </a>
-                                        <!-- Formulario oculto -->
-                                        <form action="{{ url('aprendiz/' . $aprendiz->id . '/updateEstado') }}" method="POST" style="display: none">
-                                            <input type="hidden" name="action" value="desactivate">
+                                        <form action="{{ url('aprendiz/' . $aprendiz->id) }}" method="POST" style="display: none">
+                                            <input type="hidden" name="action" value="activate">
                                             @csrf
                                             @method('PATCH')
                                         </form>
                                     </div>
 
+                                    {{-- <div
+                                        class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
+                                        <a href="javascript:;"  class="btn-delete" data-fullname="{{ $aprendiz->nombre }}">
+                                            <img src="{{ asset('images/updelete-icon.svg') }}" alt="Activar"
+                                                class="w-4 h-4">
+                                        </a>
+                                        <form action="{{ url('aprendiz/' . $aprendiz->id) }}" method="POST"
+                                            style="display: none">
+                                            @csrf
+                                            @method('delete')
+                                        </form>
+                                    </div> --}}
                                 </div>
                             </div>
                         </div>
@@ -259,12 +233,12 @@
                 var $fullname = $this.attr('data-fullname');
                 Swal.fire({
                     title: "Estas seguro?",
-                    text: "Deseas desactivar a " + $fullname,
+                    text: "Deseas reactivar a " + $fullname,
                     icon: "",
                     showCancelButton: true,
                     confirmButtonColor: "#059212",
                     cancelButtonColor: "#6b6d6b",
-                    confirmButtonText: "Si, desactivar",
+                    confirmButtonText: "Si, reactivar",
                     cancelButtonText: "Cancelar"
                 }).then((result) => {
                     if (result.isConfirmed) {

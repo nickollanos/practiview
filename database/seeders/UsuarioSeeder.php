@@ -103,6 +103,7 @@ class UsuarioSeeder extends Seeder
     // ...
     $usuario = new Usuario();
     $usuario->nombre = 'Erika';
+    $usuario->apellido = 'velasquez';
     $usuario->tipo_documento_id = '1';
     $usuario->numero_documento = '1053835222';
     $usuario->fecha_nacimiento = '21-02-1994';
@@ -122,6 +123,7 @@ class UsuarioSeeder extends Seeder
     // ...
     $usuario = new Usuario();
     $usuario->nombre = 'Brahian';
+    $usuario->apellido = 'agudelo';
     $usuario->tipo_documento_id = '1';
     $usuario->numero_documento = '1053100100';
     $usuario->fecha_nacimiento = '21-03-1999';
@@ -143,6 +145,7 @@ class UsuarioSeeder extends Seeder
     // ...
     $usuario = new Usuario();
     $usuario->nombre = 'mateo';
+    $usuario->apellido = 'osorio';
     $usuario->tipo_documento_id = '1';
     $usuario->numero_documento = '1053200200';
     $usuario->fecha_nacimiento = '21-03-2004';

@@ -44,4 +44,5 @@ class DatabaseSeeder extends Seeder
 
         Usuario::factory(50)->create();
     }
+    
 }

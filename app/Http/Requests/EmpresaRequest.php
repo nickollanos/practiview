@@ -2,10 +2,10 @@
 
 namespace App\Http\Requests;
 
-use App\Models\Usuario;
+use App\Models\Empresa;
 use Illuminate\Foundation\Http\FormRequest;
 
-class AprendizRequest extends FormRequest
+class EmpresaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,27 +24,21 @@ class AprendizRequest extends FormRequest
     {
         if ($this->method() == 'PUT') {
             return [
-                'numero_documento' => 'required|numeric',
+                'numero_nit' => 'required|numeric',
                 'nombre' => 'required|string',
-                'apellido' => 'required|string',
-                'tipo_documento_id' => 'required',
-                'fecha_nacimiento' => 'required|date',
+                'zona_id' => 'required',
                 'telefono' => 'required',
                 'email' => 'required|string|lowercase|email',
-                'sexo_id' => 'required',
                 'direccion' => 'required|string',
             ];
         }else{
         return [
-                'numero_documento' => ['required', 'numeric', 'unique:'.Usuario::class],
+                'numero_nit' => ['required', 'numeric', 'unique:'.Empresa::class],
                 'nombre' => ['required', 'string'],
-                'apellido' => ['required', 'string'],
-                'tipo_documento_id' => ['required'],
-                'fecha_nacimiento' => ['required', 'date'],
-                'foto_perfil' => ['required', 'image'],
+                'zona_id' => ['required'],
+                'estado_id' => ['required'],
                 'telefono' => ['required'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'unique:'.Usuario::class],
-                'sexo_id' => ['required'],
+                'email' => ['required', 'string', 'lowercase', 'email', 'unique:'.Empresa::class],
                 'direccion' => ['required', 'string'],
             ];
         }
