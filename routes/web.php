@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UsuarioController;
+use App\Http\Controllers\InstructorController;
 use App\Models\Empresa;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Route;
@@ -43,9 +44,12 @@ Route::middleware('auth')->group(function () {
     // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
 
+    Route::post('instructor/search', [InstructorController::class, 'search']);
+
     Route::resources([
         'usuarios' => UsuarioController::class,
         'aprendiz' => AprendizController::class,
+        'instructor' => InstructorController::class,
 ]);
 });
 

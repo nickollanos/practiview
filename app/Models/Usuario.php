@@ -91,10 +91,12 @@ class Usuario extends Authenticatable
     }
 
     //Relationship: muchos usuario son un instructor
+    // En Usuario.php
     public function instructor()
     {
-        return $this->belongsTo(Instructor::class);
+        return $this->hasOne(Instructor::class, 'usuario_id', 'id');
     }
+
 
     //Relationship: muchos usuario son un jefe inmediato
     public function jefe_inmediato()
@@ -135,5 +137,4 @@ class Usuario extends Authenticatable
             $q->where('perfil', 'instructor');
         });
     }
-
 }
