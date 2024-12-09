@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AprendizController;
+use App\Http\Controllers\EmpresaController;
 use App\Http\Controllers\EventoController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
@@ -53,10 +54,12 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
+    Route::post('empresa/search', [EmpresaController::class, 'search']);
 
     Route::resources([
         'usuarios' => UsuarioController::class,
         'aprendiz' => AprendizController::class,
+        'empresa' => EmpresaController::class,
 ]);
 });
 
