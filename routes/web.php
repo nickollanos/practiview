@@ -30,7 +30,7 @@ Route::post('/evento/borrar/{id}', action: [EventoController::class, 'destroy'])
 // });
 
 Route::get('/dashboard', function () {
-    $cantidadActivos = Usuario::whereHas('perfiles', function ($query) {
+    $aprendicesActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
     })
     ->where('estado_id', 1)
@@ -42,15 +42,22 @@ Route::get('/dashboard', function () {
     ->where('estado_id', 2)
     ->count();
 
-    $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
+    $instructoresActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'instructor');
     })
     ->where('estado_id', 1)
     ->count();
-    $numeroEmpresas = Empresa::where('estado_id', 1)->count();  
+
+    $instructoresInactivos = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'instructor');
+    })
+    ->where('estado_id', 2)
+    ->count();
+
+    $numeroEmpresas = Empresa::where('estado_id', 1)->count();
     //dd($cantidadActivos);
 
-    return view('dashboard', compact('cantidadActivos', 'cantidadInstructores', 'numeroEmpresas','aprendicesInactivos'));
+    return view('dashboard', compact('aprendicesActivos', 'instructoresActivos', 'numeroEmpresas','aprendicesInactivos','instructoresInactivos'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

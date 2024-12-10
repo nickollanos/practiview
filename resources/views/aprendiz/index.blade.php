@@ -88,7 +88,7 @@
 
                             <!-- Tarjeta 2 -->
                             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ ($aprendiz->aprendiz->estado_aprendiz)['nombre'] }}
+                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->aprendiz->estadoAprendiz->nombre }}
                                 </h1>
                             </div>
 

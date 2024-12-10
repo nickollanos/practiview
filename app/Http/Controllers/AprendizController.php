@@ -9,6 +9,7 @@ use App\Models\Sexo;
 use App\Models\Tipo_documento;
 use App\Models\Usuario;
 use App\Models\Aprendiz;
+use App\Models\Ficha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -22,6 +23,9 @@ class AprendizController extends Controller
         $estadoVista = $request->input('estado');
 
         if ($estadoVista == 'activos') {
+
+            $ficha = Ficha::all();
+
             $aprendices = Usuario::select('usuarios.*')
             ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
             ->whereHas('perfiles', function ($query) {
@@ -29,7 +33,8 @@ class AprendizController extends Controller
             })
             ->where('estado_id', 1)
             ->paginate(8);
-            //dd($aprendices->toArray());
+
+            // dd($aprendices->toArray());
 
             $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
@@ -54,7 +59,7 @@ class AprendizController extends Controller
 
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
-            ->with(['estado', 'perfiles'])
+            ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
             ->whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })

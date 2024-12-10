@@ -288,3 +288,54 @@ public function index()
                             Ver Detalle
                         </a>
                         </button>
+
+
+
+                        <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->aprendiz->ficha->numero_ficha }}
+
+
+                            <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->aprendiz->ficha->programa_formacion->siglas }}
+
+
+
+                <!-----index instructor controller-->
+                public function index()
+    {
+        $instructores = Usuario::select('usuarios.*') // Asegura que todos los campos de usuarios sean seleccionados
+            ->with(['estado', 'perfiles']) // Carga las relaciones necesarias
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'instructor'); // Filtra usuarios con el perfil 'aprendiz'
+            })
+            ->where('estado_id', 1)
+            ->paginate(8);
+
+        $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
+            $query->where('perfil', 'instructor');
+        })
+            ->where('estado_id', 1)
+            ->count();
+
+        // $cantidadFichas = Ficha::where('numero_ficha', '!=', 'sinficha')
+        // ->count();
+
+        $cantidadGestores = Usuario::whereHas('perfiles', function ($query) {
+            $query->where('perfil', 'instructor'); // Filtrar usuarios con el perfil 'instructor'
+        })
+            ->whereHas('instructor.rol', function ($query) {
+                $query->where('nombre', 'gestor'); // Filtrar instructores con el rol 'gestor'
+            })
+            ->where('estado_id', 1) // Filtrar por estado activo
+            ->count();
+        // dd($cantidadGestores);
+
+        $cantidadSeguimiento = Usuario::whereHas('perfiles', function ($query) {
+            $query->where('perfil', 'instructor'); // Filtrar usuarios con el perfil 'instructor'
+        })
+            ->whereHas('instructor.rol', function ($query) {
+                $query->where('nombre', 'seguimiento'); // Filtrar instructores con el rol 'gestor'
+            })
+            ->where('estado_id', 1) // Filtrar por estado activo
+            ->count();
+
+        return view('instructor.index', compact('instructores', 'cantidadInstructores', 'cantidadGestores', 'cantidadSeguimiento'));
+    }
