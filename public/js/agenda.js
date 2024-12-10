@@ -1,17 +1,32 @@
 document.addEventListener('DOMContentLoaded', function() {
-    // Referencia al formulario
-    let formulario = document.querySelector("form");
+    // Modal toggle
+    const modal = document.getElementById('modal');
+    const openModalBtn = document.getElementById('openModal');
+    const closeModalBtns = [document.getElementById('closeModal'), document.getElementById('closeModalFooter')];
 
-    // Configuración de FullCalendar
+    // Abrir modal
+    openModalBtn.addEventListener('click', () => {
+        modal.classList.remove('hidden');
+    });
+
+    // Cerrar modal
+    closeModalBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+            modal.classList.add('hidden');
+        });
+    });
+
+    // Resto del código (FullCalendar y Axios)
+    let formulario = document.getElementById("eventForm");
     var calendarEl = document.getElementById('agenda');
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: 'dayGridMonth',
         locale: "es",
-        contentHeight: 'auto',  // Ajusta la altura automáticamente
+        contentHeight: 'auto',
         headerToolbar: {
-            left: 'prev,next today',  // Botones de navegación
-            center: 'title',          // Título central
-            right: 'dayGridMonth,timeGridWeek,listWeek' // Vistas disponibles
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,listWeek'
         },
         buttonText: {
             today: 'Hoy',
@@ -20,70 +35,50 @@ document.addEventListener('DOMContentLoaded', function() {
             day: 'Día',
             list: 'Agenda'
         },
-        events: baseURL+"/evento/mostrar",
-        
-        // Mostrar modal al hacer clic en una fecha
+        events: baseURL + "/evento/mostrar",
         dateClick: function(info) {
             formulario.reset();
             formulario.start.value = info.dateStr;
             formulario.end.value = info.dateStr;
-            $("#evento").modal("show");
+            modal.classList.remove('hidden');
         },
-
         eventClick: function(info) {
             var evento = info.event;
-            console.log(evento);
-
-            // Enviar datos con Axios
-            axios.post(baseURL+"/evento/editar/"+info.event.id)
+            axios.post(baseURL + "/evento/editar/" + info.event.id)
                 .then((respuesta) => {
                     formulario.id.value = respuesta.data.id;
                     formulario.title.value = respuesta.data.title;
                     formulario.descripcion.value = respuesta.data.descripcion;
                     formulario.start.value = respuesta.data.start;
                     formulario.end.value = respuesta.data.end;
-                    $("#evento").modal("show");
+                    modal.classList.remove('hidden');
                 })
                 .catch(error => {
-                    if(error.response){
+                    if (error.response) {
                         console.log(error.response.data);
                     }
                 });
         }
     });
 
-    // Renderizar el calendario
     calendar.render();
-
-    // Manejar el evento del botón "Guardar"
-    document.getElementById("btnGuardar").addEventListener("click", function() {
-        enviarDatos("/evento/agregar");
-    });
-
-    // Manejar el evento del botón "Eliminar"
-    document.getElementById("btnEliminar").addEventListener("click", function() {
-        enviarDatos("/evento/borrar/" + formulario.id.value);
-    });   
-    
-    // Manejar el evento del botón "Modificar"
-    document.getElementById("btnModificar").addEventListener("click", function() {
-        enviarDatos("/evento/actualizar/" + formulario.id.value);
-    });
 
     function enviarDatos(url) {
         const datos = new FormData(formulario);
         const nuevaURL = baseURL + url;
-        
-        // Enviar datos con Axios
         axios.post(nuevaURL, datos)
             .then((respuesta) => {
                 calendar.refetchEvents();
-                $("#evento").modal("hide");
+                modal.classList.add('hidden');
             })
             .catch(error => {
-                if(error.response){
+                if (error.response) {
                     console.log(error.response.data);
                 }
             });
     }
+
+    document.getElementById("btnGuardar").addEventListener("click", () => enviarDatos("/evento/agregar"));
+    document.getElementById("btnModificar").addEventListener("click", () => enviarDatos("/evento/actualizar/" + formulario.id.value));
+    document.getElementById("btnEliminar").addEventListener("click", () => enviarDatos("/evento/borrar/" + formulario.id.value));
 });

@@ -2,56 +2,52 @@
 @section('content')
 
 <div class="container flex flex-col items-center px-4 sm:px-8 lg:px-16">
-  <button type="button" class="btn bg-[#059212] text-white mb-4 px-6 py-2 text-sm sm:text-base" data-bs-toggle="modal" data-bs-target="#evento">
+  <button id="openModal" class="bg-[#059212] text-white mb-4 px-6 py-2 text-sm sm:text-base">
     Agregar Evento
   </button>
-  <div id="agenda" class="bg-white opacity-60 w-full rounded-md shadow-md p-4 sm:p-6 lg:p-8 overflow-x-auto overflow-y-auto">Calendario</div>
+  <div id="agenda" class="bg-white opacity-60 w-full rounded-md shadow-md p-4 sm:p-6 lg:p-8 overflow-x-auto">
+    Calendario
+  </div>
 </div>
 
 <!-- Modal -->
-<div class="modal fade" id="evento" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content bg-white opacity-90 shadow-lg">
-      <div class="modal-header flex flex-col sm:flex-row sm:items-center sm:justify-between">
-        <h5 class="modal-title text-lg sm:text-xl font-semibold" id="exampleModalLabel">Evento</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <form method="post">
-          {!! csrf_field() !!}
-
-          <div class="form-group mb-4">
-            <input type="hidden" class="form-control" name="id" id="id" aria-describedby="helpId" readonly>
-          </div>
-
-          <div class="form-group mb-4">
-            <label for="title" class="block text-sm font-medium mb-2">Título</label>
-            <input type="text" class="form-control w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500" name="title" id="title" aria-describedby="helpId" placeholder="Escribe el título del evento">
-          </div>
-
-          <div class="form-group mb-4">
-            <label for="descripcion" class="block text-sm font-medium mb-2">Descripción</label>
-            <textarea class="form-control w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500" name="descripcion" id="descripcion" rows="3" placeholder="Escribe la descripción del evento"></textarea>
-          </div>
-
-          <div class="form-group mb-4">
-            <label for="start" class="block text-sm font-medium mb-2">Inicio del Evento</label>
-            <input type="date" class="form-control w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500" name="start" id="start" aria-describedby="helpId" placeholder="">
-          </div>
-
-          <div class="form-group mb-4">
-            <label for="end" class="block text-sm font-medium mb-2">Fin del Evento</label>
-            <input type="date" class="form-control w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500" name="end" id="end" aria-describedby="helpId" placeholder="">
-          </div>
-        </form>
-      </div>
-      <div class="modal-footer flex flex-wrap gap-2">
-        <button type="button" class="btn bg-[#059212] text-white px-4 py-2 text-sm">Guardar</button>
-        <button type="button" class="btn bg-[#06D001] text-white px-4 py-2 text-sm">Modificar</button>
-        <button type="button" class="btn bg-[#9BEC00] text-white px-4 py-2 text-sm">Eliminar</button>
-        <button type="button" class="btn btn-secondary text-white px-4 py-2 text-sm" data-bs-dismiss="modal">Cerrar</button>
-      </div>
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+  <div class="bg-white w-full max-w-lg rounded-md shadow-lg p-6">
+    <div class="flex justify-between items-center mb-4">
+      <h5 class="text-lg sm:text-xl font-semibold">Evento</h5>
+      <button id="closeModal" class="text-gray-500 hover:text-gray-700">&times;</button>
     </div>
+    <form id="eventForm" method="post">
+      {!! csrf_field() !!}
+      <input type="hidden" name="id" id="id" readonly>
+
+      <div class="mb-4">
+        <label for="title" class="block text-sm font-medium mb-2">Título</label>
+        <input type="text" id="title" name="title" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500" placeholder="Escribe el título del evento">
+      </div>
+
+      <div class="mb-4">
+        <label for="descripcion" class="block text-sm font-medium mb-2">Descripción</label>
+        <textarea id="descripcion" name="descripcion" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500" rows="3" placeholder="Escribe la descripción del evento"></textarea>
+      </div>
+
+      <div class="mb-4">
+        <label for="start" class="block text-sm font-medium mb-2">Inicio del Evento</label>
+        <input type="date" id="start" name="start" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500">
+      </div>
+
+      <div class="mb-4">
+        <label for="end" class="block text-sm font-medium mb-2">Fin del Evento</label>
+        <input type="date" id="end" name="end" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring focus:ring-green-500">
+      </div>
+
+      <div class="flex justify-end space-x-2">
+        <button id="btnGuardar" type="button" class="bg-[#059212] text-white px-4 py-2 rounded-md">Guardar</button>
+        <button id="btnModificar" type="button" class="bg-[#06D001] text-white px-4 py-2 rounded-md">Modificar</button>
+        <button id="btnEliminar" type="button" class="bg-[#9BEC00] text-white px-4 py-2 rounded-md">Eliminar</button>
+        <button id="closeModalFooter" type="button" class="bg-gray-300 text-black px-4 py-2 rounded-md">Cerrar</button>
+      </div>
+    </form>
   </div>
 </div>
 
