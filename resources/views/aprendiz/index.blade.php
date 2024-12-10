@@ -88,7 +88,7 @@
 
                             <!-- Tarjeta 2 -->
                             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->estado->estado }}
+                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ ($aprendiz->aprendiz->estado_aprendiz)['nombre'] }}
                                 </h1>
                             </div>
 
@@ -136,7 +136,8 @@
                                             <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
                                         </span>
                                     @else
-                                        <a href="{{ $aprendices->previousPageUrl() }}">
+                                        <!-- Enlace a la página anterior, pasando el parámetro 'estado' -->
+                                        <a href="{{ $aprendices->previousPageUrl() }}&estado={{ $estadoVista }}">
                                             <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda" class="w-4 h-4">
                                         </a>
                                     @endif
@@ -146,7 +147,8 @@
                                     </span>
 
                                     @if ($aprendices->hasMorePages())
-                                        <a href="{{ $aprendices->nextPageUrl() }}">
+                                        <!-- Enlace a la página siguiente, pasando el parámetro 'estado' -->
+                                        <a href="{{ $aprendices->nextPageUrl() }}&estado={{ $estadoVista }}">
                                             <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha" class="w-4 h-4">
                                         </a>
                                     @else
@@ -175,7 +177,6 @@
                     </div>
                 </div>
             </div>
-
 
         </section>
 

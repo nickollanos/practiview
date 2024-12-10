@@ -23,7 +23,7 @@ class AprendizController extends Controller
 
         if ($estadoVista == 'activos') {
             $aprendices = Usuario::select('usuarios.*')
-            ->with(['estado', 'perfiles'])
+            ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
             ->whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
@@ -50,7 +50,7 @@ class AprendizController extends Controller
             ->countBy();
             //dd($aprendicesPorEstado);
 
-            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
 
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
@@ -67,7 +67,7 @@ class AprendizController extends Controller
             ->where('estado_id', 2)
             ->count();
 
-            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices'));
+            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices', 'estadoVista'));
         } else {
             // Redirige por defecto si no se selecciona un estado válido
             return view('dashboard');
