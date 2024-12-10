@@ -16,15 +16,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-
-Route::get('/evento', [EventoController::class, 'index']);
-Route::get('/evento/mostrar', [EventoController::class, 'show']);
-
-Route::post('/evento/agregar', [EventoController::class, 'store']);
-Route::post('/evento/editar/{id}', action: [EventoController::class, 'edit']);
-Route::post('/evento/actualizar/{evento}', action: [EventoController::class, 'update']);
-Route::post('/evento/borrar/{id}', action: [EventoController::class, 'destroy']);
-
 Route::get('aprendiz', function () {
     return view('aprendiz');
 });
@@ -33,24 +24,24 @@ Route::get('/dashboard', function () {
     $cantidadActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
     })
-    ->where('estado_id', 1)
-    ->count();
+        ->where('estado_id', 1)
+        ->count();
 
     $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
     })
-    ->where('estado_id', 2)
-    ->count();
+        ->where('estado_id', 2)
+        ->count();
 
     $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'instructor');
     })
-    ->where('estado_id', 1)
-    ->count();
+        ->where('estado_id', 1)
+        ->count();
     $numeroEmpresas = Empresa::where('estado_id', 1)->count();
     //dd($cantidadActivos);
 
-    return view('dashboard', compact('cantidadActivos', 'cantidadInstructores', 'numeroEmpresas','aprendicesInactivos'));
+    return view('dashboard', compact('cantidadActivos', 'cantidadInstructores', 'numeroEmpresas', 'aprendicesInactivos'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -73,9 +64,19 @@ Route::middleware('auth')->group(function () {
         'aprendiz' => AprendizController::class,
         'instructor' => InstructorController::class,
         'empresa' => EmpresaController::class,
-]);
+    ]);
+
+    Route::get('/aprendiz/ficha/{id}', action: [AprendizController::class, 'aprendizPorFicha']);
+
+    Route::get('/evento', [EventoController::class, 'index']);
+    Route::get('/evento/mostrar', [EventoController::class, 'show']);
+
+    Route::post('/evento/agregar', [EventoController::class, 'store']);
+    Route::post('/evento/editar/{id}', action: [EventoController::class, 'edit']);
+    Route::post('/evento/actualizar/{evento}', action: [EventoController::class, 'update']);
+    Route::post('/evento/borrar/{id}', action: [EventoController::class, 'destroy']);
 });
 
 
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

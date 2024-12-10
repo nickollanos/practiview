@@ -1,7 +1,9 @@
 @extends('layouts.app')
 @section('content')
 
-<div class="container flex flex-col items-center px-4 sm:px-8 lg:px-16">
+@include('layouts.nav')
+
+<div class="container flex flex-col items-center px-4 sm:px-8 lg:px-16 mt-20 mb-20">
   <button id="openModal" class="bg-[#059212] text-white mb-4 px-6 py-2 text-sm sm:text-base">
     Agregar Evento
   </button>
@@ -11,7 +13,7 @@
 </div>
 
 <!-- Modal -->
-<div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+<div id="modal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden ">
   <div class="bg-white w-full max-w-lg rounded-md shadow-lg p-6">
     <div class="flex justify-between items-center mb-4">
       <h5 class="text-lg sm:text-xl font-semibold">Evento</h5>
@@ -51,4 +53,25 @@
   </div>
 </div>
 
+@include('layouts.footer')
+
+@endsection
+
+@section('js')
+<script>
+const userMenuButton = document.getElementById('user-menu-button');
+const userMenu = document.getElementById('user-menu');
+
+// Script para mostrar/ocultar el menú desplegable
+userMenuButton.addEventListener('click', function() {
+    userMenu.classList.toggle('hidden');
+});
+
+// Cerrar el menú si se hace clic fuera de él
+document.addEventListener('click', function(event) {
+    if (!userMenuButton.contains(event.target) && !userMenu.contains(event.target)) {
+        userMenu.classList.add('hidden');
+    }
+});
+</script>
 @endsection
