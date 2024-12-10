@@ -170,6 +170,28 @@
                     </div>
                 </div>
 
+                <!-- Campo Rol -->
+                <div>
+                    <div>
+                        <label for="nombre" class="text-self font-poppins font-bold mb-1">Rol:</label>
+                    </div>
+                    <div
+                        class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                        <div class="p-2">
+                            <img src="{{ asset('images/ico-documento.svg') }}" alt="Document" class="c">
+                        </div>
+                        <select name="rol" id="rol" required
+                            class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                            <option value="">Rol</option>
+                            @foreach ($roles as $rol)
+                            <option value="{{ $rol['nombre'] }}">
+                                {{ $rol['nombre'] }}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                </div>
+
                 <!-- Botón Ingresar -->
                 <div class="flex justify-center">
                     <button type="submit"

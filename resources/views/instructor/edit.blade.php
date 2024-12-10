@@ -11,7 +11,7 @@
         <div class="flex flex-col items-center justify-center w-full py-8">
             <div
                 class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 sm:mb-0 border border-solid border-[#059212]">
-                <form action="{{ url('instructor/' . $usuario->id ) }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ url('instructor/' . $usuario->id) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('PUT')
                     @if (count($errors->all()) > 0)
@@ -28,7 +28,7 @@
                         <div class="w-[8rem] h-[8rem] sm:w-[12rem] sm:h-[12rem] overflow-hidden relative">
                             <!-- Imagen predeterminada -->
                             <img id="upload" class="w-full h-full object-cover rounded-full"
-                            src="{{ asset('images/' .  $usuario->foto_perfil) }}" alt="Perfil">
+                                src="{{ asset('images/' . $usuario->foto_perfil) }}" alt="Perfil">
 
                             <!-- Border -->
                             <img class="w-full h-full object-cover rounded-full z-0 absolute top-0 left-0" id="border"
@@ -39,7 +39,7 @@
                                 class="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer z-20"
                                 accept="image/png, image/jpeg, image/jpg">
 
-                            <input type="hidden" name="originphoto"  value="{{ $usuario->foto_perfil }}">
+                            <input type="hidden" name="originphoto" value="{{ $usuario->foto_perfil }}">
                         </div>
                     </div>
 
@@ -48,7 +48,8 @@
                         <div>
                             <label for="nombre" class="text-self font-poppins font-bold mb-1">Nombre:</label>
                         </div>
-                        <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                             <div class="p-2">
                                 <img src="{{ asset('images/ico-nombre.svg') }}" alt="Nombre" class="w-10 h-10">
                             </div>
@@ -63,7 +64,8 @@
                         <div>
                             <label for="nombre" class="text-self font-poppins font-bold mb-1">Apellido:</label>
                         </div>
-                        <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                             <div class="p-2">
                                 <img src="{{ asset('images/ico-nombre.svg') }}" alt="Apellido" class="w-10 h-10">
                             </div>
@@ -86,18 +88,20 @@
                             <select name="tipo_documento_id" id="tipo_documento_id" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
                                 @foreach ($tipo_documentos as $tipo_documento)
-                                <option value="{{ $tipo_documento['id'] }}" @if(old('tipo_documento_id') == $tipo_documento['id'] ) selected @endif>
-                                    {{ $tipo_documento['detalle'] }}
-                                </option>
+                                    <option value="{{ $tipo_documento['id'] }}"
+                                        @if (old('tipo_documento_id') == $tipo_documento['id']) selected @endif>
+                                        {{ $tipo_documento['detalle'] }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                     <!-- numero documento -->
-                     <div>
+                    <!-- numero documento -->
+                    <div>
                         <div>
-                            <label for="numero_documento" class="text-self font-poppins font-bold mb-1">Número de Documento:</label>
+                            <label for="numero_documento" class="text-self font-poppins font-bold mb-1">Número de
+                                Documento:</label>
                         </div>
                         <div
                             class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
@@ -114,7 +118,8 @@
                     <!-- Campo Fecha nacimiento -->
                     <div>
                         <div>
-                            <label for="fecha_nacimiento" class="text-self font-poppins font-bold mb-1">Fecha de Nacimiento:</label>
+                            <label for="fecha_nacimiento" class="text-self font-poppins font-bold mb-1">Fecha de
+                                Nacimiento:</label>
                         </div>
                         <div
                             class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
@@ -126,7 +131,7 @@
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
                                 value="{{ old('fecha_nacimiento', $usuario->fecha_nacimiento) }}">
                         </div>
-                    </div> 
+                    </div>
 
                     <!-- Campo Numero de telefono -->
                     <div>
@@ -147,14 +152,16 @@
                     <!-- Campo Correo -->
                     <div>
                         <div>
-                            <label for="email" class="text-self font-poppins font-bold mb-1">Correo Electrónico:</label>
+                            <label for="email" class="text-self font-poppins font-bold mb-1">Correo
+                                Electrónico:</label>
                         </div>
                         <div
                             class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                             <div class="p-2">
                                 <img src="{{ asset('images/ico-emails.svg') }}" alt="email" class="w-8 h-8">
                             </div>
-                            <input type="email" name="email" id="email" placeholder="Correo Electrónico" required
+                            <input type="email" name="email" id="email" placeholder="Correo Electrónico"
+                                required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
                                 value="{{ old('email', $usuario->email) }}">
                         </div>
@@ -173,13 +180,13 @@
                             <select name="sexo_id" id="sexo_id" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
                                 @foreach ($sexos as $sexo)
-                                <option value="{{ $sexo['id'] }} @if(old('sexo_id') == $sexo['id'] ) selected @endif">
-                                    {{ $sexo['nombre'] }}
-                                </option>
+                                    <option value="{{ $sexo['id'] }} @if (old('sexo_id') == $sexo['id']) selected @endif">
+                                        {{ $sexo['nombre'] }}
+                                    </option>
                                 @endforeach
                             </select>
                         </div>
-                    </div>                  
+                    </div>
 
                     <!-- Campo Direccion -->
                     <div>
@@ -194,6 +201,29 @@
                             <input type="text" name="direccion" id="direccion" placeholder="Dirección" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none"
                                 value="{{ old('direccion', $direccion) }}">
+                        </div>
+                    </div>
+
+                    <!-- Campo Rol -->
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Rol:</label>
+                        </div>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-documento.svg') }}" alt="Document" class="c">
+                            </div>
+                            <select name="rol" id="rol" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                <option value="">Rol</option>
+                                @foreach ($roles as $rol)
+                                <option value="{{ $rol->id }}"
+                                    @if (old('rol', isset($instructorRoles[0]) ? $instructorRoles[0] : null) == $rol->nombre) selected @endif>
+                                    {{ $rol->nombre }}
+                                </option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
 
