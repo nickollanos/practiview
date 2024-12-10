@@ -36,7 +36,7 @@ class AprendizController extends Controller
 
             // dd($aprendices->toArray());
 
-            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+            $aprendicesActivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
                 ->where('estado_id', 1)
@@ -54,7 +54,7 @@ class AprendizController extends Controller
                 })
                 ->countBy();
             //dd($aprendicesPorEstado);
-            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
+            return view('aprendiz.index', compact('aprendices', 'aprendicesPorEstado', 'aprendicesActivos'));
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
@@ -65,11 +65,12 @@ class AprendizController extends Controller
                 ->paginate(8);
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })->where('estado_id', 1)
+            ->count();
 
-            });
+            return view('aprendiz.inactivo', compact('aprendices', 'aprendicesInactivos', 'estadoVista'));
 
-            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
-            
         } elseif ($estadoVista == 'p-formacion') {
             $aprendices = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
@@ -219,7 +220,7 @@ class AprendizController extends Controller
                 ->paginate(8);
             //dd($aprendices->toArray());
 
-            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+            $aprendicesActivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
                 ->where('estado_id', 1)
@@ -237,7 +238,7 @@ class AprendizController extends Controller
                 })
                 ->countBy();
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido desactivado de manera exitosa');
-            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
+            return view('aprendiz.index', compact('aprendices', 'aprendicesActivos', 'aprendicesPorEstado'));
         } elseif ($request->input('action') === 'activate') {
             $usuario->estado_id = 1;
             $usuario->save();
