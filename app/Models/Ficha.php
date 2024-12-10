@@ -34,6 +34,6 @@ class Ficha extends Model
     //Relationship: una ficha tiene un aprendiz
     public function aprendiz()
     {
-        return $this->hasOne(Aprendiz::class, 'ficha_id', 'id');
+        return $this->hasMany(Aprendiz::class, 'ficha_id', 'id');
     }
 }

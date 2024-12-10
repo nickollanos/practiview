@@ -14,6 +14,8 @@
 
         <!-- Tarjetas superiores -->
         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-5 lg:grid-cols-5 gap-4 mt-10">
+
+        @if(Auth::user()->perfiles->first()->perfil === 'administrador')
             <!-- Tarjeta -->
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
@@ -49,16 +51,19 @@
                 <strong
                     class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesPorEstado['Cancelado'] ?? 0  }}</strong>
             </div>
+            @endif
         </div>
 
 
         <!-- Botón para agregar aprendiz -->
         <div id="agregar" class="agregar flex items-center justify-center space-x-4 space-y-2 p-1 max-h-14 mt-1">
+        @if(Auth::user()->perfiles->first()->perfil === 'administrador')
             <a href="{{ url('aprendiz/create') }}"
                 class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
                 <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
                 <h1 class="text-xl font-bold">Agregar Aprendiz</h1>
             </a>
+            @endif
         </div>
 
         <!-- Loader de carga -->
@@ -88,7 +93,7 @@
 
                             <!-- Tarjeta 2 -->
                             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->estado->estado }}
+                                <h1 class="text-sm font-medium text-gray-600">Estado: {{ $aprendiz->aprendiz->estadoAprendiz->nombre }}
                                 </h1>
                             </div>
 
@@ -101,6 +106,7 @@
                                             <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
                                         </a>
                                     </div>
+                                    @if(Auth::user()->perfiles->first()->perfil === 'administrador')
                                     <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
                                         <a href="{{ url('aprendiz/' . $aprendiz->id . '/edit') }}">
@@ -118,6 +124,7 @@
                                             @method('PATCH')
                                         </form>
                                     </div>
+                                    @endif
                                 </div>
                             </div>
                         </div>
