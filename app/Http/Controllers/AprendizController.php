@@ -39,46 +39,62 @@ class AprendizController extends Controller
             $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 1)
-            ->count();
+                ->where('estado_id', 1)
+                ->count();
             // dd($cantidadAprendices);
 
             $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 1)
-            ->with(['aprendiz.estadoAprendiz'])
-            ->get()
-            ->map(function ($usuario) {
-                return $usuario->aprendiz->estadoAprendiz->nombre;
-            })
-            ->countBy();
+                ->where('estado_id', 1)
+                ->with(['aprendiz.estadoAprendiz'])
+                ->get()
+                ->map(function ($usuario) {
+                    return $usuario->aprendiz->estadoAprendiz->nombre;
+                })
+                ->countBy();
             //dd($aprendicesPorEstado);
-
-            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
-
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
-            ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
-            ->whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
-            })
-            ->where('estado_id', 2)
-            ->paginate(8);
+                ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
+                ->whereHas('perfiles', function ($query) {
+                    $query->where('perfil', 'aprendiz');
+                })
+                ->where('estado_id', 2)
+                ->paginate(8);
+
+            $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
+        } elseif ($estadoVista == 'p-formacion') {
+            $aprendices = Usuario::select('usuarios.*')
+                ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
+                ->whereHas('perfiles', function ($query) {
+                    $query->where('perfil', 'aprendiz');
+                })
+                ->where('estado_id', 2)
+                ->paginate(8);
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 2)
-            ->count();
+                ->where('estado_id', 2)
+                ->count();
+            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices'));
+        } elseif ($estadoVista == 'p-ficha') {
+            $aprendices = Usuario::select('usuarios.*')
+                ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
+                ->whereHas('perfiles', function ($query) {
+                    $query->where('perfil', 'aprendiz');
+                })
+                ->where('estado_id', 1);
 
-            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices', 'estadoVista'));
-        } else {
-            // Redirige por defecto si no se selecciona un estado válido
-            return view('dashboard');
-        }
+            // Obtener solo las fichas que tienen aprendices
+            $fichas = Ficha::with('programa_formacion')
+                ->whereHas('aprendiz')  // Solo las fichas que tienen aprendices
+                ->paginate(8); // Paginamos directamente aquí
 
-    }
+            return view('aprendiz.ficha', compact('fichas', 'aprendices'));
 
     /**
      * Display a listing of the resource.
@@ -123,14 +139,13 @@ class AprendizController extends Controller
             $usuario->perfiles()->attach($perfil->id);
             $aprendiz = Aprendiz::firstOrNew(['usuario_id' => $usuario->id]);
             if (!$aprendiz->exists) {
-            $aprendiz->ficha_id = '1';
-            $aprendiz->estado_aprendiz_id = '1';
-            $aprendiz->save();
+                $aprendiz->ficha_id = '1';
+                $aprendiz->estado_aprendiz_id = '1';
+                $aprendiz->save();
             }
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido añadido de manera exitosa');
             return redirect('aprendiz');
         }
-
     }
 
     public function search(Request $request)
@@ -139,15 +154,15 @@ class AprendizController extends Controller
 
         // Realiza la búsqueda de aprendices
         $aprendices = Usuario::query()
-        ->with(['estado', 'perfiles'])
-        ->whereHas('perfiles', function ($q) {
-            $q->where('perfil', 'aprendiz');
-        })
-        ->where(function ($q) use ($query) {
-            $q->where('nombre', 'LIKE', "%$query%");
-        })
-        ->where('estado_id', 1)
-        ->paginate(8);
+            ->with(['estado', 'perfiles'])
+            ->whereHas('perfiles', function ($q) {
+                $q->where('perfil', 'aprendiz');
+            })
+            ->where(function ($q) use ($query) {
+                $q->where('nombre', 'LIKE', "%$query%");
+            })
+            ->where('estado_id', 1)
+            ->paginate(8);
         return view('aprendiz.search', compact('aprendices'))->render();
         // return view('aprendiz.index', compact('aprendices'))->render();
     }
@@ -165,7 +180,7 @@ class AprendizController extends Controller
         return view('aprendiz.show', compact('usuario', 'numero_ficha', 'siglas_programa', 'edad', 'direccion', 'fechaNacimiento'))->render();
     }
 
-     /**
+    /**
      * Show the form for editing the specified resource.
      */
     public function edit($id)
@@ -190,68 +205,68 @@ class AprendizController extends Controller
             $usuario->estado_id = 2;
             $usuario->save();
             $aprendices = Usuario::select('usuarios.*')
-            ->with(['estado', 'perfiles'])
-            ->whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
-            })
-            ->where('estado_id', 1)
-            ->paginate(8);
+                ->with(['estado', 'perfiles'])
+                ->whereHas('perfiles', function ($query) {
+                    $query->where('perfil', 'aprendiz');
+                })
+                ->where('estado_id', 1)
+                ->paginate(8);
             //dd($aprendices->toArray());
 
             $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 1)
-            ->count();
+                ->where('estado_id', 1)
+                ->count();
             // dd($cantidadAprendices);
 
             $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 1)
-            ->with(['aprendiz.estadoAprendiz'])
-            ->get()
-            ->map(function ($usuario) {
-                return $usuario->aprendiz->estadoAprendiz->nombre;
-            })
-            ->countBy();
+                ->where('estado_id', 1)
+                ->with(['aprendiz.estadoAprendiz'])
+                ->get()
+                ->map(function ($usuario) {
+                    return $usuario->aprendiz->estadoAprendiz->nombre;
+                })
+                ->countBy();
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido desactivado de manera exitosa');
             return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
         } elseif ($request->input('action') === 'activate') {
             $usuario->estado_id = 1;
             $usuario->save();
             $aprendices = Usuario::select('usuarios.*')
-            ->with(['estado', 'perfiles'])
-            ->whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
-            })
-            ->where('estado_id', 2)
-            ->paginate(8);
+                ->with(['estado', 'perfiles'])
+                ->whereHas('perfiles', function ($query) {
+                    $query->where('perfil', 'aprendiz');
+                })
+                ->where('estado_id', 2)
+                ->paginate(8);
             //dd($aprendices->toArray());
 
             $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 2)
-            ->count();
+                ->where('estado_id', 2)
+                ->count();
             // dd($cantidadAprendices);
 
             $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 2)
-            ->with(['aprendiz.estadoAprendiz'])
-            ->get()
-            ->map(function ($usuario) {
-                return $usuario->aprendiz->estadoAprendiz->nombre;
-            })
-            ->countBy();
+                ->where('estado_id', 2)
+                ->with(['aprendiz.estadoAprendiz'])
+                ->get()
+                ->map(function ($usuario) {
+                    return $usuario->aprendiz->estadoAprendiz->nombre;
+                })
+                ->countBy();
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 2)
-            ->count();
+                ->where('estado_id', 2)
+                ->count();
 
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido activado de manera exitosa');
             return view('aprendiz.inactivo', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'aprendicesInactivos'));
@@ -296,4 +311,23 @@ class AprendizController extends Controller
         // return redirect('aprendiz');
     }
 
+    public function aprendizPorFicha($id)
+    {
+        // Buscar la ficha y cargar los aprendices con sus usuarios
+        $aprendices = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');  // Filtrar por el perfil "aprendiz"
+            })
+            ->where('estado_id', 1)  // Filtrar por estado activo
+            ->whereHas('aprendiz', function ($query) use ($id) {
+                $query->where('ficha_id', $id);  // Filtrar por el `ficha_id` enviado
+            })
+            ->paginate(8);  // Paginación de los resultados
+
+        return view('aprendiz.index', compact('aprendices'));
+        // Aquí podrás ver la estructura de datos
+
+        // Retornar a la vista, pasando los aprendices de la fich
+    }
 }

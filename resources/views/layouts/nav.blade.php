@@ -26,7 +26,7 @@
                         <h2 class="text-gray-600">Rol: {{ Auth::user()->perfiles->first()->perfil }}</h2>
                     </div>
                     <ul>
-                        <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li>
+                        <!-- <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="/mi-perfil">Mi perfil</a></li> -->
                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer"><a href="{{ url('dashboard') }}">Menú
                                 principal</a></li>
                         <li class="px-4 py-2 hover:bg-gray-100 cursor-pointer">

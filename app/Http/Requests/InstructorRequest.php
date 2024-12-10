@@ -32,6 +32,7 @@ class InstructorRequest extends FormRequest
                 'email' => 'required|string|lowercase|email',
                 'sexo_id' => 'required',
                 'direccion' => 'required|string',
+                'rol' => 'required',
             ];
         }else{
         return [
@@ -44,6 +45,7 @@ class InstructorRequest extends FormRequest
                 'email' => ['required', 'string', 'lowercase', 'email', 'unique:'.Usuario::class],
                 'sexo_id' => ['required'],
                 'direccion' => ['required', 'string'],
+                'rol' => ['required'],
             ];
         }
     }
