@@ -17,45 +17,66 @@ class InstructorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $instructores = Usuario::select('usuarios.*') // Asegura que todos los campos de usuarios sean seleccionados
-            ->with(['estado', 'perfiles']) // Carga las relaciones necesarias
+        $estadoVista = $request->input('estado');
+
+        if ($estadoVista == 'activos') {
+
+            $ficha = Ficha::all();
+
+            $instructores = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles', 'instructor.rol'])
             ->whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'instructor'); // Filtra usuarios con el perfil 'aprendiz'
+                $query->where('perfil', 'instructor');
             })
             ->where('estado_id', 1)
             ->paginate(8);
 
-        $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
-            $query->where('perfil', 'instructor');
-        })
+            // dd($instructor->toArray());
+
+            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
             ->where('estado_id', 1)
             ->count();
+            // dd($cantidadAprendices);
 
-        // $cantidadFichas = Ficha::where('numero_ficha', '!=', 'sinficha')
-        // ->count();
-
-        $cantidadGestores = Usuario::whereHas('perfiles', function ($query) {
-            $query->where('perfil', 'instructor'); // Filtrar usuarios con el perfil 'instructor'
-        })
-            ->whereHas('instructor.rol', function ($query) {
-                $query->where('nombre', 'gestor'); // Filtrar instructores con el rol 'gestor'
+            $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
             })
-            ->where('estado_id', 1) // Filtrar por estado activo
-            ->count();
-        // dd($cantidadGestores);
-
-        $cantidadSeguimiento = Usuario::whereHas('perfiles', function ($query) {
-            $query->where('perfil', 'instructor'); // Filtrar usuarios con el perfil 'instructor'
-        })
-            ->whereHas('instructor.rol', function ($query) {
-                $query->where('nombre', 'seguimiento'); // Filtrar instructores con el rol 'gestor'
+            ->where('estado_id', 1)
+            ->with(['aprendiz.estadoAprendiz'])
+            ->get()
+            ->map(function ($usuario) {
+                return $usuario->aprendiz->estadoAprendiz->nombre;
             })
-            ->where('estado_id', 1) // Filtrar por estado activo
+            ->countBy();
+            //dd($aprendicesPorEstado);
+
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
+
+        } elseif ($estadoVista == 'inactivos') {
+            $aprendices = Usuario::select('usuarios.*')
+            ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
+            ->paginate(8);
+
+            $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 2)
             ->count();
 
-        return view('instructor.index', compact('instructores', 'cantidadInstructores', 'cantidadGestores', 'cantidadSeguimiento'));
+            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices', 'estadoVista'));
+        } else {
+            // Redirige por defecto si no se selecciona un estado válido
+            return view('dashboard');
+        }
+
     }
 
     /**
@@ -105,7 +126,6 @@ class InstructorController extends Controller
             $rolesPermitidos = $usuario->rol = $request->rol;
             $rol = Rol::where('nombre', $rolesPermitidos)->first();
             $instructor->rol()->attach($rol->id);  
-            $instructor->save();
             }
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido añadido de manera exitosa');
             return redirect('instructor');
@@ -120,7 +140,7 @@ class InstructorController extends Controller
     {
         $query = $request->q;
 
-        // Realiza la búsqueda de los instructores 
+        // Realiza la búsqueda de los instructores
         $instructores = Usuario::query()
         ->with(['estado', 'perfiles'])
         ->whereHas('perfiles', function ($q) {

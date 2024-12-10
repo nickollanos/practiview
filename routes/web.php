@@ -16,12 +16,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('aprendiz', function () {
-    return view('aprendiz');
-});
-
 Route::get('/dashboard', function () {
-    $cantidadActivos = Usuario::whereHas('perfiles', function ($query) {
+    $aprendicesActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
     })
         ->where('estado_id', 1)
@@ -33,15 +29,22 @@ Route::get('/dashboard', function () {
         ->where('estado_id', 2)
         ->count();
 
-    $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
+    $instructoresActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'instructor');
     })
-        ->where('estado_id', 1)
-        ->count();
+    ->where('estado_id', 1)
+    ->count();
+
+    $instructoresInactivos = Usuario::whereHas('perfiles', function ($query) {
+        $query->where('perfil', 'instructor');
+    })
+    ->where('estado_id', 2)
+    ->count();
+
     $numeroEmpresas = Empresa::where('estado_id', 1)->count();
     //dd($cantidadActivos);
 
-    return view('dashboard', compact('cantidadActivos', 'cantidadInstructores', 'numeroEmpresas', 'aprendicesInactivos'));
+    return view('dashboard', compact('aprendicesActivos', 'instructoresActivos', 'numeroEmpresas','aprendicesInactivos','instructoresInactivos'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -56,8 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
-
     Route::post('instructor/search', [InstructorController::class, 'search']);
+    Route::get('aprendiz', [AprendizController::class, 'index'])->name('aprendiz.index');
+    Route::get('aprendiz/paginate/{page}', [AprendizController::class, 'index'])->name('aprendiz.paginate');
 
     Route::resources([
         'usuarios' => UsuarioController::class,

@@ -23,14 +23,18 @@ class AprendizController extends Controller
         $estadoVista = $request->input('estado');
 
         if ($estadoVista == 'activos') {
+
+            $ficha = Ficha::all();
+
             $aprendices = Usuario::select('usuarios.*')
-                ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
-                ->whereHas('perfiles', function ($query) {
-                    $query->where('perfil', 'aprendiz');
-                })
-                ->where('estado_id', 1)
-                ->paginate(8);
-            //dd($aprendices->toArray());
+            ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
+            ->whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'aprendiz');
+            })
+            ->where('estado_id', 1)
+            ->paginate(8);
+
+            // dd($aprendices->toArray());
 
             $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
@@ -50,7 +54,6 @@ class AprendizController extends Controller
                 })
                 ->countBy();
             //dd($aprendicesPorEstado);
-
             return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado'));
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
@@ -62,12 +65,7 @@ class AprendizController extends Controller
                 ->paginate(8);
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
-            })
-                ->where('estado_id', 2)
-                ->count();
-
-            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices'));
+            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
         } elseif ($estadoVista == 'p-formacion') {
             $aprendices = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
@@ -82,7 +80,6 @@ class AprendizController extends Controller
             })
                 ->where('estado_id', 2)
                 ->count();
-
             return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices'));
         } elseif ($estadoVista == 'p-ficha') {
             $aprendices = Usuario::select('usuarios.*')
@@ -98,11 +95,6 @@ class AprendizController extends Controller
                 ->paginate(8); // Paginamos directamente aquí
 
             return view('aprendiz.ficha', compact('fichas', 'aprendices'));
-        } else {
-            // Redirige por defecto si no se selecciona un estado válido
-            return view('dashboard');
-        }
-    }
 
     /**
      * Display a listing of the resource.

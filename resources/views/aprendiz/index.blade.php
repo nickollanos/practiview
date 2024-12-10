@@ -143,7 +143,8 @@
                                             <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
                                         </span>
                                     @else
-                                        <a href="{{ $aprendices->previousPageUrl() }}">
+                                        <!-- Enlace a la página anterior, pasando el parámetro 'estado' -->
+                                        <a href="{{ $aprendices->previousPageUrl() }}&estado={{ $estadoVista }}">
                                             <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda" class="w-4 h-4">
                                         </a>
                                     @endif
@@ -153,7 +154,8 @@
                                     </span>
 
                                     @if ($aprendices->hasMorePages())
-                                        <a href="{{ $aprendices->nextPageUrl() }}">
+                                        <!-- Enlace a la página siguiente, pasando el parámetro 'estado' -->
+                                        <a href="{{ $aprendices->nextPageUrl() }}&estado={{ $estadoVista }}">
                                             <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha" class="w-4 h-4">
                                         </a>
                                     @else
@@ -182,7 +184,6 @@
                     </div>
                 </div>
             </div>
-
 
         </section>
 
