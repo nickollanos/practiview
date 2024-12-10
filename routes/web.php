@@ -30,7 +30,7 @@ Route::get('aprendiz', function () {
 });
 
 Route::get('/dashboard', function () {
-    $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
+    $cantidadActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
     })
     ->where('estado_id', 1)
@@ -48,8 +48,9 @@ Route::get('/dashboard', function () {
     ->where('estado_id', 1)
     ->count();
     $numeroEmpresas = Empresa::where('estado_id', 1)->count();
+    //dd($cantidadActivos);
 
-    return view('dashboard', compact('cantidadAprendices', 'cantidadInstructores', 'numeroEmpresas','aprendicesInactivos'));
+    return view('dashboard', compact('cantidadActivos', 'cantidadInstructores', 'numeroEmpresas','aprendicesInactivos'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {

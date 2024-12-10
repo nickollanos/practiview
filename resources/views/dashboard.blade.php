@@ -25,7 +25,7 @@
             </div>
             <div class="px-4 pb-6">
                 <!-- Total de aprendices -->
-                <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Aprendices Activos: {{ $cantidadAprendices }}</h1>
+                <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Aprendices Activos: {{ $cantidadActivos }}</h1>
                 <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Aprendices Inactivos: {{ $aprendicesInactivos }}</h1>
                 <form action="{{ url('aprendiz') }}" method="GET" class="mb-4">
                     <div class="flex items-center justify-between">

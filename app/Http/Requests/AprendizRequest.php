@@ -34,6 +34,10 @@ class AprendizRequest extends FormRequest
                 'sexo_id' => 'required',
                 'direccion' => 'required|string',
             ];
+        }elseif($this->method() == 'PATCH'){
+                return[
+                    'action' => 'required|string',
+                ];
         }else{
         return [
                 'numero_documento' => ['required', 'numeric', 'unique:'.Usuario::class],
