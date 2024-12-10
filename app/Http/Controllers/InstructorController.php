@@ -66,7 +66,8 @@ class InstructorController extends Controller
         //
         $tipo_documentos = Tipo_documento::all();
         $sexos           = Sexo::all();
-        return view('instructor.create')->with('tipo_documentos', $tipo_documentos)->with('sexos', $sexos);
+        $roles           = Rol::all();
+        return view('instructor.create')->with('tipo_documentos', $tipo_documentos)->with('sexos', $sexos)->with('roles', $roles);
     }
 
     /**
@@ -101,8 +102,8 @@ class InstructorController extends Controller
             $instructor = Instructor::firstOrNew(['usuario_id' => $usuario->id]);
             if (!$instructor->exists) {
             $instructor->save();
-            $rolesPermitidos = ['gestor', 'seguimiento', 'instructor'];
-            $rol = Rol::where('nombre', 'seguimiento')->first();
+            $rolesPermitidos = $usuario->rol = $request->rol;
+            $rol = Rol::where('nombre', $rolesPermitidos)->first();
             $instructor->rol()->attach($rol->id);  
             $instructor->save();
             }
@@ -153,10 +154,11 @@ class InstructorController extends Controller
         //dd($id);
         $tipo_documentos = Tipo_documento::all();
         $sexos           = Sexo::all();
-        $usuario = Usuario::with('aprendiz', 'perfiles', 'estado', 'sexo', 'tipo_documento')->findOrFail($id);
+        $roles           = Rol::all();
+        $usuario = Usuario::with('instructor.rol', 'perfiles', 'estado', 'sexo', 'tipo_documento')->findOrFail($id);
+        $instructorRoles = $usuario->instructor ? $usuario->instructor->rol->pluck('nombre')->toArray() : [];
         $direccion = \Illuminate\Support\Str::limit($usuario->direccion, 20);
-        return view('instructor.edit', compact('usuario', 'sexos', 'tipo_documentos', 'direccion'))->render();
-    }
+        return view('instructor.edit', compact('usuario', 'sexos', 'tipo_documentos', 'direccion', 'roles', 'instructorRoles'))->render();    }
 
     /**
      * Update the specified resource in storage.
@@ -187,6 +189,16 @@ class InstructorController extends Controller
         $usuario->foto_perfil = $foto_perfil;
 
         $usuario->save();
+
+        // Verificar si el usuario tiene un instructor asociado
+    if ($usuario->instructor) {
+        // Obtener el instructor
+        $instructor = $usuario->instructor;
+
+        // Actualizar el rol del instructor
+        $instructor->rol()->sync([$request->rol]); // `sync` asegura que solo se quede con el nuevo rol
+    }
+    
         session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido modificado de manera exitosa');
         return redirect('instructor');
     }
