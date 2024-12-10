@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Evento;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\PostEventoMail;
 
 class EventoController extends Controller
 {
@@ -40,6 +42,10 @@ class EventoController extends Controller
             'start' => $validated['start'],
             'end' => $validated['end'],
         ]);
+
+        Evento::create($request->all());
+        Mail::to('practiview@gmail.com')->send(new PostEventoMail);
+    
     
         // Retornar una respuesta de éxito con los datos del evento creado
         return response()->json($evento, 201);
