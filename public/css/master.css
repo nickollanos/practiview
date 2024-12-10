@@ -1,0 +1,20 @@
+.fc-toolbar {
+    display: flex;
+    flex-wrap: wrap; /* Permite que los botones se ajusten en pantallas pequeñas */
+    justify-content: space-between; /* Espacio entre los elementos */
+  }
+  
+  .fc-toolbar-chunk {
+    margin-bottom: 0.5rem; /* Margen inferior entre filas */
+  }
+  
+  .fc-button {
+    padding: 0.5rem 1rem; /* Ajusta el tamaño de los botones */
+    font-size: 0.875rem; /* Tamaño de fuente más pequeño */
+  }
+  
+  .fc-header-title {
+    text-align: center;
+    flex: 1; /* Ocupa el espacio restante */
+  }
+  
