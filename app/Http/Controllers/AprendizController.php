@@ -65,7 +65,11 @@ class AprendizController extends Controller
                 ->paginate(8);
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
+
+            });
+
             return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
+            
         } elseif ($estadoVista == 'p-formacion') {
             $aprendices = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
@@ -95,6 +99,8 @@ class AprendizController extends Controller
                 ->paginate(8); // Paginamos directamente aquí
 
             return view('aprendiz.ficha', compact('fichas', 'aprendices'));
+        }
+        }
 
     /**
      * Display a listing of the resource.
