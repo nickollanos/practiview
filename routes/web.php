@@ -16,6 +16,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/instrumento', function () {
+    return view('instrumento');
+});
+
+Route::get('/carpetas', function () {
+    return view('carpetas');
+});
+
+
 Route::get('/dashboard', function () {
     $aprendicesActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
