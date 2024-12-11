@@ -67,26 +67,11 @@ class AprendizController extends Controller
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
-            })->where('estado_id', 1)
+            })->where('estado_id', 2)
             ->count();
 
             return view('aprendiz.inactivo', compact('aprendices', 'aprendicesInactivos', 'estadoVista'));
 
-        } elseif ($estadoVista == 'p-formacion') {
-            $aprendices = Usuario::select('usuarios.*')
-                ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
-                ->whereHas('perfiles', function ($query) {
-                    $query->where('perfil', 'aprendiz');
-                })
-                ->where('estado_id', 2)
-                ->paginate(8);
-
-            $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
-            })
-                ->where('estado_id', 2)
-                ->count();
-            return view('aprendiz.inactivo', compact('aprendicesInactivos', 'aprendices'));
         } elseif ($estadoVista == 'p-ficha') {
             $aprendices = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
@@ -340,5 +325,20 @@ class AprendizController extends Controller
         // Aquí podrás ver la estructura de datos
 
         // Retornar a la vista, pasando los aprendices de la fich
+    }
+
+    public function searchFicha(Request $request) {
+        $query = $request->q;
+
+        // Realiza la búsqueda de aprendices
+        $fichas = Ficha::query()
+            ->with(['aprendiz'])
+            ->where(function ($q) use ($query) {
+                $q->where('numero_ficha', 'LIKE', "%$query%");
+            })
+            ->where('estado_id', 1)
+            ->paginate(8);
+        return view('aprendiz.searchFicha', compact('fichas'))->render();
+        // return view('aprendiz.index', compact('aprendices'))->render();
     }
 }
