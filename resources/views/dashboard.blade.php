@@ -187,7 +187,7 @@
             <div class="px-4 pb-6">
                 <!-- Botón -->
                 <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg mt-10">
-                <a href="{{url('estadistica')}}">
+                <a href="https://lookerstudio.google.com/u/5/reporting/a27c4811-31ec-49ac-a716-3c754c218ca8/page/LE0YE">
                     Ver Detalle
                 </a>
                 </button>
