@@ -16,6 +16,15 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/instrumento', function () {
+    return view('instrumento');
+});
+
+Route::get('/carpetas', function () {
+    return view('carpetas');
+});
+
+
 Route::get('/dashboard', function () {
     $aprendicesActivos = Usuario::whereHas('perfiles', function ($query) {
         $query->where('perfil', 'aprendiz');
@@ -60,6 +69,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('instructor/{id}/updateEstado', [InstructorController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
+    Route::post('aprendiz/searchFicha', [AprendizController::class, 'searchFicha']);
     Route::post('instructor/search', [InstructorController::class, 'search']);
     Route::get('aprendiz', [AprendizController::class, 'index'])->name('aprendiz.index');
     Route::get('aprendiz/paginate/{page}', [AprendizController::class, 'index'])->name('aprendiz.paginate');
@@ -72,6 +82,7 @@ Route::middleware('auth')->group(function () {
     ]);
 
     Route::get('/aprendiz/ficha/{id}', action: [AprendizController::class, 'aprendizPorFicha']);
+    Route::get('/empresa/zona/{id}', action: [EmpresaController::class, 'empresaPorZona']);
 
     Route::get('/evento', [EventoController::class, 'index']);
     Route::get('/evento/mostrar', [EventoController::class, 'show']);
