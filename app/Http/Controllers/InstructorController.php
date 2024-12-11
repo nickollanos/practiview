@@ -226,9 +226,11 @@ class InstructorController extends Controller
                 ->with(['instructor.rol'])
                 ->get()
                 ->map(function ($usuario) {
-                    return $usuario->instructor->rol->nombre;
+                    return optional($usuario->instructor->rol->first())->nombre; 
                 })
                 ->countBy();
+
+            
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido desactivado de manera exitosa');
             return view('instructor.index', compact('instructores', 'instructoresActivos', 'instructoresPorEstado' ));
         } elseif ($request->input('action') === 'activate') {
@@ -257,7 +259,7 @@ class InstructorController extends Controller
                 ->with(['instructor.rol'])
                 ->get()
                 ->map(function ($usuario) {
-                    return $usuario->instructor->rol->nombre;
+                    return optional($usuario->instructor->rol->first())->nombre; 
                 })
                 ->countBy();
 
@@ -334,10 +336,10 @@ class InstructorController extends Controller
      */
     public function destroy($id)
     {
-        $usuario = Usuario::findOrFail($id);
-        $usuario->estado_id = 2;
-        $usuario->save();
-        session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido eliminado de manera exitosa');
-        return redirect('instructor');
+        // $usuario = Usuario::findOrFail($id);
+        // $usuario->estado_id = 2;
+        // $usuario->save();
+        // session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido eliminado de manera exitosa');
+        // return redirect('instructor');
     }
 }
