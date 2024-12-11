@@ -57,16 +57,10 @@
                             <!-- Tarjeta 3 -->
                             <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
                                 <div class="flex items-center justify-center space-x-4">
-                                    {{-- <div
+                                    <div
                                         class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
                                         <a href="{{ url('instructor/' . $instructor->id) }}">
                                             <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
-                                        </a>
-                                    </div> --}}
-                                    <div
-                                        class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                        <a href="{{ url('instructor/' . $instructor->id . '/edit') }}">
-                                            <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
                                         </a>
                                     </div>
 

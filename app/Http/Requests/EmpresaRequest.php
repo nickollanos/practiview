@@ -31,14 +31,18 @@ class EmpresaRequest extends FormRequest
                 'email' => 'required|string|lowercase|email',
                 'direccion' => 'required|string',
             ];
-        }else{
-        return [
-                'numero_nit' => ['required', 'numeric', 'unique:'.Empresa::class],
+        } elseif ($this->method() == 'PATCH') {
+            return [
+                'action' => 'required|string',
+            ];
+        } else {
+            return [
+                'numero_nit' => ['required', 'numeric', 'unique:' . Empresa::class],
                 'nombre' => ['required', 'string'],
                 'zona_id' => ['required'],
                 'estado_id' => ['required'],
                 'telefono' => ['required'],
-                'email' => ['required', 'string', 'lowercase', 'email', 'unique:'.Empresa::class],
+                'email' => ['required', 'string', 'lowercase', 'email', 'unique:' . Empresa::class],
                 'direccion' => ['required', 'string'],
             ];
         }
@@ -46,14 +50,14 @@ class EmpresaRequest extends FormRequest
 
     public function message(): array
     {
-        return[
+        return [
             'nombre.required' => 'El nombre es requerido'
         ];
     }
 
     public function attributes(): array
     {
-        return[
+        return [
             'nombre' => 'Nombre Completo'
         ];
     }

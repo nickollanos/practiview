@@ -81,7 +81,7 @@
             </div>
             <div class="px-4 pb-6">
                 <!-- Botón -->
-                <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg mt-10">
+                <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg">
                 <a href="{{url('evento')}}">
                     Ver Detalle
                 </a>
@@ -162,11 +162,18 @@
             <div class="px-4 pb-6">
                 <!-- Total de aprendices -->
                 <!-- Botón -->
-                <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg mt-20">
-                <a href="{{ url('empresa') }}">
-                    Ver Detalle
-                </a>
-                </button>
+                <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Empresas Activas: {{ $empresasActivas }}</h1>
+                <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Empresas Inactivas: {{ $empresasInactivas }}</h1>                <!-- Botón -->
+                <form action="{{ url('empresa') }}" method="GET" class="mb-4">
+                    <div class="flex items-center justify-between">
+                        <select name="estado" class="w-full bg-[#059212] font-extrabold text-white border-2 border-[#059212] py-2 px-3 rounded-lg font-poppins" onchange="this.form.submit()">
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option value="activos">Activos</option>
+                            <option value="inactivos">Inactivos</option>
+                        </select>
+                    </div>
+                </form>
+
             </div>
         </div>
 

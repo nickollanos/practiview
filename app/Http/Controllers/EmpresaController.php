@@ -36,7 +36,27 @@ class EmpresaController extends Controller
             //dd($aprendicesPorEstado);
 
             return view('empresa.index', compact('empresas', 'cantidadEmpresas', 'empresasPorEstado'));
-        } elseif ($estadoVista == 'E.zona') {
+        } elseif ($estadoVista == 'inactivos') {
+            $empresas = Empresa::select('empresas.*') // Asegura que todos los campos de usuarios sean seleccionados
+                ->where('estado_id', 2)
+                ->paginate(8);
+            //dd($aprendices->toArray());
+
+            $cantidadEmpresas = Empresa::select('empresas.*')
+                ->where('estado_id', 2)
+                ->count();
+
+            $empresasPorEstado = Empresa::selectRaw('estado_id, COUNT(*) as cantidad')
+                ->groupBy('estado_id') // Agrupar por estado_aprendiz_id
+                ->with('estado') // Cargar los datos del estado
+                ->get()
+                ->mapWithKeys(function ($item) {
+                    return [$item->estado->estado => $item->cantidad];
+                });
+            //dd($aprendicesPorEstado);
+
+            return view('empresa.inactivo', compact('empresas', 'cantidadEmpresas', 'empresasPorEstado'));
+        }elseif ($estadoVista == 'E.zona') {
             // Obtener las empresas con su zona asociada y filtrar por estado activo
             $empresas = Empresa::with('zona') // Cargar la zona asociada
                 ->where('estado_id', 1) // Filtrar empresas activas
@@ -73,7 +93,7 @@ class EmpresaController extends Controller
 
         $empresa->save();
         session()->flash('message', 'El usuario ' . $empresa->nombre . ' ha sido añadido de manera exitosa');
-        return redirect('empresa');
+        return redirect()->route('empresa.index', ['estado' => 'activos']);
     }
 
     public function search(Request $request)
@@ -117,17 +137,40 @@ class EmpresaController extends Controller
 
         $empresa->save();
         session()->flash('message', 'El usuario ' . $empresa->nombre . ' ha sido modificado de manera exitosa');
-        return redirect('empresa');
+        return redirect()->route('empresa.index', ['estado' => 'activos']);
     }
 
-    public function destroy($id)
+    public function updateEstado(EmpresaRequest $request, $id)
     {
+        //dd($request->all());
+        //dd($request);
         $empresa = Empresa::findOrFail($id);
-        $empresa->estado_id = 2;
-        $empresa->save();
-        session()->flash('message', 'El usuario ' . $empresa->nombre . ' ha sido eliminado de manera exitosa');
-        return redirect('empresa');
+
+        if ($request->input('action') === 'desactivate') {
+            $empresa->estado_id = 2;
+            $empresa->save();
+
+
+            session()->flash('message', 'La empresa ' . $empresa->nombre . ' ha sido desactivado de manera exitosa');
+            return redirect()->route('empresa.index', ['estado' => 'activos']);
+        } elseif ($request->input('action') === 'activate') {
+            $empresa->estado_id = 1;
+            $empresa->save();
+
+            session()->flash('message', 'La empresa ' . $empresa->nombre . ' ha sido activado de manera exitosa');
+            return redirect()->route('empresa.index', ['estado' => 'inactivos']);
+        }
     }
+
+
+    // public function destroy($id)
+    // {
+    //     $empresa = Empresa::findOrFail($id);
+    //     $empresa->estado_id = 2;
+    //     $empresa->save();
+    //     session()->flash('message', 'El usuario ' . $empresa->nombre . ' ha sido eliminado de manera exitosa');
+    //     return redirect()->route('empresa.index', ['estado' => 'activos']);
+    // }
 
     public function empresaPorZona($id)
     {

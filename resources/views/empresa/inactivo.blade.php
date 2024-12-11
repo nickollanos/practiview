@@ -22,13 +22,6 @@
 
     <!-- Botón para agregar empresa -->
     <div id="agregar" class="agregar flex justify-center space-x-4 p-1 max-h-14"> <!-- Reducido mt-1 a mt-2 -->
-        @if(Auth::user()->perfiles->first()->perfil === 'administrador')
-        <a href="{{ url('empresa/create') }}"
-            class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
-            <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
-            <h1 class="text-xl font-bold">Agregar Empresa</h1>
-        </a>
-        @endif
     </div>
 
     <!-- Loader de carga -->
@@ -40,7 +33,7 @@
 
     <!-- Tarjetas inferiores -->
     <section>
-        <div id="list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2 mt-2"> <!-- Reducido gap-4 a gap-2 y mt-4 a mt-2 -->
+    <div id="list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2 mt-2"> <!-- Reducido gap-4 a gap-2 y mt-4 a mt-2 -->
             @foreach ($empresas as $empresa)
             <div class="flex items-start space-x-4 bg-white shadow-lg rounded-lg p-2 max-h-44 border border-solid border-[#059212]">
                 <!-- Imagen circular -->
@@ -65,17 +58,12 @@
                             </div>
                             @if(Auth::user()->perfiles->first()->perfil === 'administrador')
                             <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                <a href="{{ url('empresa/' . $empresa->id . '/edit') }}">
-                                    <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
-                                </a>
-                            </div>
-                            <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
                                         <a href="javascript:;" class="btn-delete" data-fullname="{{ $empresa->nombre }}" data-action="desactivate">
-                                            <img src="{{ asset('images/delete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
+                                            <img src="{{ asset('images/updelete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
                                         </a>
                                         <!-- Formulario oculto -->
                                         <form action="{{ url('empresa/' . $empresa->id . '/updateEstado') }}" method="POST" style="display: none">
-                                            <input type="hidden" name="action" value="desactivate">
+                                            <input type="hidden" name="action" value="activate">
                                             @csrf
                                             @method('PATCH')
                                         </form>
