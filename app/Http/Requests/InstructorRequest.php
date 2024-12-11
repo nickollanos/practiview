@@ -34,7 +34,11 @@ class InstructorRequest extends FormRequest
                 'direccion' => 'required|string',
                 'rol' => 'required',
             ];
-        }else{
+        }elseif($this->method() == 'PATCH'){
+            return[
+                'action' => 'required|string',
+            ];
+    }else{
         return [
                 'numero_documento' => ['required', 'numeric', 'unique:'.Usuario::class],
                 'nombre' => ['required', 'string'],

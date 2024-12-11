@@ -66,7 +66,7 @@ class AprendizController extends Controller
 
             $aprendicesInactivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'aprendiz');
-            })->where('estado_id', 1)
+            })->where('estado_id', 2)
             ->count();
 
             return view('aprendiz.inactivo', compact('aprendices', 'aprendicesInactivos', 'estadoVista'));

@@ -66,6 +66,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
     Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
+    Route::patch('instructor/{id}/updateEstado', [InstructorController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
     Route::post('aprendiz/searchFicha', [AprendizController::class, 'searchFicha']);
