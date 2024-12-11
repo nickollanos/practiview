@@ -27,7 +27,7 @@ class PostEventoMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Post Evento Mail',
+            subject: 'Evento Creado Exitosamente',
         );
     }
 
