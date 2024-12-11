@@ -68,6 +68,7 @@ Route::middleware('auth')->group(function () {
     Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
+    Route::post('aprendiz/searchFicha', [AprendizController::class, 'searchFicha']);
     Route::post('instructor/search', [InstructorController::class, 'search']);
     Route::get('aprendiz', [AprendizController::class, 'index'])->name('aprendiz.index');
     Route::get('aprendiz/paginate/{page}', [AprendizController::class, 'index'])->name('aprendiz.paginate');
@@ -80,6 +81,7 @@ Route::middleware('auth')->group(function () {
     ]);
 
     Route::get('/aprendiz/ficha/{id}', action: [AprendizController::class, 'aprendizPorFicha']);
+    Route::get('/empresa/zona/{id}', action: [EmpresaController::class, 'empresaPorZona']);
 
     Route::get('/evento', [EventoController::class, 'index']);
     Route::get('/evento/mostrar', [EventoController::class, 'show']);

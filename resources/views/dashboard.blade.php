@@ -30,9 +30,8 @@
                 <form action="{{ url('aprendiz') }}" method="GET" class="mb-4">
                     <div class="flex items-center justify-between">
                         <select name="estado" class="w-full bg-[#059212] text-white border-2 border-[#059212] py-2 px-3 rounded-lg font-poppins" onchange="this.form.submit()">
-                            <option value="">Seleccione una opcion</option>
+                            <option value="" selected>Seleccione una opcion</option>
                             <option value="activos">Todos los Aprendices</option>
-                            <option value="p-formacion">Por Programa de Formación</option>
                             <option value="p-ficha">Por Ficha</option>
                         </select>
                     </div>
@@ -56,12 +55,12 @@
                 <!-- Total de aprendices -->
                 <!-- <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Empresas Activas: {{ $numeroEmpresas }}</h1> -->
                 <!-- Botón -->
-                <form action="{{ url('aprendiz') }}" method="GET" class="mb-4">
+                <form action="{{ url('empresa') }}" method="GET" class="mb-4">
                     <div class="flex items-center justify-between">
                         <select name="estado" class="w-full bg-[#059212] text-white border-2 border-[#059212] py-2 px-3 rounded-lg font-poppins" onchange="this.form.submit()">
-                            <option value="">Seleccione una opcion</option>
-                            <option value="inactivos">Todas las Empresas</option>
-                            <option value="inactivos">Por Zona</option>
+                            <option value="" selected>Seleccione una opcion</option>
+                            <option value="activos">Todas las Empresas</option>
+                            <option value="E.zona">Por Zona</option>
                         </select>
                     </div>
                 </form>
@@ -111,7 +110,7 @@
                 <form action="{{ url('aprendiz') }}" method="GET" class="mb-4">
                     <div class="flex items-center justify-between">
                         <select name="estado" class="w-full bg-[#059212] font-extrabold text-white border-2 border-[#059212] py-2 px-3 rounded-lg font-poppins" onchange="this.form.submit()">
-                            <option value="">Seleccione una opcion</option>
+                            <option value="" selected>Seleccione una opcion</option>
                             <option value="activos">Activos</option>
                             <option value="inactivos">Inactivos</option>
                         </select>
@@ -139,7 +138,7 @@
                 <form action="{{ url('instructor') }}" method="GET" class="mb-4">
                     <div class="flex items-center justify-between">
                         <select name="estado" class="w-full bg-[#059212] font-extrabold text-white border-2 border-[#059212] py-2 px-3 rounded-lg font-poppins" onchange="this.form.submit()">
-                            <option value="">Seleccione una opcion</option>
+                            <option value="" selected>Seleccione una opcion</option>
                             <option value="activos">Activos</option>
                             <option value="inactivos">Inactivos</option>
                         </select>

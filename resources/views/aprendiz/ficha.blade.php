@@ -171,7 +171,7 @@
         $('#agregar').hide();
 
         $.ajax({
-            url: '/aprendiz/search',
+            url: '/aprendiz/searchFicha',
             method: 'POST',
             data: {
                 q: searchQuery,

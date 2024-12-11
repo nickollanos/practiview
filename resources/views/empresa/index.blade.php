@@ -12,19 +12,23 @@
 
     <!-- Tarjetas superiores -->
     <div class="flex justify-center mt-4"> <!-- Reducido el mt-20 a mt-4 -->
+        @if(Auth::user()->perfiles->first()->perfil === 'administrador')
         <div class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-20 flex flex-col items-center border border-solid border-[#059212]">
             <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Empresas Activas</h1>
             <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadEmpresas }}</strong>
         </div>
+        @endif
     </div>
 
     <!-- Botón para agregar empresa -->
     <div id="agregar" class="agregar flex justify-center space-x-4 p-1 max-h-14"> <!-- Reducido mt-1 a mt-2 -->
+        @if(Auth::user()->perfiles->first()->perfil === 'administrador')
         <a href="{{ url('empresa/create') }}"
             class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
             <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
             <h1 class="text-xl font-bold">Agregar Empresa</h1>
         </a>
+        @endif
     </div>
 
     <!-- Loader de carga -->
@@ -49,7 +53,7 @@
                     </div>
 
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">Estado: {{ $empresa->estado->estado }}</h1>
+                        <h1 class="text-sm font-medium text-gray-600">Zona: {{ $empresa->zona->nombre }}</h1>
                     </div>
 
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
@@ -59,6 +63,7 @@
                                     <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
                                 </a>
                             </div>
+                            @if(Auth::user()->perfiles->first()->perfil === 'administrador')
                             <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
                                 <a href="{{ url('empresa/' . $empresa->id . '/edit') }}">
                                     <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
@@ -73,6 +78,7 @@
                                     @method('delete')
                                 </form>
                             </div>
+                            @endif
                         </div>
                     </div>
                 </div>
