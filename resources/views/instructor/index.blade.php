@@ -11,12 +11,12 @@
 <!-- Main Content (con margen superior suficiente para el navbar fijo) -->
 <main class="container mx-auto px-4 py-2 mt-2 space-y-12 pt-16 pb-16">
     <!-- Tarjetas superiores -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
         <!-- Tarjeta -->
         <div
             class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
             <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Instructores Activos</h1>
-            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadInstructores }}</strong>
+            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $instructoresActivos }}</strong>
         </div>
     
         <div
@@ -29,6 +29,12 @@
             class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
             <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad Instructores de Seguimiento</h1>
             <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadSeguimiento }}</strong>
+        </div>
+
+        <div
+            class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
+            <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad Instructores Academicos</h1>
+            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadInstructores }}</strong>
         </div>
     </div>
     
@@ -72,7 +78,7 @@
 
                         <!-- Tarjeta 2 -->
                         <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                            <h1 class="text-sm font-medium text-gray-600">Estado: {{ $instructor->estado->estado }}
+                            <h1 class="text-sm font-medium text-gray-600">Rol: {{ $instructor->instructor->rol->first()->nombre }}
                             </h1>
                         </div>
 
@@ -85,24 +91,25 @@
                                         <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
                                     </a>
                                 </div>
-                                <div
-                                    class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                    <a href="{{ url('instructor/' . $instructor->id . '/edit') }}">
-                                        <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
-                                    </a>
-                                </div>
-                                <div
-                                    class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                    <a href="javascript:;"  class="btn-delete" data-fullname="{{ $instructor->nombre }}">
-                                        <img src="{{ asset('images/delete-icon.svg') }}" alt="Eliminar"
-                                            class="w-4 h-4">
-                                    </a>
-                                    <form action="{{ url('instructor/' . $instructor->id) }}" method="POST"
-                                        style="display: none">
-                                        @csrf
-                                        @method('delete')
-                                    </form>
-                                </div>
+                                @if(Auth::user()->perfiles->first()->perfil === 'administrador')
+                                    <div
+                                        class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
+                                        <a href="{{ url('instructor/' . $instructor->id . '/edit') }}">
+                                            <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
+                                        </a>
+                                    </div>
+                                    <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
+                                        <a href="javascript:;" class="btn-delete" data-fullname="{{ $instructor->nombre }}" data-action="desactivate">
+                                            <img src="{{ asset('images/delete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
+                                        </a>
+                                        <!-- Formulario oculto -->
+                                        <form action="{{ url('instructor/' . $instructor->id . '/updateEstado') }}" method="POST" style="display: none">
+                                            <input type="hidden" name="action" value="desactivate">
+                                            @csrf
+                                            @method('PATCH')
+                                        </form>
+                                    </div>
+                                    @endif
                             </div>
                         </div>
                     </div>
@@ -121,7 +128,7 @@
                                         <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
                                     </span>
                                 @else
-                                    <a href="{{ $instructores->previousPageUrl() }}">
+                                    <a href="{{ $instructores->previousPageUrl() }} &estado= {{ $estadoVista }}">
                                         <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda" class="w-4 h-4">
                                     </a>
                                 @endif
@@ -131,7 +138,7 @@
                                 </span>
 
                                 @if ($instructores->hasMorePages())
-                                    <a href="{{ $instructores->nextPageUrl() }}">
+                                    <a href="{{ $instructores->nextPageUrl() }} &estado= {{ $estadoVista }}">
                                         <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha" class="w-4 h-4">
                                     </a>
                                 @else
@@ -189,73 +196,73 @@
         }
     });
 
-        //------------------------------------------
-        //------------------------
+    //------------------------------------------
+    //------------------------
 
-        $('body').on('keyup', '#qsearch', function(e) {
-            e.preventDefault();
+    $('body').on('keyup', '#qsearch', function(e) {
+        e.preventDefault();
 
-            let searchQuery = $(this).val();
-            let _token = $('meta[name="csrf-token"]').attr('content');
+        let searchQuery = $(this).val();
+        let _token = $('meta[name="csrf-token"]').attr('content');
 
-            $('.loader').removeClass('hidden'); // Muestra el loader
-            $('#list').hide(); // Oculta la lista de resultados
-            $('#agregar').hide();
+        $('.loader').removeClass('hidden'); // Muestra el loader
+        $('#list').hide(); // Oculta la lista de resultados
+        $('#agregar').hide();
 
-            $.ajax({
-                url: '/instructor/search',
-                method: 'POST',
-                data: {
-                    q: searchQuery,
-                    _token: _token
-                },
-                success: function(data) {
-                    console.log(data);
+        $.ajax({
+            url: '/aprendiz/search',
+            method: 'POST',
+            data: {
+                q: searchQuery,
+                _token: _token
+            },
+            success: function(data) {
+                console.log(data);
 
-                    $('#list').html(data); // Actualiza el contenedor con los datos
-                    //$('#pagination').html(data);
-                    $('.loader').addClass('hidden'); // Oculta el loader
-                    $('#list').fadeIn('slow'); // Muestra la lista con animación
-                    $('#agregar').fadeIn('slow');
-                },
-                error: function(xhr) {
-                    console.error('Error en la búsqueda:', xhr);
-                },
-            });
+                $('#list').html(data); // Actualiza el contenedor con los datos
+                //$('#pagination').html(data);
+                $('.loader').addClass('hidden'); // Oculta el loader
+                $('#list').fadeIn('slow'); // Muestra la lista con animación
+                $('#agregar').fadeIn('slow');
+            },
+            error: function(xhr) {
+                console.error('Error en la búsqueda:', xhr);
+            },
         });
-        //--------------------------
-        //-------------------------
-        $(document).ready(function() {
-            //----------------------------
-            @if (session('message'))
-                Swal.fire({
-                    position: "top",
-                    title: '{{ session('message') }}',
-                    icon: "success",
-                    toast: true,
-                    timer: 5000
-                })
-            @endif
-            //--------------------------
-
-            $('.btn-delete').on('click', function() {
-                var $this = $(this);
-                var $fullname = $this.attr('data-fullname');
-                Swal.fire({
-                    title: "Estas seguro?",
-                    text: "Deseas desactivar a " + $fullname,
-                    icon: "",
-                    showCancelButton: true,
-                    confirmButtonColor: "#059212",
-                    cancelButtonColor: "#6b6d6b",
-                    confirmButtonText: "Si, desactivar",
-                    cancelButtonText: "Cancelar"
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $this.next('form').submit()
-                    }
-                });
+    });
+    //--------------------------
+    //-------------------------
+    $(document).ready(function() {
+        //----------------------------
+        @if (session('message'))
+            Swal.fire({
+                position: "top",
+                title: '{{ session('message') }}',
+                icon: "success",
+                toast: true,
+                timer: 5000
             })
-        });
+        @endif
+        //--------------------------
+
+        $('.btn-delete').on('click', function() {
+            var $this = $(this);
+            var $fullname = $this.attr('data-fullname');
+            Swal.fire({
+                title: "Estas seguro?",
+                text: "Deseas desactivar a " + $fullname,
+                icon: "",
+                showCancelButton: true,
+                confirmButtonColor: "#059212",
+                cancelButtonColor: "#6b6d6b",
+                confirmButtonText: "Si, desactivar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $this.next('form').submit()
+                }
+            });
+        })
+    });
 </script>
 @endsection

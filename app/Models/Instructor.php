@@ -35,4 +35,9 @@ class Instructor extends Model
     {
         return $this->belongsTo(Ficha::class);
     }
+
+    public function estado()
+    {
+        return $this->belongsTo(Estado::class, 'estado_instructor_id'); // Ajusta la clave foránea si es diferente
+    }
 }
