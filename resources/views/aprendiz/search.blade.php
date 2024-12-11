@@ -54,3 +54,74 @@
     @empty
     No found 🤒
 @endforelse
+
+<script>
+    //------------------------------------------
+    //------------------------
+
+    $('body').on('keyup', '#qsearch', function(e) {
+        e.preventDefault();
+
+        let searchQuery = $(this).val();
+        let _token = $('meta[name="csrf-token"]').attr('content');
+
+        $('.loader').removeClass('hidden'); // Muestra el loader
+        $('#list').hide(); // Oculta la lista de resultados
+        $('#agregar').hide();
+
+        $.ajax({
+            url: '/aprendiz/search',
+            method: 'POST',
+            data: {
+                q: searchQuery,
+                _token: _token
+            },
+            success: function(data) {
+                console.log(data);
+
+                $('#list').html(data); // Actualiza el contenedor con los datos
+                //$('#pagination').html(data);
+                $('.loader').addClass('hidden'); // Oculta el loader
+                $('#list').fadeIn('slow'); // Muestra la lista con animación
+                $('#agregar').fadeIn('slow');
+            },
+            error: function(xhr) {
+                console.error('Error en la búsqueda:', xhr);
+            },
+        });
+    });
+    //--------------------------
+    //-------------------------
+    $(document).ready(function() {
+        //----------------------------
+        @if (session('message'))
+            Swal.fire({
+                position: "top",
+                title: '{{ session('message') }}',
+                icon: "success",
+                toast: true,
+                timer: 5000
+            })
+        @endif
+        //--------------------------
+
+        $('.btn-delete').on('click', function() {
+            var $this = $(this);
+            var $fullname = $this.attr('data-fullname');
+            Swal.fire({
+                title: "Estas seguro?",
+                text: "Deseas desactivar a " + $fullname,
+                icon: "",
+                showCancelButton: true,
+                confirmButtonColor: "#059212",
+                cancelButtonColor: "#6b6d6b",
+                confirmButtonText: "Si, desactivar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $this.next('form').submit()
+                }
+            });
+        })
+    });
+</script>

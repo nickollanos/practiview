@@ -343,4 +343,19 @@ class AprendizController extends Controller
         return view('aprendiz.searchFicha', compact('fichas'))->render();
         // return view('aprendiz.index', compact('aprendices'))->render();
     }
+
+    public function searchInactivo(Request $request) {
+        $query = $request->q;
+
+        // Realiza la búsqueda de aprendices
+        $aprendices = Usuario::query()
+            ->with(['aprendiz'])
+            ->where(function ($q) use ($query) {
+                $q->where('nombre', 'LIKE', "%$query%");
+            })
+            ->where('estado_id', 2)
+            ->paginate(8);
+        return view('aprendiz.search', compact('aprendices'))->render();
+        // return view('aprendiz.index', compact('aprendices'))->render();
+    }
 }

@@ -179,8 +179,8 @@
 
 @endsection
 
-@section('footer')
-@endsection
+
+@include('layouts.footer')
 
 @section('js')
 <script>
@@ -213,7 +213,7 @@
         $('#agregar').hide();
 
         $.ajax({
-            url: '/aprendiz/search',
+            url: '/instructor/search',
             method: 'POST',
             data: {
                 q: searchQuery,

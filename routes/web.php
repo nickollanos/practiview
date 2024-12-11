@@ -77,6 +77,7 @@ Route::middleware('auth')->group(function () {
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
     Route::post('aprendiz/searchFicha', [AprendizController::class, 'searchFicha']);
+    Route::post('aprendiz/searchInactivo', [AprendizController::class, 'searchInactivo']);
     Route::post('instructor/search', [InstructorController::class, 'search']);
     Route::get('aprendiz', [AprendizController::class, 'index'])->name('aprendiz.index');
     Route::get('aprendiz/paginate/{page}', [AprendizController::class, 'index'])->name('aprendiz.paginate');

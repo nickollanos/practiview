@@ -45,7 +45,7 @@ class Empresa extends Model
     public function scopeNames($query, $q)
     {
         if (trim($q)) {
-            $query->where('numero_ficha', 'LIKE', "%$q%");
+            $query->where('nombre', 'LIKE', "%$q%");
         }
     }
 

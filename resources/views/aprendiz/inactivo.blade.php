@@ -195,7 +195,7 @@
             $('#agregar').hide();
 
             $.ajax({
-                url: '/aprendiz/search',
+                url: '/aprendiz/searchInactivo',
                 method: 'POST',
                 data: {
                     q: searchQuery,
