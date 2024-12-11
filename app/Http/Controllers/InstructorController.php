@@ -35,26 +35,26 @@ class InstructorController extends Controller
 
             // dd($instructor->toArray());
 
-            $cantidadAprendices = Usuario::whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
+            $instructoresActivos = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'instructor');
             })
             ->where('estado_id', 1)
             ->count();
             // dd($cantidadAprendices);
 
-            $aprendicesPorEstado = Usuario::whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'aprendiz');
+            $instructoresPorEstado = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'instructor');
             })
             ->where('estado_id', 1)
-            ->with(['aprendiz.estadoAprendiz'])
+            ->with(['instructor.rol'])
             ->get()
             ->map(function ($usuario) {
-                return $usuario->aprendiz->estadoAprendiz->nombre;
+                return $usuario->instructor->rol;
             })
             ->countBy();
             //dd($aprendicesPorEstado);
 
-            return view('aprendiz.index', compact('aprendices', 'cantidadAprendices', 'aprendicesPorEstado', 'estadoVista'));
+            return view('aprendiz.index', compact('instructores', 'instructoresActivos', 'instructoresPorEstado', 'estadoVista'));
 
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
@@ -125,7 +125,7 @@ class InstructorController extends Controller
             $instructor->save();
             $rolesPermitidos = $usuario->rol = $request->rol;
             $rol = Rol::where('nombre', $rolesPermitidos)->first();
-            $instructor->rol()->attach($rol->id);  
+            $instructor->rol()->attach($rol->id);
             }
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido añadido de manera exitosa');
             return redirect('instructor');
@@ -218,7 +218,7 @@ class InstructorController extends Controller
         // Actualizar el rol del instructor
         $instructor->rol()->sync([$request->rol]); // `sync` asegura que solo se quede con el nuevo rol
     }
-    
+
         session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido modificado de manera exitosa');
         return redirect('instructor');
     }
