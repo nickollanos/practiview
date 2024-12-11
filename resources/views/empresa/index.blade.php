@@ -70,14 +70,16 @@
                                 </a>
                             </div>
                             <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                <a href="javascript:;" class="btn-delete" data-fullname="{{ $empresa->nombre }}">
-                                    <img src="{{ asset('images/delete-icon.svg') }}" alt="Eliminar" class="w-4 h-4">
-                                </a>
-                                <form action="{{ url('empresa/' . $empresa->id) }}" method="POST" style="display: none">
-                                    @csrf
-                                    @method('delete')
-                                </form>
-                            </div>
+                                        <a href="javascript:;" class="btn-delete" data-fullname="{{ $empresa->nombre }}" data-action="desactivate">
+                                            <img src="{{ asset('images/delete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
+                                        </a>
+                                        <!-- Formulario oculto -->
+                                        <form action="{{ url('empresa/' . $empresa->id . '/updateEstado') }}" method="POST" style="display: none">
+                                            <input type="hidden" name="action" value="desactivate">
+                                            @csrf
+                                            @method('PATCH')
+                                        </form>
+                                    </div>
                             @endif
                         </div>
                     </div>
@@ -203,12 +205,11 @@
         @if(session('message'))
         Swal.fire({
             position: "top",
-            title: '{{ session('
-            message ') }}',
+            title: "{{ session('message') }}", // Usa comillas dobles para PHP
             icon: "success",
             toast: true,
             timer: 5000
-        })
+        });
         @endif
         //--------------------------
 

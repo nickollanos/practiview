@@ -36,32 +36,51 @@ class InstructorController extends Controller
             ->where('estado_id', 1)
             ->paginate(8);
 
-            //dd($instructores->toArray());
+
+            // dd($instructores->toArray());
 
             $instructoresActivos = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'instructor');
             })
-            ->where('estado_id', 1)
+            ->where('estado_id', 1) // Solo instructores activos (estado_id = 1)
             ->count();
-            // dd($cantidadAprendices);
+
+            // Contamos la cantidad de instructores que son gestores
             $cantidadGestores = Usuario::whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'instructor');  // Aseguramos que sea un perfil de instructor
+                $query->where('perfil', 'instructor'); // Aseguramos que sea un perfil de instructor
             })
-            ->where('estado_id', 1)  // Solo instructores activos (estado_id = 1)
+            ->where('estado_id', 1) // Solo instructores activos (estado_id = 1)
             ->whereHas('instructor.rol', function ($query) {
-                $query->where('nombre', 'gestor');  // Filtro por rol "gestor"
+                $query->where('nombre', 'gestor'); // Filtro por rol "gestor"
+            })
+            ->count();
+
+            $cantidadSeguimiento = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'instructor'); // Aseguramos que sea un perfil de instructor
+            })
+            ->where('estado_id', 1) // Solo instructores activos (estado_id = 1)
+            ->whereHas('instructor.rol', function ($query) {
+                $query->where('nombre', 'seguimiento'); // Filtro por rol "gestor"
+            })
+            ->count();
+
+            // Obtener los instructores activos con su rol "gestor"
             $instructoresPorEstado = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'instructor');
             })
-            ->where('estado_id', 1)
-            ->with(['instructor.rol'])
+            ->where('estado_id', 1) // Solo instructores activos
+            ->with(['instructor.rol']) // Cargar la relación instructor y rol
             ->get()
             ->map(function ($usuario) {
-                return $usuario->instructor->rol;
+                // Asegúrate de que la relación `instructor` y `rol` existen
+                return $usuario->instructor ? $usuario->instructor->rol->first() : null;
             })
-            ->count(); 
+            ->filter(function ($rol) {
+                return $rol && $rol->nombre === 'gestor'; // Filtramos solo los roles "gestor"
+            })
+            ->count();
+
             //dd($cantidadGestores);
-            return view('aprendiz.index', compact('instructores', 'instructoresActivos', 'instructoresPorEstado', 'estadoVista'));
 
             $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'instructor');  // Aseguramos que sea un perfil de instructor
@@ -71,16 +90,6 @@ class InstructorController extends Controller
                 $query->where('nombre', 'instructor');  // Filtro por rol "instructor"
             })
             ->count();  // Obtener instructores con rol "instructor"
-        
-            // Buscar instructores con rol "seguimiento"
-            $cantidadSeguimiento = Usuario::whereHas('perfiles', function ($query) {
-                $query->where('perfil', 'instructor');  // Aseguramos que sea un perfil de instructor
-            })
-            ->where('estado_id', 1)  // Solo instructores activos (estado_id = 1)
-            ->whereHas('instructor.rol', function ($query) {
-                $query->where('nombre', 'seguimiento');  // Filtro por rol "seguimiento"
-            })
-            ->count();
 
             return view('instructor.index', compact('instructores', 'instructoresActivos', 'fichas', 'cantidadGestores', 'cantidadSeguimiento', 'cantidadInstructores', 'estadoVista'));
 
@@ -88,7 +97,7 @@ class InstructorController extends Controller
             $instructores = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'instructor.rol'])
                 ->whereHas('perfiles', function ($query) {
-                    $query->where('perfil', 'aprendiz');
+                    $query->where('perfil', 'instructor');
                 })
                 ->where('estado_id', 2)
                 ->paginate(8);
@@ -233,13 +242,13 @@ class InstructorController extends Controller
                 ->with(['instructor.rol'])
                 ->get()
                 ->map(function ($usuario) {
-                    return optional($usuario->instructor->rol->first())->nombre; 
+                    return optional($usuario->instructor->rol->first())->nombre;
                 })
                 ->countBy();
 
-            
+
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido desactivado de manera exitosa');
-            return view('instructor.index', compact('instructores', 'instructoresActivos', 'instructoresPorEstado' ));
+            return redirect()->route('instructor.index', ['estado' => 'activos']);
         } elseif ($request->input('action') === 'activate') {
             $usuario->estado_id = 1;
             $usuario->save();
@@ -266,7 +275,7 @@ class InstructorController extends Controller
                 ->with(['instructor.rol'])
                 ->get()
                 ->map(function ($usuario) {
-                    return optional($usuario->instructor->rol->first())->nombre; 
+                    return optional($usuario->instructor->rol->first())->nombre;
                 })
                 ->countBy();
 
@@ -277,7 +286,8 @@ class InstructorController extends Controller
                 ->count();
 
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido activado de manera exitosa');
-            return view('instructor.inactivo', compact('instructores', 'cantidadInstructores', 'instructoresPorEstado', 'instructoresInactivos'));        }
+            return redirect()->route('instructor.index', ['estado' => 'inactivos']);
+        }
     }
 
     /**

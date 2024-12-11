@@ -1,52 +1,27 @@
 @extends('layouts.app')
-@section('title', 'INDEX-INSTRUCTOR')
-@section('class', 'INDEX-INSTRUCTOR')
+@section('title', 'INDEX-APRENDIZ')
+@section('class', 'INDEX-APRENDIZ')
 
 @section('content')
 
 <!-- Navbar -->
 @include('layouts.navsearch')
 
-
 <!-- Main Content (con margen superior suficiente para el navbar fijo) -->
-<main class="container mx-auto px-4 py-2 mt-2 space-y-12 pt-16 pb-16">
+<main class="container mx-auto px-4 py-2 mt-10 space-y-1 pt-16 sm:pt-8 lg:pt-6 pb-8 mb-0 min-h-screen flex flex-col justify-between overflow-hidden">
+
     <!-- Tarjetas superiores -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-        <!-- Tarjeta -->
-        <div
-            class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
-            <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Instructores Activos</h1>
-            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $instructoresActivos }}</strong>
+    <div class="flex justify-center mt-4"> <!-- Reducido el mt-20 a mt-4 -->
+        @if(Auth::user()->perfiles->first()->perfil === 'administrador')
+        <div class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-20 flex flex-col items-center border border-solid border-[#059212]">
+            <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Empresas Activas</h1>
+            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadEmpresas }}</strong>
         </div>
-
-        <div
-            class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
-            <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Gestores</h1>
-            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadGestores }}</strong>
-        </div>
-
-        <div
-            class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
-            <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad Instructores de Seguimiento</h1>
-            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadSeguimiento }}</strong>
-        </div>
-
-        <div
-            class="bg-[#EBE9D6] shadow-lg rounded-lg p-4 flex flex-col justify-between items-center border border-solid border-[#059212]">
-            <h1 class="text-sm font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad Instructores Academicos</h1>
-            <strong class="text-3xl font-extrabold font-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadInstructores }}</strong>
-        </div>
+        @endif
     </div>
 
-
-
-    <!-- Botón para agregar instructor -->
-    <div class="flex items-center justify-center space-x-4">
-        <a href="{{ url('instructor/create') }}"
-            class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
-            <img src="{{ asset('images/add-icon.svg') }}" alt="Agregar" class="w-6 h-6 mr-2">
-            <h1 class="text-xl font-bold">Agregar Instructor</h1>
-        </a>
+    <!-- Botón para agregar empresa -->
+    <div id="agregar" class="agregar flex justify-center space-x-4 p-1 max-h-14"> <!-- Reducido mt-1 a mt-2 -->
     </div>
 
     <!-- Loader de carga -->
@@ -56,62 +31,43 @@
         </div>
     </div>
 
-
     <!-- Tarjetas inferiores -->
     <section>
-        <div id="list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2">
-            @foreach ($instructores as $instructor)
-            <!-- Fila 1 -->
-            <div
-                class="flex items-start space-x-4 bg-white shadow-lg rounded-lg p-1 max-h-44 border border-solid border-[#059212]">
+    <div id="list" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-2 mt-2"> <!-- Reducido gap-4 a gap-2 y mt-4 a mt-2 -->
+            @foreach ($empresas as $empresa)
+            <div class="flex items-start space-x-4 bg-white shadow-lg rounded-lg p-2 max-h-44 border border-solid border-[#059212]">
                 <!-- Imagen circular -->
                 <div class="w-16 h-16 rounded-full border-[3px] border-solid border-[#059212] overflow-hidden">
-                    <img src="{{ asset('images/' .  $instructor->foto_perfil) }}" alt="Usuario" class="w-full h-full object-cover">
+                    <img src="{{ url('images/empresa.png') }}" alt="Usuario" class="w-full h-full object-cover">
                 </div>
-
-                <!-- Información -->
                 <div class="flex flex-col space-y-2">
-                    <!-- Tarjeta 1 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-lg font-bold text-gray-800">{{ $instructor->nombre }}</h1>
+                        <h1 class="text-lg font-bold text-gray-800">{{ $empresa->nombre }}</h1>
                     </div>
 
-                    <!-- Tarjeta 2 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <h1 class="text-sm font-medium text-gray-600">
-                            Rol: {{ $instructor->instructor->rol->isNotEmpty() ? $instructor->instructor->rol[0]['nombre'] : 'Sin rol' }}
-                        </h1>
-
-
+                        <h1 class="text-sm font-medium text-gray-600">Zona: {{ $empresa->zona->nombre }}</h1>
                     </div>
 
-                    <!-- Tarjeta 3 -->
                     <div class="bg-white shadow rounded-lg p-2 border border-solid border-[#059212]">
-                        <div class="flex items-center justify-center space-x-4">
-                            <div
-                                class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                <a href="{{ url('instructor/' . $instructor->id) }}">
+                        <div class="flex items-center justify-center space-x-2"> <!-- Reducido space-x-4 a space-x-2 -->
+                            <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
+                                <a href="{{ url('empresa/' . $empresa->id) }}">
                                     <img src="{{ asset('images/view-icon.svg') }}" alt="Ver" class="w-4 h-4">
                                 </a>
                             </div>
                             @if(Auth::user()->perfiles->first()->perfil === 'administrador')
-                            <div
-                                class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                <a href="{{ url('instructor/' . $instructor->id . '/edit') }}">
-                                    <img src="{{ asset('images/edit-icon.svg') }}" alt="Editar" class="w-4 h-4">
-                                </a>
-                            </div>
                             <div class="w-8 h-8 bg-[#059212] rounded-full flex items-center justify-center cursor-pointer">
-                                <a href="javascript:;" class="btn-delete" data-fullname="{{ $instructor->nombre }}" data-action="desactivate">
-                                    <img src="{{ asset('images/delete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
-                                </a>
-                                <!-- Formulario oculto -->
-                                <form action="{{ url('instructor/' . $instructor->id . '/updateEstado') }}" method="POST" style="display: none">
-                                    <input type="hidden" name="action" value="desactivate">
-                                    @csrf
-                                    @method('PATCH')
-                                </form>
-                            </div>
+                                        <a href="javascript:;" class="btn-delete" data-fullname="{{ $empresa->nombre }}" data-action="desactivate">
+                                            <img src="{{ asset('images/updelete-icon.svg') }}" alt="Desactivar" class="w-4 h-4">
+                                        </a>
+                                        <!-- Formulario oculto -->
+                                        <form action="{{ url('empresa/' . $empresa->id . '/updateEstado') }}" method="POST" style="display: none">
+                                            <input type="hidden" name="action" value="activate">
+                                            @csrf
+                                            @method('PATCH')
+                                        </form>
+                                    </div>
                             @endif
                         </div>
                     </div>
@@ -120,28 +76,29 @@
             @endforeach
         </div>
 
+        <!-- Paginador -->
         <div id="pagination">
-            <div class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mb-4">
+            <div class="flex items-center justify-center space-x-4 space-y-2 p-1 max-h-12 mt-2 mb-10"> <!-- Reducido mb-4 y space-y-2 -->
                 <div class="flex items-center bg-white hover:bg-gray-200 font-poppins text-[#0C0C0C] text-opacity-50 font-bold py-2 px-6 rounded-lg border border-solid border-[#059212]">
-                    @if ($instructores->lastPage() > 1)
-                    @if ($instructores->hasPages())
+                    @if ($empresas->lastPage() > 1)
+                    @if ($empresas->hasPages())
                     <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center space-x-4">
-                        @if ($instructores->onFirstPage())
+                        @if ($empresas->onFirstPage())
                         <span class="cursor-not-allowed">
                             <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
                         </span>
                         @else
-                        <a href="{{ $instructores->previousPageUrl() }} &estado= {{ $estadoVista }}">
+                        <a href="{{ $empresas->previousPageUrl() }}">
                             <img src="{{ asset('images/izquierda-icon.svg') }}" alt="Izquierda" class="w-4 h-4">
                         </a>
                         @endif
 
                         <span class="text-gray-700 font-bold">
-                            Página {{ $instructores->currentPage() }} de {{ $instructores->lastPage() }}
+                            Página {{ $empresas->currentPage() }} de {{ $empresas->lastPage() }}
                         </span>
 
-                        @if ($instructores->hasMorePages())
-                        <a href="{{ $instructores->nextPageUrl() }} &estado= {{ $estadoVista }}">
+                        @if ($empresas->hasMorePages())
+                        <a href="{{ $empresas->nextPageUrl() }}">
                             <img src="{{ asset('images/derecha-icon.svg') }}" alt="derecha" class="w-4 h-4">
                         </a>
                         @else
@@ -152,7 +109,6 @@
                     </nav>
                     @endif
                     @else
-                    <!-- Paginador estático con datos fijos -->
                     <nav role="navigation" aria-label="Pagination Navigation" class="flex items-center justify-center space-x-4">
                         <span class="cursor-not-allowed">
                             <img src="{{ asset('images/izquierda-icong.svg') }}" alt="Izquierda" class="w-4 h-4">
@@ -171,16 +127,13 @@
             </div>
         </div>
 
-
     </section>
+
 </main>
 
-
-
 @endsection
 
-@section('footer')
-@endsection
+@include('layouts.footer')
 
 @section('js')
 <script>
@@ -213,7 +166,7 @@
         $('#agregar').hide();
 
         $.ajax({
-            url: '/aprendiz/search',
+            url: '/empresa/search',
             method: 'POST',
             data: {
                 q: searchQuery,
@@ -246,7 +199,6 @@
             timer: 5000
         });
         @endif
-
         //--------------------------
 
         $('.btn-delete').on('click', function() {

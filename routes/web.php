@@ -51,9 +51,15 @@ Route::get('/dashboard', function () {
     ->count();
 
     $numeroEmpresas = Empresa::where('estado_id', 1)->count();
+
+    $empresasActivas = Empresa::where('estado_id', 1)
+    ->count();
+
+    $empresasInactivas = Empresa::where('estado_id', 2)
+    ->count();
     //dd($cantidadActivos);
 
-    return view('dashboard', compact('aprendicesActivos', 'instructoresActivos', 'numeroEmpresas','aprendicesInactivos','instructoresInactivos'));
+    return view('dashboard', compact('aprendicesActivos', 'instructoresActivos', 'numeroEmpresas','aprendicesInactivos','instructoresInactivos', 'empresasActivas', 'empresasInactivas'));
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
@@ -67,6 +73,7 @@ Route::middleware('auth')->group(function () {
     // Route::get('/aprendiz/{id}', [AprendizController::class, 'show'])->name('aprendiz.show');
     Route::patch('aprendiz/{id}/updateEstado', [AprendizController::class, 'updateEstado']);
     Route::patch('instructor/{id}/updateEstado', [InstructorController::class, 'updateEstado']);
+    Route::patch('empresa/{id}/updateEstado', [EmpresaController::class, 'updateEstado']);
     Route::post('aprendiz/search', [AprendizController::class, 'search']);
     Route::post('empresa/search', [EmpresaController::class, 'search']);
     Route::post('aprendiz/searchFicha', [AprendizController::class, 'searchFicha']);
