@@ -55,7 +55,7 @@ class AprendizController extends Controller
                 })
                 ->countBy();
             //dd($aprendicesPorEstado);
-            return view('aprendiz.index', compact('aprendices', 'aprendicesPorEstado', 'aprendicesActivos'));
+            return view('aprendiz.index', compact('aprendices', 'aprendicesPorEstado', 'aprendicesActivos', 'estadoVista'));
         } elseif ($estadoVista == 'inactivos') {
             $aprendices = Usuario::select('usuarios.*')
                 ->with(['estado', 'perfiles', 'aprendiz.estadoAprendiz'])
@@ -140,7 +140,7 @@ class AprendizController extends Controller
                 $aprendiz->save();
             }
             session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido añadido de manera exitosa')                                                                                                                                                                                                             ;
-            return redirect('aprendiz');
+            return redirect()->route('aprendiz.index', ['estado' => 'activos']);
         }
     }
 
@@ -183,12 +183,14 @@ class AprendizController extends Controller
     {
         //dd($id);
         $tipo_documentos = Tipo_documento::all();
+        $estadoAprendices= EstadoAprendiz::all();
+        $fichas          = Ficha::all();
         $sexos           = Sexo::all();
         $usuario = Usuario::with('aprendiz', 'perfiles', 'estado', 'sexo', 'tipo_documento')->findOrFail($id);
         $direccion = \Illuminate\Support\Str::limit($usuario->direccion, 20);
         $fechaNacimiento = \Carbon\Carbon::parse($usuario->fecha_nacimiento)->format('Y-m-d');
         // dd($fechaNacimiento);
-        return view('aprendiz.edit', compact('usuario', 'sexos', 'tipo_documentos', 'direccion', 'fechaNacimiento'))->render();
+        return view('aprendiz.edit', compact('usuario', 'sexos', 'tipo_documentos', 'direccion', 'fechaNacimiento', 'estadoAprendices', 'fichas'))->render();
     }
 
     public function updateEstado(AprendizRequest $request, $id)
@@ -295,7 +297,7 @@ class AprendizController extends Controller
 
         $usuario->save();
         session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido modificado de manera exitosa');
-        return redirect('aprendiz');
+        return redirect()->route('aprendiz.index', ['estado' => 'activos']);
     }
 
     public function destroy($id)

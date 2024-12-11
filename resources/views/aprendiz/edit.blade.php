@@ -180,6 +180,47 @@
                             </select>
                         </div>
                     </div>
+                    <!-- Campo estado aprendiz -->
+                    <div>
+                        <div>
+                            <label for="estado_aprendiz" class="text-self font-poppins font-bold mb-1">Estado Sofia:</label>
+                        </div>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
+                            </div>
+                            <select name="estado_aprendiz" id="estado_aprendiz" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                @foreach ($estadoAprendices as $estadoAprendiz)
+                                <option value="{{ $estadoAprendiz['id'] }}" @if(old('estado_aprendiz') == $estadoAprendiz['id'] ) selected @endif>
+                                    {{ $estadoAprendiz['nombre'] }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Campo ficha -->
+                    <div>
+                        <div>
+                            <label for="ficha" class="text-self font-poppins font-bold mb-1">Ficha:</label>
+                        </div>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
+                            </div>
+                            <select name="ficha" id="ficha" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                @foreach ($fichas as $ficha)
+                                <option value="{{ $ficha['id'] }}" @if(old('ficha') == $ficha['id'] ) selected @endif>
+                                    {{ $ficha['numero_ficha'] }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
 
                     <!-- Campo Direccion -->
                     <div>
