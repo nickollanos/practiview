@@ -7,7 +7,7 @@
     <!-- Navbar -->
     @include('layouts.nav')
 
-    <main class="container flex items-start justify-center mb-8">
+    <main class="container flex items-start justify-center mt-4 mb-8">
         <div class="flex flex-col items-center justify-center w-full py-8">
             <div
                 class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 sm:mb-0 border border-solid border-[#059212]">

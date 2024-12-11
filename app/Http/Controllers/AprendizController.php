@@ -9,6 +9,7 @@ use App\Models\Sexo;
 use App\Models\Tipo_documento;
 use App\Models\Usuario;
 use App\Models\Aprendiz;
+use App\Models\EstadoAprendiz;
 use App\Models\Ficha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -96,7 +97,10 @@ class AprendizController extends Controller
         //
         $tipo_documentos = Tipo_documento::all();
         $sexos           = Sexo::all();
-        return view('aprendiz.create')->with('tipo_documentos', $tipo_documentos)->with('sexos', $sexos);
+        $estadoAprendices= EstadoAprendiz::all();
+        $fichas          = Ficha::all();
+
+        return view('aprendiz.create', compact('tipo_documentos', 'sexos', 'estadoAprendices', 'fichas'));
     }
 
     /**
@@ -131,11 +135,11 @@ class AprendizController extends Controller
             $usuario->perfiles()->attach($perfil->id);
             $aprendiz = Aprendiz::firstOrNew(['usuario_id' => $usuario->id]);
             if (!$aprendiz->exists) {
-                $aprendiz->ficha_id = '1';
-                $aprendiz->estado_aprendiz_id = '1';
+                $aprendiz->ficha_id = $request->ficha;
+                $aprendiz->estado_aprendiz_id = $request->estado_aprendiz;
                 $aprendiz->save();
             }
-            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido añadido de manera exitosa');
+            session()->flash('message', 'El usuario ' . $usuario->nombre . ' ' . $usuario->apellido . ' ha sido añadido de manera exitosa')                                                                                                                                                                                                             ;
             return redirect('aprendiz');
         }
     }

@@ -32,6 +32,7 @@ class AprendizRequest extends FormRequest
                 'telefono' => 'required',
                 'email' => 'required|string|lowercase|email',
                 'sexo_id' => 'required',
+                'estado_aprendiz' => 'required',
                 'direccion' => 'required|string',
             ];
         }elseif($this->method() == 'PATCH'){
@@ -49,6 +50,7 @@ class AprendizRequest extends FormRequest
                 'telefono' => ['required'],
                 'email' => ['required', 'string', 'lowercase', 'email', 'unique:'.Usuario::class],
                 'sexo_id' => ['required'],
+                'estado_aprendiz' => ['required'],
                 'direccion' => ['required', 'string'],
             ];
         }

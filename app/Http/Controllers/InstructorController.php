@@ -44,17 +44,24 @@ class InstructorController extends Controller
             ->where('estado_id', 1)
             ->count();
             // dd($cantidadAprendices);
-
             $cantidadGestores = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'instructor');  // Aseguramos que sea un perfil de instructor
             })
             ->where('estado_id', 1)  // Solo instructores activos (estado_id = 1)
             ->whereHas('instructor.rol', function ($query) {
                 $query->where('nombre', 'gestor');  // Filtro por rol "gestor"
+            $instructoresPorEstado = Usuario::whereHas('perfiles', function ($query) {
+                $query->where('perfil', 'instructor');
+            })
+            ->where('estado_id', 1)
+            ->with(['instructor.rol'])
+            ->get()
+            ->map(function ($usuario) {
+                return $usuario->instructor->rol;
             })
             ->count(); 
-
             //dd($cantidadGestores);
+            return view('aprendiz.index', compact('instructores', 'instructoresActivos', 'instructoresPorEstado', 'estadoVista'));
 
             $cantidadInstructores = Usuario::whereHas('perfiles', function ($query) {
                 $query->where('perfil', 'instructor');  // Aseguramos que sea un perfil de instructor
@@ -149,7 +156,7 @@ class InstructorController extends Controller
             $instructor->save();
             $rolesPermitidos = $usuario->rol = $request->rol;
             $rol = Rol::where('nombre', $rolesPermitidos)->first();
-            $instructor->rol()->attach($rol->id);  
+            $instructor->rol()->attach($rol->id);
             }
 
             // Enviar correo al usuario con la contraseña
@@ -326,7 +333,7 @@ class InstructorController extends Controller
         // Actualizar el rol del instructor
         $instructor->rol()->sync([$request->rol]); // `sync` asegura que solo se quede con el nuevo rol
     }
-    
+
         session()->flash('message', 'El usuario ' . $usuario->nombre . ' ha sido modificado de manera exitosa');
         return redirect()->route('instructor.index', ['estado' => 'activos']);
     }

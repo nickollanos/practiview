@@ -4,7 +4,9 @@
 
 @section('content')
 
-    <main class="container flex items-start justify-center mb-16 mt-1">
+@include('layouts.nav')
+
+    <main class="container flex items-start justify-center mb-16 mt-10">
         <div class="flex flex-col items-center justify-center w-full">
             <div
                 class="bg-white shadow-lg rounded-lg p-6 max-w-md mx-auto mt-8 mb-8 sm:mb-0 border border-solid border-[#059212]">
@@ -38,17 +40,30 @@
                     <!-- Campo Nombre -->
                     <div>
                         <div>
-                            <label for="nombre" class="text-self font-poppins font-bold mb-1">NombreCompleto:</label>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Nombres:</label>
                         </div>
                         <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
                             <div class="p-2">
                                 <img src="{{ asset('images/ico-nombre.svg') }}" alt="Nombre" class="w-10 h-10">
                             </div>
-                            <input type="text" name="nombre" id="nombre" placeholder="Nombre Completo" required
+                            <input type="text" name="nombre" id="nombre" placeholder="Nombres" required
                                 class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
                         </div>
                     </div>
 
+                    <!-- Campo Apellido -->
+                    <div>
+                        <div>
+                            <label for="nombre" class="text-self font-poppins font-bold mb-1">Apellidos:</label>
+                        </div>
+                        <div class="bg-[#EBE9D6] mt-1 mb-4 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-nombre.svg') }}" alt="Apellido" class="w-10 h-10">
+                            </div>
+                            <input type="text" name="apellido" id="apellido" placeholder="Apellidos" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                        </div>
+                    </div>
 
                     <!-- Tipo de documento -->
                     <div>
@@ -150,6 +165,50 @@
                                 @foreach ($sexos as $sexo)
                                 <option value="{{ $sexo['id'] }}">
                                     {{ $sexo['nombre'] }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Campo estado aprendiz -->
+                    <div>
+                        <div>
+                            <label for="estado_aprendiz" class="text-self font-poppins font-bold mb-1">Estado Sofia:</label>
+                        </div>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
+                            </div>
+                            <select name="estado_aprendiz" id="estado_aprendiz" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                <option value="">Estado Sofia</option>
+                                @foreach ($estadoAprendices as $estadoAprendiz)
+                                <option value="{{ $estadoAprendiz['id'] }}">
+                                    {{ $estadoAprendiz['nombre'] }}
+                                </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Campo ficha -->
+                    <div>
+                        <div>
+                            <label for="ficha" class="text-self font-poppins font-bold mb-1">Ficha:</label>
+                        </div>
+                        <div
+                            class="bg-[#EBE9D6] mt-1 mb-2 flex items-center border rounded shadow focus-within:ring focus-within:ring-green-300 w-full h-10">
+                            <div class="p-2">
+                                <img src="{{ asset('images/ico-sexo.svg') }}" alt="sexo" class="v">
+                            </div>
+                            <select name="ficha" id="ficha" required
+                                class="bg-[#EBE9D6] w-full py-2 px-3 text-gray-700 font-poppins leading-tight focus:outline-none border-none">
+                                <option value="">ficha</option>
+                                @foreach ($fichas as $ficha)
+                                <option value="{{ $ficha['id'] }}">
+                                    {{ $ficha['numero_ficha'] }}
                                 </option>
                                 @endforeach
                             </select>
