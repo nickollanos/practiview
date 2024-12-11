@@ -8,13 +8,6 @@
     <div class="bg-white shadow-lg rounded-lg p-4 max-w-md mx-auto mt-4 border border-solid border-[#059212]">
     <form action="{{ route('login') }}" method="POST">
         @csrf
-        @if ( count( $errors->all()) > 0 )
-        <ul class="text-red-500 text-sm mb-4">
-            @foreach ( $errors->all() as $message )
-                <li>{{ $message }}</li>
-            @endforeach
-        </ul>
-        @endif
 
         <!-- Imagen en círculo -->
         <div class="flex justify-center mb-4">
@@ -48,7 +41,7 @@
         <div class="mb-4 flex justify-center">
             <div id="recaptcha" class="w-full max-w-xs sm:max-w-full px-4 flex justify-center" style="transform: scale(0.8);">
                 <div class="bg-[#EBE9D6] p-4 rounded text-center text-gray-500">
-                    <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}" style="transform: scale(1);"></div>
+                    <div class="g-recaptcha" data-sitekey="{{ config('recaptcha.site_key') }}" style="transform: scale(1);" name="g-recaptcha-response"></div>
                 </div>
             </div>
         </div>
@@ -95,5 +88,37 @@
     }
 
     //--------------------------------------
+
+     // Verifica si hay errores
+     @if ( count( $errors->all()) > 0 )
+        window.addEventListener('DOMContentLoaded', function () {
+            let errorMessages = [];
+
+            // Verificar si el campo de correo tiene un error
+            @if ($errors->has('email'))
+                errorMessages.push("Correo es obligatorio o no es válido.");
+            @endif
+
+            // Verificar si el campo de contraseña tiene un error
+            @if ($errors->has('password'))
+                errorMessages.push("Contraseña es obligatoria.");
+            @endif
+
+            // Verificar si el reCAPTCHA tiene un error
+            @if ($errors->has('g-recaptcha-response'))
+                errorMessages.push("Por favor, completa el reCAPTCHA.");
+            @endif
+
+            // Mostrar errores usando SweetAlert
+            if (errorMessages.length > 0) {
+                Swal.fire({
+                    title: '¡Error!',
+                    text: errorMessages.join("\n"), // Los errores se unen con un salto de línea
+                    icon: 'error',
+                    confirmButtonText: 'Aceptar'
+                });
+            }
+        });
+    @endif
 </script>
 @endsection

@@ -21,7 +21,7 @@
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">
                 <h1 class="text-[12px] font-bold font-poppins text-[#0C0C0C] text-opacity-50">Cantidad de Aprendices Activos</h1>
                 <strong
-                    class="text-3xl font-extraboldfont-poppins text-[#0C0C0C] text-opacity-50">{{ $cantidadAprendices }}</strong>
+                    class="text-3xl font-extraboldfont-poppins text-[#0C0C0C] text-opacity-50">{{ $aprendicesActivos }}</strong>
             </div>
             <div
                 class="bg-[#EBE9D6] shadow-lg rounded-lg p-1 max-h-16 flex flex-col items-center border border-solid border-[#059212]">

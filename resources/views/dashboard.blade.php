@@ -27,8 +27,6 @@
             </div>
             <div class="px-4 pb-6">
                 <!-- Total de aprendices -->
-                <!-- <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Aprendices Activos: {{ $cantidadActivos }}</h1>
-                <h1 class="text-[17px] font-bold mb-4 font-poppins text-[#0C0C0C] text-opacity-70">Total Aprendices Inactivos: {{ $aprendicesInactivos }}</h1> -->
                 <form action="{{ url('aprendiz') }}" method="GET" class="mb-4">
                     <div class="flex items-center justify-between">
                         <select name="estado" class="w-full bg-[#059212] text-white border-2 border-[#059212] py-2 px-3 rounded-lg font-poppins" onchange="this.form.submit()">
@@ -189,12 +187,13 @@
             <div class="px-4 pb-6">
                 <!-- Botón -->
                 <button class="w-full bg-[#059212] hover:bg-green-600 text-xl text-white font-bold py-2 rounded-lg mt-10">
-                <a href="{{url('estadistica')}}">
+                <a href="https://lookerstudio.google.com/u/5/reporting/a27c4811-31ec-49ac-a716-3c754c218ca8/page/LE0YE">
                     Ver Detalle
                 </a>
                 </button>
             </div>
         </div>
+        
         @endif
 
     </div>
